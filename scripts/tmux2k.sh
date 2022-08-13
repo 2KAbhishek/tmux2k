@@ -76,7 +76,7 @@ main() {
     fi
 
     # start weather script in background
-    if [[ "${plugins[@]}" =~ "weather" ]]; then
+    if [[ "${rplugins[@]}" =~ "weather" ]]; then
         "$current_dir"/sleep_weather.sh "$show_fahrenheit" "$show_location" "$fixed_location" &
     fi
 
@@ -195,13 +195,13 @@ main() {
         if [ "$lplugin" = "time" ]; then
             IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-time-colors' 'dark_purple dark_gray')"
             if $show_day_month && $show_military; then # military time and dd/mm
-                script=" %a %d/%m %R ${timezone} "
+                script=" %a %d/%m %R ${timezone} "
             elif $show_military; then # only military time
-                script=" %a %m/%d %R ${timezone} "
+                script=" %a %m/%d %R "
             elif $show_day_month; then # only dd/mm
-                script=" %a %d/%m %I:%M %p ${timezone} "
+                script=" %a %d/%m %I:%M %p ${timezone} "
             else
-                script=" %a %m/%d %I:%M %p ${timezone} "
+                script=" %a %m/%d %I:%M %p ${timezone} "
             fi
         fi
 
@@ -279,13 +279,13 @@ main() {
         if [ "$rplugin" = "time" ]; then
             IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-time-colors' 'yellow dark_gray')"
             if $show_day_month && $show_military; then # military time and dd/mm
-                script=" %a %d/%m %R ${timezone} "
+                script=" %a %d/%m %R ${timezone} "
             elif $show_military; then # only military time
                 script=" %a %m/%d %R "
             elif $show_day_month; then # only dd/mm
-                script=" %a %d/%m %I:%M %p ${timezone} "
+                script=" %a %d/%m %I:%M %p ${timezone} "
             else
-                script=" %a %m/%d %I:%M %p ${timezone} "
+                script=" %a %m/%d %I:%M %p ${timezone} "
             fi
 
         fi
