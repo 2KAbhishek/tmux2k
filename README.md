@@ -20,7 +20,7 @@
 <a href="https://github.com/2KAbhishek/tmux2k/pulse">
 <img alt="Last Updated" src="https://img.shields.io/github/last-commit/2kabhishek/tmux2k?style=flat&color=e06c75&label="> </a>
 
-<h3>Short sweet headline with 🎇🎉</h3>
+<h3>Power & Pizzazz for tmux 🥊💅</h3>
 
 <figure>
   <img src= "images/screenshot.png" alt="tmux2k Demo">
@@ -32,57 +32,74 @@
 
 ## What is this
 
-tmux2k is a `<utility/tool/feature>` that allows `<insert_target_audience>` to do `<action/task_it_does>`.
+tmux2k is a `tmux` plugin for that adds `powerline` support and pretty colors to your `tmux` status bar.
 
 ## Inspiration
 
-tmux2k was inspired by `<reason/idea>`.
+tmux2k was inspired by [dracula/tmux](https://github.com/dracula/tmux).
 
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
 
-- You have installed the latest version of `<coding_language/dependency/requirement_1>`
+-   You have installed the latest version of `tmux`.
+-   [tpm](https://github.com/tmux-plugins/tpm) for managing `tmux` plugins.
+-   A [patched nerd font](https://www.nerdfonts.com/) for `powerline` and glyphs support.
 
-## Getting tmux2k
+## Installing tmux2k
 
-To get tmux2k, follow these steps:
+Using `tpm`
+
+If you are a `tpm` user, you can install the theme and keep up to date by adding the following to your `.tmux.conf` file:
 
 ```bash
-git clone https://github.com/2kabhishek/tmux2k
-cd tmux2k
-<install_command>
+set -g @plugin 'dracula/tmux'
+
 ```
 
-## Using tmux2k
+Add any configuration options below this line in your tmux config.
+
+### Activating tmux2k
+
+-   Make sure run -b `~/.tmux/plugins/tpm/tpm` is at the bottom of your `.tmux.conf`
+-   Run `tmux`
+-   Use the `tpm` install command: prefix + I (default prefix is `ctrl+b`)
+
+## Configuring tmux2k
 
 ```bash
-USAGE:
-    command [FLAGS] [OPTIONS]
+# Tmux 2K default configs
+# available plugins: battery, cpu-usage, git, gpu-usage, ram-usage, network, network-bandwidth, network-ping, weather, time
+set -g @tmux2k-left-plugins "git cpu-usage ram-usage"
+set -g @tmux2k-right-plugins "battery network time"
+set -g @tmux2k-show-powerline true
+set -g @tmux2k-show-fahrenheit false
+set -g @tmux2k-military-time true
+set -g @tmux2k-border-contrast true
 
-FLAGS:
-    -h, --help              Prints help information.
+# available colors: white, gray, dark_gray, light_purple, dark_purple, cyan, green, orange, red, pink, yellow
+set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
+set -g @tmux2k-cpu-usage-colors "blue dark_gray"
 
-OPTIONS:
-    -o, --option <value>    Option description.
-    Options are: a, b. [default: a]
+# it can accept `session`, `rocket`, `window`, or any character.
+set -g @tmux2k-show-left-icon ""
 
-Example:
+# update powerline symbols
+set -g @dracula-show-left-sep ""
+set -g @dracula-show-right-sep ""
 
-
+# change refresh rate
+set -g @dracula-refresh-rate 5
 ```
 
 ## How it was built
 
-tmux2k was built using `<tech/library>`
-
-## Challenges faced
-
-While building tmux2k the main challenges were `<issue/difficulty>`
+tmux2k was built using `neovim`, `shellcheck`, `shellcheck`.
 
 ## What I learned
 
-While building tmux2k I `<learned/accomplished>` about `<learning/accomplishment>`
+-   Learned a lot about the `tmux` and `tpm` ecosystem.
+-   Did some fancy shell scripting.
 
 ## What's next
 
@@ -90,12 +107,7 @@ Planning to add `<feature/module>`.
 
 ### To-Do
 
-- [x] Setup repo
-- [ ] Think real hard
-- [ ] Start typing
-- [ ] Change me
-- [ ] Update README
-- [ ] Finish it
+-   [ ] Fix left plugins color logic
 
 Hit the ⭐ button if you found this useful.
 
