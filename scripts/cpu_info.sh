@@ -3,14 +3,14 @@
 export LC_ALL=en_US.UTF-8
 
 current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $current_dir/utils.sh
+source "$current_dir"/utils.sh
 
 get_percent()
 {
   case $(uname -s) in
     Linux)
       percent=$(LC_NUMERIC=en_US.UTF-8 top -bn2 -d 0.01 | grep "Cpu(s)" | tail -1 | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')
-      normalize_percent_len $percent
+      normalize_percent_len "$percent"
       ;;
 
     Darwin)
@@ -51,7 +51,7 @@ main() {
     cpu_percent=$(get_percent)
     echo "$cpu_label $cpu_percent"
   fi
-  sleep $RATE
+  sleep "$RATE"
 }
 
 # run main driver

@@ -12,21 +12,21 @@ main() {
     output_download_unit=""
     output_upload_unit=""
 
-    initial_download=$(cat /sys/class/net/$network_name/statistics/rx_bytes)
-    initial_upload=$(cat /sys/class/net/$network_name/statistics/tx_bytes)
+    initial_download=$(cat /sys/class/net/"$network_name"/statistics/rx_bytes)
+    initial_upload=$(cat /sys/class/net/"$network_name"/statistics/tx_bytes)
 
-    sleep $INTERVAL
+    sleep "$INTERVAL"
 
-    final_download=$(cat /sys/class/net/$network_name/statistics/rx_bytes)
-    final_upload=$(cat /sys/class/net/$network_name/statistics/tx_bytes)
+    final_download=$(cat /sys/class/net/"$network_name"/statistics/rx_bytes)
+    final_upload=$(cat /sys/class/net/"$network_name"/statistics/tx_bytes)
 
-    total_download_bps=$(expr $final_download - $initial_download)
-    total_upload_bps=$(expr $final_upload - $initial_upload)
+    total_download_bps=$(expr "$final_download" - "$initial_download")
+    total_upload_bps=$(expr "$final_upload" - "$initial_upload")
 
-    if [ $total_download_bps -gt 1073741824 ]; then
+    if [ "$total_download_bps" -gt 1073741824 ]; then
       output_download=$(echo "$total_download_bps 1024" | awk '{printf "%.2f \n", $1/($2 * $2 * $2)}')
       output_download_unit="gB/s"
-    elif [ $total_download_bps -gt 1048576 ]; then
+    elif [ "$total_download_bps" -gt 1048576 ]; then
       output_download=$(echo "$total_download_bps 1024" | awk '{printf "%.2f \n", $1/($2 * $2)}')
       output_download_unit="mB/s"
     else
@@ -34,10 +34,10 @@ main() {
       output_download_unit="kB/s"
     fi
 
-    if [ $total_upload_bps -gt 1073741824 ]; then
+    if [ "$total_upload_bps" -gt 1073741824 ]; then
       output_upload=$(echo "$total_download_bps 1024" | awk '{printf "%.2f \n", $1/($2 * $2 * $2)}')
       output_upload_unit="gB/s"
-    elif [ $total_upload_bps -gt 1048576 ]; then
+    elif [ "$total_upload_bps" -gt 1048576 ]; then
       output_upload=$(echo "$total_upload_bps 1024" | awk '{printf "%.2f \n", $1/($2 * $2)}')
       output_upload_unit="mB/s"
     else

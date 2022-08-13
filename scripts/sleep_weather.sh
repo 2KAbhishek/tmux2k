@@ -28,11 +28,11 @@ main()
     printf "Loading..." > $DATAFILE
   fi
 
-  $current_dir/weather.sh > $DATAFILE
+  "$current_dir"/weather.sh > $DATAFILE
 
   while tmux has-session &> /dev/null
   do
-    $current_dir/weather.sh $fahrenheit $location $fixedlocation > $DATAFILE
+    "$current_dir"/weather.sh "$fahrenheit" "$location" "$fixedlocation" > $DATAFILE
     if tmux has-session &> /dev/null
     then
       sleep 1200
