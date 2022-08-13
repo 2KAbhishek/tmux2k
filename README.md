@@ -103,11 +103,10 @@ tmux2k was built using `neovim`, `shellcheck`, `shellcheck`.
 
 ## What's next
 
-Planning to add `<feature/module>`.
-
 ### To-Do
 
 -   [ ] Fix left plugins color logic
+-   [ ] Add more section scripts
 
 Hit the ⭐ button if you found this useful.
 
