@@ -23,7 +23,7 @@ main() {
     show_border_contrast=$(get_tmux_option "@tmux2k-border-contrast" true)
     show_day_month=$(get_tmux_option "@tmux2k-day-month" false)
     show_refresh=$(get_tmux_option "@tmux2k-refresh-rate" 5)
-    IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery time network')"
+    IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery network time')"
     IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cpu-usage ram-usage')"
 
     # tmux2k Color Pallette
@@ -34,7 +34,7 @@ main() {
     green='#11d116',
     yellow='#ffd21a',
     blue='#1688f0',
-    purple='#A850FF',
+    purple='#BF58FF',
     cyan='#11dddd',
     orange='#ffb86c'
     pink='#ff79c6'
@@ -198,7 +198,7 @@ main() {
             if $show_day_month && $show_military; then # military time and dd/mm
                 script=" %a %d/%m %R ${timezone} "
             elif $show_military; then # only military time
-                script=" %a %m/%d %R "
+                script=" %a %m/%d %R ${timezone} "
             elif $show_day_month; then # only dd/mm
                 script=" %a %d/%m %I:%M %p ${timezone} "
             else
@@ -282,7 +282,7 @@ main() {
             if $show_day_month && $show_military; then # military time and dd/mm
                 script=" %a %d/%m %R ${timezone} "
             elif $show_military; then # only military time
-                script=" %a %m/%d %R "
+                script=" %a %m/%d %R ${timezone} "
             elif $show_day_month; then # only dd/mm
                 script=" %a %d/%m %I:%M %p ${timezone} "
             else
