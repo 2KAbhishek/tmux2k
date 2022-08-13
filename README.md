@@ -53,7 +53,7 @@ Using `tpm`
 If you are a `tpm` user, you can install the theme and keep up to date by adding the following to your `.tmux.conf` file:
 
 ```bash
-set -g @plugin 'dracula/tmux'
+set -g @plugin '2kabhishek/tmux2k'
 
 ```
 
@@ -85,11 +85,11 @@ set -g @tmux2k-cpu-usage-colors "blue dark_gray"
 set -g @tmux2k-show-left-icon ""
 
 # update powerline symbols
-set -g @dracula-show-left-sep ""
-set -g @dracula-show-right-sep ""
+set -g @tmux2k-show-left-sep ""
+set -g @tmux2k-show-right-sep ""
 
 # change refresh rate
-set -g @dracula-refresh-rate 5
+set -g @tmux2k-refresh-rate 5
 ```
 
 ## How it was built
