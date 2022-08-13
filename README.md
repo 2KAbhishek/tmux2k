@@ -94,7 +94,7 @@ set -g @dracula-refresh-rate 5
 
 ## How it was built
 
-tmux2k was built using `neovim`, `shellcheck`, `shellcheck`.
+tmux2k was built using `neovim`, `shellcheck`, `nerd-fonts`.
 
 ## What I learned
 
