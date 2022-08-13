@@ -9,22 +9,22 @@ main() {
     datafile=/tmp/.tmux2k-data
 
     # set configuration option variables
-    show_fahrenheit=$(get_tmux_option "@tmux2k-show-fahrenheit" true)
-    show_location=$(get_tmux_option "@tmux2k-show-location" true)
+    show_fahrenheit=$(get_tmux_option "@tmux2k-show-fahrenheit" false)
+    show_location=$(get_tmux_option "@tmux2k-show-location" false)
     fixed_location=$(get_tmux_option "@tmux2k-fixed-location")
-    show_powerline=$(get_tmux_option "@tmux2k-show-powerline" false)
-    show_flags=$(get_tmux_option "@tmux2k-show-flags" false)
-    show_left_icon=$(get_tmux_option "@tmux2k-show-left-icon" smiley)
-    show_left_icon_padding=$(get_tmux_option "@tmux2k-left-icon-padding" 1)
-    show_military=$(get_tmux_option "@tmux2k-military-time" false)
-    show_timezone=$(get_tmux_option "@tmux2k-show-timezone" true)
+    show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
+    show_flags=$(get_tmux_option "@tmux2k-show-flags" true)
+    show_left_icon=$(get_tmux_option "@tmux2k-show-left-icon" rocket)
+    show_left_icon_padding=$(get_tmux_option "@tmux2k-left-icon-padding" 0)
+    show_military=$(get_tmux_option "@tmux2k-military-time" true)
+    show_timezone=$(get_tmux_option "@tmux2k-show-timezone" false)
     show_left_sep=$(get_tmux_option "@tmux2k-show-left-sep" )
     show_right_sep=$(get_tmux_option "@tmux2k-show-right-sep" )
-    show_border_contrast=$(get_tmux_option "@tmux2k-border-contrast" false)
+    show_border_contrast=$(get_tmux_option "@tmux2k-border-contrast" true)
     show_day_month=$(get_tmux_option "@tmux2k-day-month" false)
     show_refresh=$(get_tmux_option "@tmux2k-refresh-rate" 5)
-    IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery network weather')"
-    IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'cpu-usage ram-usage')"
+    IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery time network')"
+    IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cpu-usage ram-usage')"
 
     # tmux2k Color Pallette
     white='#f8f8f2'
@@ -48,8 +48,8 @@ main() {
 
     # Handle left icon configuration
     case $show_left_icon in
-    smiley)
-        left_icon="☺"
+    rocket)
+        left_icon=""
         ;;
     session)
         left_icon="#S"
