@@ -34,7 +34,7 @@ main() {
     green='#11d116',
     yellow='#ffd21a',
     blue='#1688f0',
-    purple='#9b16f3',
+    purple='#A850FF',
     cyan='#11dddd',
     orange='#ffb86c'
     pink='#ff79c6'
@@ -131,7 +131,7 @@ main() {
 
     # Status left
     if $show_powerline; then
-        tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}} ${left_icon} #[fg=${green},bg=${blue}]#{?client_prefix,#[fg=${yellow}}${left_sep}"
+        tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}} ${left_icon} #[fg=${green},bg=${green}]#{?client_prefix,#[fg=${yellow}}${left_sep}"
         powerbg=${gray}
     else
         tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon}"
@@ -142,6 +142,7 @@ main() {
         if [ "$lplugin" = "git" ]; then
             IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-git-colors' 'green dark_gray')"
             script="#($current_dir/git.sh)"
+            powerbg=${blue}
         fi
 
         if [ "$lplugin" = "battery" ]; then
@@ -150,34 +151,34 @@ main() {
         fi
 
         if [ "$lplugin" = "gpu-usage" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-gpu-usage-colors' 'pink dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-gpu-usage-colors' 'orange dark_gray')"
             script="#($current_dir/gpu_usage.sh)"
         fi
 
         if [ "$lplugin" = "cpu-usage" ]; then
             IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-cpu-usage-colors' 'blue dark_gray')"
             script="#($current_dir/cpu_info.sh)"
-            powerbg=${cyan}
+            powerbg=${yellow}
         fi
 
         if [ "$lplugin" = "ram-usage" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-ram-usage-colors' 'cyan dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-ram-usage-colors' 'yellow dark_gray')"
             script="#($current_dir/ram_info.sh)"
         fi
 
         if [ "$lplugin" = "network" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-colors' 'cyan dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-colors' 'purple dark_gray')"
             script="#($current_dir/network.sh)"
         fi
 
         if [ "$lplugin" = "network-bandwidth" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-bandwidth-colors' 'cyan dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-bandwidth-colors' 'purple dark_gray')"
             tmux set-option -g status-left 250
             script="#($current_dir/network_bandwidth.sh)"
         fi
 
         if [ "$lplugin" = "network-ping" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-ping-colors' 'cyan dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-ping-colors' 'purple dark_gray')"
             script="#($current_dir/network_ping.sh)"
         fi
 
@@ -193,7 +194,7 @@ main() {
         fi
 
         if [ "$lplugin" = "time" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-time-colors' 'dark_purple dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-time-colors' 'cyan dark_gray')"
             if $show_day_month && $show_military; then # military time and dd/mm
                 script=" %a %d/%m %R ${timezone} "
             elif $show_military; then # only military time
@@ -235,33 +236,33 @@ main() {
         fi
 
         if [ "$rplugin" = "gpu-usage" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-gpu-usage-colors' 'pink dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-gpu-usage-colors' 'orange dark_gray')"
             script="#($current_dir/gpu_usage.sh)"
         fi
 
         if [ "$rplugin" = "cpu-usage" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-cpu-usage-colors' 'orange dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-cpu-usage-colors' 'blue dark_gray')"
             script="#($current_dir/cpu_info.sh)"
         fi
 
         if [ "$rplugin" = "ram-usage" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-ram-usage-colors' 'cyan dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-ram-usage-colors' 'yellow dark_gray')"
             script="#($current_dir/ram_info.sh)"
         fi
 
         if [ "$rplugin" = "network" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-colors' 'cyan dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-colors' 'purple dark_gray')"
             script="#($current_dir/network.sh)"
         fi
 
         if [ "$rplugin" = "network-bandwidth" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-bandwidth-colors' 'cyan dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-bandwidth-colors' 'purple dark_gray')"
             tmux set-option -g status-right-length 250
             script="#($current_dir/network_bandwidth.sh)"
         fi
 
         if [ "$rplugin" = "network-ping" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-ping-colors' 'cyan dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-ping-colors' 'purple dark_gray')"
             script="#($current_dir/network_ping.sh)"
         fi
 
@@ -277,7 +278,7 @@ main() {
         fi
 
         if [ "$rplugin" = "time" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-time-colors' 'yellow dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-time-colors' 'cyan dark_gray')"
             if $show_day_month && $show_military; then # military time and dd/mm
                 script=" %a %d/%m %R ${timezone} "
             elif $show_military; then # only military time
