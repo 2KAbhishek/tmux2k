@@ -118,8 +118,10 @@ Hit the ⭐ button if you found this useful.
 
 ## More Info
 
+
 Looking for my zsh and other cli configs? See [Dotfiles](https://github.com/2kabhishek/Dotfiles)
 Looking for my neovim configs? See [nvim](https://github.com/2kabhishek/nvim)
+Want the CLI experience on your Android too? Have a look at [Oh-My-Termux](https://github.com/2kabhishek/Oh-My-Termux)
 
 <div align="center">
 
