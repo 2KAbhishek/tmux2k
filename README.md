@@ -23,9 +23,15 @@
 <h3>Power & Pizzazz for tmux 🥊💅</h3>
 
 <figure>
+  <img src= "images/screenshot-full.png" alt="tmux2k Demo">
+  <br/>
+  <figcaption>tmux2k full screenshot</figcaption>
+</figure>
+
+<figure>
   <img src= "images/screenshot.png" alt="tmux2k Demo">
   <br/>
-  <figcaption>tmux2k screenshot</figcaption>
+  <figcaption>tmux2k statusbar screenshot</figcaption>
 </figure>
 
 </div>
