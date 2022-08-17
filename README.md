@@ -118,6 +118,9 @@ Hit the ⭐ button if you found this useful.
 
 ## More Info
 
+Looking for my zsh and other cli configs? see [Dotfiles](https://github.com/2kabhishek/Dotfiles]
+Looking for my neovim configs? see [Dotfiles](https://github.com/2kabhishek/nvim]
+
 <div align="center">
 
 <a href="https://github.com/2KAbhishek/tmux2k">Source</a> | <a href="https://2kabhishek.github.io/tmux2k">Website</a>
