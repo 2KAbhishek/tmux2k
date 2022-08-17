@@ -118,8 +118,8 @@ Hit the ⭐ button if you found this useful.
 
 ## More Info
 
-Looking for my zsh and other cli configs? see [Dotfiles](https://github.com/2kabhishek/Dotfiles]
-Looking for my neovim configs? see [Dotfiles](https://github.com/2kabhishek/nvim]
+Looking for my zsh and other cli configs? See [Dotfiles](https://github.com/2kabhishek/Dotfiles)
+Looking for my neovim configs? See [nvim](https://github.com/2kabhishek/nvim)
 
 <div align="center">
 
