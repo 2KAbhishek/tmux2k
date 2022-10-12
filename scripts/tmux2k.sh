@@ -96,8 +96,8 @@ main() {
         current_flags=""
         ;;
     true)
-        flags="#{?window_flags,#[fg=${dark_purple}]#{window_flags},}"
-        current_flags="#{?window_flags,#[fg=${light_purple}]#{window_flags},}"
+        flags="#{?window_flags,#[fg=${light_purple}]#{window_flags},}"
+        current_flags="#{?window_flags,#[fg=${light_red}]#{window_flags},}"
         ;;
     esac
 
@@ -119,7 +119,7 @@ main() {
     if $show_border_contrast; then
         tmux set-option -g pane-active-border-style "fg=${blue}"
     else
-        tmux set-option -g pane-active-border-style "fg=${dark_purple}"
+        tmux set-option -g pane-active-border-style "fg=${light_purple}"
     fi
     tmux set-option -g pane-border-style "fg=${gray}"
 
@@ -216,9 +216,27 @@ main() {
     done
 
     # Status middle
-    left_sep=""
+    left_win_sep=""
+    right_win_sep=""
     # Set window list at centre
     tmux set -g status-justify centre
+
+    # Window option
+    if $show_powerline; then
+        tmux set-window-option -g window-status-current-format "#[fg=${blue},bg=${gray}]${left_win_sep}#[bg=${blue}]${current_flags}#[fg=${black}] #I:#W #[fg=${blue},bg=${gray}]${right_win_sep}"
+    else
+        tmux set-window-option -g window-status-current-format "#[fg=${white},bg=${blue}] #I:#W ${current_flags} "
+    fi
+
+    if $show_powerline; then
+        tmux set-window-option -g window-status-format "#[fg=${light_gray},bg=${gray}]${left_win_sep}#[bg=${light_gray}]${flags}#[fg=${white}] #I:#W #[fg=${light_gray},bg=${gray}]${right_win_sep}"
+    else
+        tmux set-window-option -g window-status-format "#[fg=${white},bg=${light_gray}] #I:#W ${flags} "
+    fi
+
+    tmux set-window-option -g window-status-activity-style "bold"
+    tmux set-window-option -g window-status-bell-style "bold"
+    tmux set-window-option -g window-status-current-style "bold"
 
     # Status right
     tmux set-option -g status-right ""
@@ -298,17 +316,6 @@ main() {
             tmux set-option -ga status-right "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
         fi
     done
-
-    # Window option
-    if $show_powerline; then
-        tmux set-window-option -g window-status-current-format "#[fg=${gray},bg=${dark_purple}]${left_sep}#[fg=${white},bg=${dark_purple}] #I #W${current_flags} #[fg=${dark_purple},bg=${gray}]${left_sep}"
-    else
-        tmux set-window-option -g window-status-current-format "#[fg=${white},bg=${dark_purple}] #I #W${current_flags} "
-    fi
-
-    tmux set-window-option -g window-status-format "#[fg=${white}]#[bg=${gray}] #I #W${flags}"
-    tmux set-window-option -g window-status-activity-style "bold"
-    tmux set-window-option -g window-status-bell-style "bold"
 }
 
 # run main function
