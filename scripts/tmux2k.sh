@@ -27,10 +27,10 @@ main() {
     IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cpu-usage ram-usage')"
 
     # tmux2k Color Pallette
-    white='#f8f8f2'
+    white='#d5d5da'
     black='#0a0a0f',
-    gray='#44475a'
-    red='#ed001f',
+    gray='#25253a'
+    red='#ff001f',
     green='#11d116',
     yellow='#ffd21a',
     blue='#1688f0',
@@ -41,10 +41,10 @@ main() {
     light_purple='#bd93f9'
     light_cyan='#8be9fd'
     light_green='#50fa7b'
-    light_red='#ff5555'
+    light_red='#ff0055'
     light_yellow='#f1fa8c'
-    dark_purple='#6272a4'
     dark_gray='#282a36'
+    light_gray='#45455a'
 
     # Handle left icon configuration
     case $show_left_icon in
