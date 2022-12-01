@@ -37,10 +37,10 @@ for i in $(git -C $path status -s)
     done
 
     output=""
-    [ $added -gt 0 ] && output+="${added}  "
-    [ $modified -gt 0 ] && output+=" ${modified}  "
-    [ $updated -gt 0 ] && output+=" ${updated}  "
-    [ $deleted -gt 0 ] && output+=" ${deleted}  "
+    [ $added -gt 0 ] && output+="${added} "
+    [ $modified -gt 0 ] && output+=" ${modified} "
+    [ $updated -gt 0 ] && output+=" ${updated} "
+    [ $deleted -gt 0 ] && output+=" ${deleted} "
 
     echo $output
 }
@@ -102,7 +102,7 @@ checkForGitDir()
 getBranch()
 {
     if [ $(checkForGitDir) == "true" ]; then
-        echo $(git -C $path rev-parse --abbrev-ref HEAD) 
+        printf "%.20s " $(git -C $path rev-parse --abbrev-ref HEAD)
     else
         echo $no_repo_message
     fi
