@@ -31,7 +31,7 @@ main() {
     black='#0a0a0f',
     gray='#25253a'
     red='#ff001f',
-    green='#11d116',
+    green='#3dd50A',
     yellow='#ffd21a',
     blue='#1688f0',
     purple='#BF58FF',
