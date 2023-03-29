@@ -1,39 +1,36 @@
 #!/usr/bin/env bash
 
-current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $current_dir/utils.sh
+current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$current_dir"/utils.sh
 
-IFS=' ' read -r -a hide_status <<< $(get_tmux_option "@tmux2k-git-disable-status" "false")
-IFS=' ' read -r -a current_symbol <<< $(get_tmux_option "@tmux2k-git-show-current-symbol" "")
-IFS=' ' read -r -a diff_symbol <<< $(get_tmux_option "@tmux2k-git-show-diff-symbol" "")
-IFS=' ' read -r -a no_repo_message <<< $(get_tmux_option "@tmux2k-git-no-repo-message" "")
+IFS=' ' read -r -a hide_status <<<$(get_tmux_option "@tmux2k-git-disable-status" "false")
+IFS=' ' read -r -a current_symbol <<<$(get_tmux_option "@tmux2k-git-show-current-symbol" "")
+IFS=' ' read -r -a diff_symbol <<<$(get_tmux_option "@tmux2k-git-show-diff-symbol" "")
+IFS=' ' read -r -a no_repo_message <<<$(get_tmux_option "@tmux2k-git-no-repo-message" "")
 
 # Get added, modified, updated and deleted files from git status
-getChanges()
-{
-   declare -i added=0;
-   declare -i modified=0;
-   declare -i updated=0;
-   declare -i deleted=0;
+getChanges() {
+    declare -i added=0
+    declare -i modified=0
+    declare -i updated=0
+    declare -i deleted=0
 
-for i in $(git -C $path status -s)
+    for i in $(git -C "$path" status -s); do
+        case $i in
+        'A')
+            added+=1
+            ;;
+        'M')
+            modified+=1
+            ;;
+        'U')
+            updated+=1
+            ;;
+        'D')
+            deleted+=1
+            ;;
 
-    do
-      case $i in
-      'A')
-        added+=1
-      ;;
-      'M')
-        modified+=1
-      ;;
-      'U')
-        updated+=1
-      ;;
-      'D')
-       deleted+=1
-      ;;
-
-      esac
+        esac
     done
 
     output=""
@@ -42,30 +39,25 @@ for i in $(git -C $path status -s)
     [ $updated -gt 0 ] && output+=" ${updated} "
     [ $deleted -gt 0 ] && output+=" ${deleted} "
 
-    echo $output
+    echo "$output"
 }
-
 
 # getting the #{pane_current_path} from tmux2k.sh is no longer possible
-getPaneDir()
-{
- nextone="false"
- for i in $(tmux list-panes -F "#{pane_active} #{pane_current_path}");
- do
-    if [ "$nextone" == "true" ]; then
-       echo $i
-       return
-    fi
-    if [ "$i" == "1" ]; then
-        nextone="true"
-    fi
-  done
+getPaneDir() {
+    nextone="false"
+    for i in $(tmux list-panes -F "#{pane_active} #{pane_current_path}"); do
+        if [ "$nextone" == "true" ]; then
+            echo "$i"
+            return
+        fi
+        if [ "$i" == "1" ]; then
+            nextone="true"
+        fi
+    done
 }
 
-
 # check if the current or diff symbol is empty to remove ugly padding
-checkEmptySymbol()
-{
+checkEmptySymbol() {
     symbol=$1
     if [ "$symbol" == "" ]; then
         echo "true"
@@ -75,10 +67,9 @@ checkEmptySymbol()
 }
 
 # check to see if the current repo is not up to date with HEAD
-checkForChanges()
-{
+checkForChanges() {
     if [ "$(checkForGitDir)" == "true" ]; then
-        if [ "$(git -C $path status -s)" != "" ]; then
+        if [ "$(git -C "$path" status -s)" != "" ]; then
             echo "true"
         else
             echo "false"
@@ -89,9 +80,8 @@ checkForChanges()
 }
 
 # check if a git repo exists in the directory
-checkForGitDir()
-{
-    if [ "$(git -C $path rev-parse --abbrev-ref HEAD)" != "" ]; then
+checkForGitDir() {
+    if [ "$(git -C "$path" rev-parse --abbrev-ref HEAD)" != "" ]; then
         echo "true"
     else
         echo "false"
@@ -99,18 +89,16 @@ checkForGitDir()
 }
 
 # return branch name if there is one
-getBranch()
-{
+getBranch() {
     if [ $(checkForGitDir) == "true" ]; then
-        printf "%.20s " $(git -C $path rev-parse --abbrev-ref HEAD)
+        printf "%.20s " $(git -C "$path" rev-parse --abbrev-ref HEAD)
     else
-        echo $no_repo_message
+        echo "$no_repo_message"
     fi
 }
 
 # return the final message for the status bar
-getMessage()
-{
+getMessage() {
     if [ $(checkForGitDir) == "true" ]; then
         branch="$(getBranch)"
 
@@ -119,13 +107,13 @@ getMessage()
             changes="$(getChanges)"
 
             if [ "${hide_status}" == "false" ]; then
-                if [ $(checkEmptySymbol $diff_symbol) == "true" ]; then
+                if [ $(checkEmptySymbol "$diff_symbol") == "true" ]; then
                     echo "${changes} $branch"
                 else
                     echo "$diff_symbol ${changes} $branch"
                 fi
             else
-                if [ $(checkEmptySymbol $diff_symbol) == "true" ]; then
+                if [ $(checkEmptySymbol "$diff_symbol") == "true" ]; then
                     echo "$branch"
                 else
                     echo "$diff_symbol $branch"
@@ -133,19 +121,18 @@ getMessage()
             fi
 
         else
-            if [ $(checkEmptySymbol $current_symbol) == "true" ]; then
+            if [ $(checkEmptySymbol "$current_symbol") == "true" ]; then
                 echo "$branch"
             else
                 echo "$current_symbol $branch"
             fi
         fi
     else
-        echo $no_repo_message
+        echo "$no_repo_message"
     fi
 }
 
-main()
-{
+main() {
     path=$(getPaneDir)
     getMessage
 }

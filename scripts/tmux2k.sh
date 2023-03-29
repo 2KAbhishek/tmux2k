@@ -65,7 +65,7 @@ main() {
     # Handle left icon padding
     padding=""
     if [ "$show_left_icon_padding" -gt "0" ]; then
-        padding="$(printf '%*s' $show_left_icon_padding)"
+        padding="$(printf '%*s' "$show_left_icon_padding")"
     fi
     left_icon="$left_icon$padding"
 
