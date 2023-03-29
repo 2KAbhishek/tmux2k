@@ -23,7 +23,7 @@ main() {
     show_border_contrast=$(get_tmux_option "@tmux2k-border-contrast" true)
     show_day_month=$(get_tmux_option "@tmux2k-day-month" false)
     show_refresh=$(get_tmux_option "@tmux2k-refresh-rate" 5)
-    IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery network time')"
+    IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery network-bandwidth time')"
     IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cpu-usage ram-usage')"
 
     # tmux2k Color Pallette
