@@ -2,7 +2,18 @@
 
 INTERVAL="1"  # update interval in seconds
 
-network_name=$(tmux show-option -gqv "@tmux2k-network-bandwidth")
+# Network interface to monitor
+network_name="en0"
+
+if [[ $(uname -s) == "Darwin" ]]; then
+    network_name="en0" # en0 is wifi, TODO: Update network_name
+elif [[ $(uname -s) == "Linux" ]]; then
+    network_name=$(tmux show-option -gqv "@dracula-network-bandwidth")
+else
+    # update this later for window
+    echo "Unknown operating system"
+    exit 1
+fi
 
 main() {
   while true
@@ -12,21 +23,31 @@ main() {
     output_download_unit=""
     output_upload_unit=""
 
-    initial_download=$(cat /sys/class/net/"$network_name"/statistics/rx_bytes)
-    initial_upload=$(cat /sys/class/net/"$network_name"/statistics/tx_bytes)
+    if [[ $(uname -s) == "Linux" ]]; then
+      initial_download=$(cat /sys/class/net/"$network_name"/statistics/rx_bytes)
+      initial_upload=$(cat /sys/class/net/"$network_name"/statistics/tx_bytes)
 
-    sleep "$INTERVAL"
+      sleep "$INTERVAL"
 
-    final_download=$(cat /sys/class/net/"$network_name"/statistics/rx_bytes)
-    final_upload=$(cat /sys/class/net/"$network_name"/statistics/tx_bytes)
+      final_download=$(cat /sys/class/net/"$network_name"/statistics/rx_bytes)
+      final_upload=$(cat /sys/class/net/"$network_name"/statistics/tx_bytes)
+    else
+      initial_download=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $7}')
+      initial_upload=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $10}')
 
-    total_download_bps=$(expr "$final_download" - "$initial_download")
-    total_upload_bps=$(expr "$final_upload" - "$initial_upload")
+      sleep $INTERVAL
 
-    if [ "$total_download_bps" -gt 1073741824 ]; then
+      final_download=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $7}')
+      final_upload=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $10}')
+    fi
+
+    total_download_bps=$(expr $final_download - $initial_download)
+    total_upload_bps=$(expr $final_upload - $initial_upload)
+
+    if [ $total_download_bps -gt 1073741824 ]; then
       output_download=$(echo "$total_download_bps 1024" | awk '{printf "%.2f \n", $1/($2 * $2 * $2)}')
       output_download_unit="gB/s"
-    elif [ "$total_download_bps" -gt 1048576 ]; then
+    elif [ $total_download_bps -gt 1048576 ]; then
       output_download=$(echo "$total_download_bps 1024" | awk '{printf "%.2f \n", $1/($2 * $2)}')
       output_download_unit="mB/s"
     else
@@ -34,10 +55,10 @@ main() {
       output_download_unit="kB/s"
     fi
 
-    if [ "$total_upload_bps" -gt 1073741824 ]; then
+    if [ $total_upload_bps -gt 1073741824 ]; then
       output_upload=$(echo "$total_download_bps 1024" | awk '{printf "%.2f \n", $1/($2 * $2 * $2)}')
       output_upload_unit="gB/s"
-    elif [ "$total_upload_bps" -gt 1048576 ]; then
+    elif [ $total_upload_bps -gt 1048576 ]; then
       output_upload=$(echo "$total_upload_bps 1024" | awk '{printf "%.2f \n", $1/($2 * $2)}')
       output_upload_unit="mB/s"
     else
@@ -45,7 +66,7 @@ main() {
       output_upload_unit="kB/s"
     fi
 
-    echo "↓ $output_download $output_download_unit • ↑ $output_upload $output_upload_unit"
+    echo "↓ $output_download$output_download_unit • ↑ $output_upload$output_upload_unit"
   done
 }
 main
