@@ -77,7 +77,7 @@ Add any configuration options below this line in your tmux config.
 # Tmux 2K default configs
 # available plugins: battery, cpu-usage, git, gpu-usage, ram-usage, network, network-bandwidth, network-ping, weather, time
 set -g @tmux2k-left-plugins "git cpu-usage ram-usage"
-set -g @tmux2k-right-plugins "battery network-bandwidth time"
+set -g @tmux2k-right-plugins "battery network time"
 set -g @tmux2k-show-powerline true
 set -g @tmux2k-show-fahrenheit false
 set -g @tmux2k-military-time true
