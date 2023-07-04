@@ -27,9 +27,9 @@ get_gpu_ram() {
     if [[ "$gpu" == NVIDIA ]]; then
         used=$(nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits | awk '{ sum += $1 } END { printf("%d\n", sum / 1024) }')
         total=$(nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits | awk '{ sum += $2 } END { printf("%d\n", sum / 1024) }')
-    	echo $used\G\B/$total\G\B
+        echo $used\G\B/$total\G\B
     else
-	echo 'unknown'
+        echo 'unknown'
     fi
 }
 
