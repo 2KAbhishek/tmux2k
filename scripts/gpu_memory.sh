@@ -5,14 +5,32 @@ export LC_ALL=en_US.UTF-8
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir"/utils.sh
 
+get_platform() {
+    case $(uname -s) in
+    Linux)
+        gpu=$(lspci -v | grep VGA | head -n 1 | awk '{print $5}')
+        echo "$gpu"
+        ;;
+
+    Darwin)
+        # TODO - Darwin/Mac compatability
+        ;;
+
+    CYGWIN* | MINGW32* | MSYS* | MINGW*)
+        # TODO - windows compatability
+        ;;
+    esac
+}
+
 get_gpu_ram() {
+    gpu=$(get_platform)
     if [[ "$gpu" == NVIDIA ]]; then
-        used=$(nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits | awk '{ sum += $0 } END { printf("%d\n", sum / 1024) }')
-        total=$(nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits | awk '{ sum += $1 } END { printf("%d\n", sum / 1024) }')
+        used=$(nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits | awk '{ sum += $1 } END { printf("%d\n", sum / 1024) }')
+        total=$(nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits | awk '{ sum += $2 } END { printf("%d\n", sum / 1024) }')
+    	echo $used\G\B/$total\G\B
     else
-        usage='unknown'
+	echo 'unknown'
     fi
-    echo $used\G\B/$total\G\B
 }
 
 main() {

@@ -262,6 +262,51 @@ main() {
             IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-gpu-usage-colors' 'orange dark_gray')"
             script="#($current_dir/gpu_usage.sh)"
         fi
+        
+        if [ "$rplugin" = "gpu-memory" ]; then
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-gpu-memory-colors' 'orange dark_gray')"
+            script="#($current_dir/gpu_memory.sh)"
+        fi
+
+        if [ "$rplugin" = "cpu-usage" ]; then
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-cpu-usage-colors' 'blue dark_gray')"
+            script="#($current_dir/cpu_info.sh)"
+        fi
+
+        if [ "$rplugin" = "ram-usage" ]; then
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-ram-usage-colors' 'yellow dark_gray')"
+            script="#($current_dir/ram_info.sh)"
+        fi
+
+        if [ "$rplugin" = "network" ]; then
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-colors' 'purple dark_gray')"
+            script="#($current_dir/network.sh)"
+        fi
+
+        if [ "$rplugin" = "network-bandwidth" ]; then
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-bandwidth-colors' 'purple dark_gray')"
+            tmux set-option -g status-right-length 250
+            script="#($current_dir/network_bandwidth.sh)"
+        fi
+
+        if [ "$rplugin" = "network-ping" ]; then
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-ping-colors' 'purple dark_gray')"
+            script="#($current_dir/network_ping.sh)"
+        fi
+
+        if [ "$rplugin" = "weather" ]; then
+            # wait unit $datafile exists just to avoid errors
+            # this should almost never need to wait unless something unexpected occurs
+            while [ ! -f $datafile ]; do
+                sleep 0.01
+            done
+
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-weather-colors' 'orange dark_gray')"
+            script="#(cat $datafile)"
+        fi
+
+        if [ "$rplugin" = "time" ]; then
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-time-colors' 'cyan dark_gray')"
 
         if [ "$rplugin" = "cpu-usage" ]; then
             IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-cpu-usage-colors' 'blue dark_gray')"
