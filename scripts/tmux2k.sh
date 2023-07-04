@@ -155,6 +155,11 @@ main() {
             script="#($current_dir/gpu_usage.sh)"
         fi
 
+        if [ "$lplugin" = "gpu-memory" ]; then
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-gpu-memory-colors' 'orange dark_gray')"
+            script="#($current_dir/gpu_memory.sh)"
+        fi
+
         if [ "$lplugin" = "cpu-usage" ]; then
             IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-cpu-usage-colors' 'blue dark_gray')"
             script="#($current_dir/cpu_info.sh)"
