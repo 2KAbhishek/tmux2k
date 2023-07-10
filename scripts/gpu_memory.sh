@@ -36,9 +36,9 @@ get_gpu_ram() {
 main() {
     # storing the refresh rate in the variable RATE, default is 5
     RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
-    gpu_label=$(get_tmux_option "@tmux2k-gpu-memory-label" "")
+    gpu_memory_label=$(get_tmux_option "@tmux2k-gpu-memory-label" "")
     gpu_ram=$(get_gpu_ram)
-    echo "$gpu_label $gpu_ram"
+    echo "$gpu_memory_label $gpu_ram"
     sleep "$RATE"
 }
 
