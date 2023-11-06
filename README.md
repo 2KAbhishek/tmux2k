@@ -117,19 +117,27 @@ tmux2k was built using `neovim`, `shellcheck`, `nerd-fonts`.
 -   [ ] Fix left plugins color logic
 -   [ ] Add more section scripts
 
-Hit the ⭐ button if you found this useful.
+### 🧰 Tooling
 
-## More Info
+-   [dots2k](https://github.com/2kabhishek/dots2k) — Dev Environment
+-   [nvim2k](https://github.com/2kabhishek/nvim2k) — Personalized Editor
+-   [sway2k](https://github.com/2kabhishek/sway2k) — Desktop Environment
+-   [qute2k](https://github.com/2kabhishek/qute2k) — Personalized Browser
 
+### 🔍 More Info
 
-Looking for my `zsh` and other `cli` configs? See [Dotfiles](https://github.com/2kabhishek/Dotfiles)
-
-Looking for my `neovim` configs? See [nvim](https://github.com/2kabhishek/nvim)
-
-Want the CLI experience on your Android too? Have a look at [Oh-My-Termux](https://github.com/2kabhishek/Oh-My-Termux)
+-   [tmux-tea](https://github.com/2kabhishek/tmux-tea) — Simple and powerful tmux session manager
+-   [tmux-tilit](https://github.com/2kabhishek/tmux-tilit) — Turns tmux into a terminal window manager
 
 <div align="center">
 
-<a href="https://github.com/2KAbhishek/tmux2k">Source</a> | <a href="https://2kabhishek.github.io/tmux2k">Website</a>
+<strong>⭐ hit the star button if you found this useful ⭐</strong><br>
+
+<a href="https://github.com/2KAbhishek/tmux2k">Source</a>
+| <a href="https://2kabhishek.github.io/blog" target="_blank">Blog </a>
+| <a href="https://twitter.com/2kabhishek" target="_blank">Twitter </a>
+| <a href="https://linkedin.com/in/2kabhishek" target="_blank">LinkedIn </a>
+| <a href="https://2kabhishek.github.io/links" target="_blank">More Links </a>
+| <a href="https://2kabhishek.github.io/projects" target="_blank">Other Projects </a>
 
 </div>
