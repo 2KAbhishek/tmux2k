@@ -29,7 +29,7 @@ main() {
     # tmux2k Color Pallette
     white='#d5d5da'
     black='#0a0a0f',
-    gray='#25253a'
+    gray='#15152a'
     red='#ff001f',
     green='#3dd50A',
     yellow='#ffd21a',
