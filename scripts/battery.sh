@@ -97,27 +97,37 @@ battery_status() {
         echo ''
         ;;
     esac
-    ### Old if statements didn't work on BSD, they're probably not POSIX compliant, not sure
-    # if [ $status = 'discharging' ] || [ $status = 'Discharging' ]; then
-    #   echo ''
-    # # elif [ $status = 'charging' ]; then # This is needed for FreeBSD AC checking support
-    #   # echo 'AC'
-    # else
-    #   echo 'AC'
-    # fi
+}
+
+battery_label() {
+    bat_perc=$1
+
+    if [ "$bat_perc" -gt 90 ]; then
+        echo " "
+    elif [ "$bat_perc" -gt 75 ]; then
+        echo " "
+    elif [ "$bat_perc" -gt 50 ]; then
+        echo " "
+    elif [ "$bat_perc" -gt 25 ]; then
+        echo " "
+    elif [ "$bat_perc" -gt 10 ]; then
+        echo " "
+    else
+        echo ""
+    fi
 }
 
 main() {
-    bat_label=$(get_tmux_option "@tmux2k-battery-label" "")
     bat_stat=$(battery_status)
     bat_perc=$(battery_percent)
+    bat_label=$(get_tmux_option "@tmux2k-battery-label" "$(battery_label "$bat_perc")")
 
     if [ -z "$bat_stat" ]; then # Test if status is empty or not
-        echo "$bat_label$bat_perc"
+        echo "$bat_label $bat_perc%"
     elif [ -z "$bat_perc" ]; then # In case it is a desktop with no battery percent, only AC power
-        echo "$bat_label $bat_stat"
+        echo "$bat_stat $bat_label"
     else
-        echo "$bat_label $bat_stat$bat_perc"
+        echo "$bat_stat $bat_label $bat_perc%"
     fi
 }
 
