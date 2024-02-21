@@ -12,15 +12,15 @@ get_ssid() {
         if [ -n "$SSID" ]; then
             printf '%s' " $SSID"
         else
-            echo ' Ethernet'
+            echo '󰈀 Ethernet'
         fi
         ;;
 
     Darwin)
         if /System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I | grep -E ' SSID' | cut -d ':' -f 2 | sed 's/ ^*//g' &>/dev/null; then
-            echo "$(/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I | grep -E ' SSID' | cut -d ':' -f 2)" | sed 's/ ^*//g'
+            echo "  $(/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I | grep -E ' SSID' | cut -d ':' -f 2)" | sed 's/ ^*//g'
         else
-            echo ' Ethernet'
+            echo '󰈀 Ethernet'
         fi
         ;;
 

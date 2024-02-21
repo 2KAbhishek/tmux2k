@@ -113,7 +113,7 @@ battery_label() {
     elif [ "$bat_perc" -gt 10 ]; then
         echo " "
     else
-        echo ""
+        echo "󱉝 "
     fi
 }
 
