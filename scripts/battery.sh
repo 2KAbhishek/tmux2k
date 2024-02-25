@@ -44,7 +44,7 @@ battery_percent() {
         ;;
 
     Darwin)
-        echo $(pmset -g batt | grep -Eo '[0-9]?[0-9]?[0-9]%')
+        echo $(pmset -g batt | grep -Eo '[0-9]?[0-9]?[0-9]%' | sed 's/%//g')
         ;;
 
     FreeBSD)
@@ -122,14 +122,13 @@ main() {
     bat_perc=$(battery_percent)
     bat_label=$(get_tmux_option "@tmux2k-battery-label" "$(battery_label "$bat_perc")")
 
-    if [ -z "$bat_stat" ]; then # Test if status is empty or not
+    if [ -z "$bat_stat" ]; then
         echo "$bat_label $bat_perc%"
-    elif [ -z "$bat_perc" ]; then # In case it is a desktop with no battery percent, only AC power
+    elif [ -z "$bat_perc" ]; then
         echo "$bat_stat $bat_label"
     else
         echo "$bat_stat $bat_label $bat_perc%"
     fi
 }
 
-#run main driver program
 main
