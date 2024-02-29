@@ -76,7 +76,7 @@ battery_status() {
         ;;
 
     CYGWIN* | MINGW32* | MSYS* | MINGW*)
-        # leaving empty - TODO - windows compatability
+        # leaving empty - TODO - windows compatibility
         ;;
 
     *) ;;
@@ -119,7 +119,7 @@ battery_label() {
 
 main() {
     bat_stat=$(battery_status)
-    bat_perc=$(battery_percent)
+    bat_perc=" $(battery_percent)"
     bat_label=$(get_tmux_option "@tmux2k-battery-label" "$(battery_label "$bat_perc")")
 
     if [ -z "$bat_stat" ]; then
