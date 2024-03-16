@@ -13,12 +13,9 @@ show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
 show_flags=$(get_tmux_option "@tmux2k-show-flags" true)
 show_left_icon=$(get_tmux_option "@tmux2k-show-left-icon" rocket)
 show_left_icon_padding=$(get_tmux_option "@tmux2k-left-icon-padding" 0)
-show_military=$(get_tmux_option "@tmux2k-military-time" true)
-show_timezone=$(get_tmux_option "@tmux2k-show-timezone" false)
 show_left_sep=$(get_tmux_option "@tmux2k-show-left-sep" )
 show_right_sep=$(get_tmux_option "@tmux2k-show-right-sep" )
 show_border_contrast=$(get_tmux_option "@tmux2k-border-contrast" true)
-show_day_month=$(get_tmux_option "@tmux2k-day-month" false)
 show_refresh=$(get_tmux_option "@tmux2k-refresh-rate" 60)
 IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery network time')"
 IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cpu-usage ram-usage')"
@@ -97,36 +94,8 @@ main() {
         "$current_dir"/sleep_weather.sh "$show_fahrenheit" "$show_location" "$fixed_location" &
     fi
 
-    # Set timezone unless hidden by configuration
-    case $show_timezone in
-    false)
-        timezone=""
-        ;;
-    true)
-        timezone="#(date +%Z)"
-        ;;
-    esac
-
-    case $show_flags in
-    false)
-        flags=""
-        current_flags=""
-        ;;
-    true)
-        flags="#{?window_flags,#[fg=${light_purple}]#{window_flags},}"
-        current_flags="#{?window_flags,#[fg=${light_red}]#{window_flags},}"
-        ;;
-    esac
-
     # sets refresh interval to every 5 seconds
     tmux set-option -g status-interval "$show_refresh"
-
-    # set the prefix + t time format
-    if $show_military; then
-        tmux set-option -g clock-mode-style 24
-    else
-        tmux set-option -g clock-mode-style 12
-    fi
 
     # set length
     tmux set-option -g status-left-length 100
@@ -172,18 +141,6 @@ main() {
             script="#(cat $datafile)"
             powerbg=${lplugins[$((lplugin_index + 1))]}
             ;;
-        "time")
-            if $show_day_month && $show_military; then # military time and dd/mm
-                script=" %a %d/%m %R ${timezone} "
-            elif $show_military; then # only military time
-                script=" %a %m/%d %R ${timezone}"
-            elif $show_day_month; then # only dd/mm
-                script=" %a %d/%m %I:%M %p ${timezone} "
-            else
-                script=" %a %m/%d %I:%M %p ${timezone} "
-            fi
-            powerbg=${lplugins[$((lplugin_index + 1))]}
-            ;;
         *)
             script="#($current_dir/$lplugin.sh)"
             next_plugin=${lplugins[$((lplugin_index + 1))]}
@@ -208,15 +165,22 @@ main() {
     tmux set -g status-justify absolute-centre
 
     # Window option
-    if $show_powerline; then
-        tmux set-window-option -g window-status-current-format "#[fg=${blue},bg=${gray}]${left_win_sep}#[bg=${blue}]${current_flags}#[fg=${black}] #I:#W #[fg=${blue},bg=${gray}]${right_win_sep}"
-    else
-        tmux set-window-option -g window-status-current-format "#[fg=${white},bg=${blue}] #I:#W ${current_flags} "
-    fi
+    case $show_flags in
+    false)
+        flags=""
+        current_flags=""
+        ;;
+    true)
+        flags="#{?window_flags,#[fg=${light_purple}]#{window_flags},}"
+        current_flags="#{?window_flags,#[fg=${light_red}]#{window_flags},}"
+        ;;
+    esac
 
     if $show_powerline; then
+        tmux set-window-option -g window-status-current-format "#[fg=${blue},bg=${gray}]${left_win_sep}#[bg=${blue}]${current_flags}#[fg=${black}] #I:#W #[fg=${blue},bg=${gray}]${right_win_sep}"
         tmux set-window-option -g window-status-format "#[fg=${light_gray},bg=${gray}]${left_win_sep}#[bg=${light_gray}]${flags}#[fg=${white}] #I:#W #[fg=${light_gray},bg=${gray}]${right_win_sep}"
     else
+        tmux set-window-option -g window-status-current-format "#[fg=${white},bg=${blue}] #I:#W ${current_flags} "
         tmux set-window-option -g window-status-format "#[fg=${white},bg=${light_gray}] #I:#W ${flags} "
     fi
 
@@ -244,17 +208,6 @@ main() {
             done
             script="#(cat $datafile)"
             ;;
-        "time")
-            if $show_day_month && $show_military; then # military time and dd/mm
-                script=" %a %d/%m %R ${timezone} "
-            elif $show_military; then # only military time
-                script=" %a %m/%d %R ${timezone}"
-            elif $show_day_month; then # only dd/mm
-                script=" %a %d/%m %I:%M %p ${timezone} "
-            else
-                script=" %a %m/%d %I:%M %p ${timezone} "
-            fi
-            ;;
         *)
             script="#($current_dir/$rplugin.sh)"
             ;;
@@ -267,7 +220,6 @@ main() {
             tmux set-option -ga status-right "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
         fi
     done
-
 }
 
 # run main function
