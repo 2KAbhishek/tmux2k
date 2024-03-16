@@ -54,9 +54,6 @@ battery_percent() {
     CYGWIN* | MINGW32* | MSYS* | MINGW*)
         # leaving empty - TODO - windows compatability
         ;;
-
-    *) ;;
-
     esac
 }
 
@@ -91,7 +88,7 @@ battery_status() {
         echo ''
         ;;
     charging)
-        echo ''
+        echo ''
         ;;
     *)
         echo ''
@@ -100,8 +97,6 @@ battery_status() {
 }
 
 battery_label() {
-    bat_perc=$1
-
     if [ "$bat_perc" -gt 90 ]; then
         echo " "
     elif [ "$bat_perc" -gt 75 ]; then
@@ -119,8 +114,8 @@ battery_label() {
 
 main() {
     bat_stat=$(battery_status)
-    bat_perc=" $(battery_percent)"
-    bat_label=$(get_tmux_option "@tmux2k-battery-label" "$(battery_label "$bat_perc")")
+    bat_perc="$(battery_percent)"
+    bat_label="$(battery_label)"
 
     if [ -z "$bat_stat" ]; then
         echo "$bat_label $bat_perc%"
