@@ -18,7 +18,7 @@ show_right_sep=$(get_tmux_option "@tmux2k-show-right-sep" )
 show_border_contrast=$(get_tmux_option "@tmux2k-border-contrast" true)
 show_refresh=$(get_tmux_option "@tmux2k-refresh-rate" 60)
 IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery network time')"
-IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cpu-usage ram-usage')"
+IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cpu ram')"
 
 datafile=/tmp/.tmux2k-data
 
@@ -44,12 +44,12 @@ light_gray='#45455a'
 declare -A plugin_colors=(
     ["git"]="green dark_gray"
     ["battery"]="pink dark_gray"
-    ["gpu-usage"]="orange dark_gray"
-    ["cpu-usage"]="blue dark_gray"
-    ["ram-usage"]="yellow dark_gray"
+    ["gpu"]="orange dark_gray"
+    ["cpu"]="blue dark_gray"
+    ["ram"]="yellow dark_gray"
     ["network"]="purple dark_gray"
-    ["network-bandwidth"]="purple dark_gray"
-    ["network-ping"]="purple dark_gray"
+    ["bandwidth"]="purple dark_gray"
+    ["ping"]="purple dark_gray"
     ["weather"]="orange dark_gray"
     ["time"]="cyan dark_gray"
 )
