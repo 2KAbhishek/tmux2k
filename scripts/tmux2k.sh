@@ -36,6 +36,7 @@ light_red='#ff0055'
 light_yellow='#f1fa8c'
 dark_gray='#282a36'
 light_gray='#45455a'
+dark_gray='#282a36'
 
 declare -A plugin_colors=(
     ["git"]="green dark_gray"
@@ -54,6 +55,44 @@ get_plugin_colors() {
     local plugin_name="$1"
     local default_colors="${plugin_colors[$plugin_name]}"
     get_tmux_option "@tmux2k-${plugin_name}-colors" "$default_colors"
+}
+
+build_status_bar() {
+    side=$1
+    if [ "$side" == "left" ]; then
+        plugins=("${lplugins[@]}")
+    else
+        plugins=("${rplugins[@]}")
+    fi
+
+    for plugin_index in "${!plugins[@]}"; do
+        plugin="${plugins[$plugin_index]}"
+        if [ -z "${plugin_colors[$plugin]}" ]; then
+            continue
+        fi
+
+        IFS=' ' read -r -a colors <<<"$(get_plugin_colors "$plugin")"
+        script="#($current_dir/$plugin.sh)"
+
+        if [ "$side" == "left" ]; then
+            if $show_powerline; then
+                next_plugin=${plugins[$((plugin_index + 1))]}
+                IFS=' ' read -r -a next_colors <<<"$(get_plugin_colors "$next_plugin")"
+                powerbg=${!next_colors[0]:-$gray}
+                tmux set-option -ga status-left "#[fg=${!colors[1]},bg=${!colors[0]}] $script #[fg=${!colors[0]},bg=${powerbg},nobold,nounderscore,noitalics]${left_sep}"
+                powerbg=${gray}
+            else
+                tmux set-option -ga status-left "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
+            fi
+        else
+            if $show_powerline; then
+                tmux set-option -ga status-right "#[fg=${!colors[0]},bg=${powerbg},nobold,nounderscore,noitalics]${right_sep}#[fg=${!colors[1]},bg=${!colors[0]}] $script "
+                powerbg=${!colors[0]}
+            else
+                tmux set-option -ga status-right "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
+            fi
+        fi
+    done
 }
 
 main() {
@@ -116,45 +155,8 @@ main() {
         tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon}"
     fi
 
-    # Status left
-    for lplugin_index in "${!lplugins[@]}"; do
-        lplugin="${lplugins[$lplugin_index]}"
-        # Check if colors are defined for the plugin
-        if [ -z "${plugin_colors[$lplugin]}" ]; then
-            continue
-        fi
-
-        IFS=' ' read -r -a colors <<<"$(get_plugin_colors "$lplugin")"
-        script="#($current_dir/$lplugin.sh)"
-
-        if $show_powerline; then
-            next_plugin=${lplugins[$((lplugin_index + 1))]}
-            IFS=' ' read -r -a next_colors <<<"$(get_plugin_colors "$next_plugin")"
-            powerbg=${!next_colors[0]:-$gray}
-            tmux set-option -ga status-left "#[fg=${!colors[1]},bg=${!colors[0]}] $script #[fg=${!colors[0]},bg=${powerbg},nobold,nounderscore,noitalics]${left_sep}"
-            powerbg=${gray}
-        else
-            tmux set-option -ga status-left "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
-        fi
-    done
-
-    # Status right
-    for rplugin_index in "${!rplugins[@]}"; do
-        rplugin="${rplugins[$rplugin_index]}"
-        if [ -z "${plugin_colors[$rplugin]}" ]; then
-            continue
-        fi
-
-        IFS=' ' read -r -a colors <<<"$(get_plugin_colors "$rplugin")"
-        script="#($current_dir/$rplugin.sh)"
-
-        if $show_powerline; then
-            tmux set-option -ga status-right "#[fg=${!colors[0]},bg=${powerbg},nobold,nounderscore,noitalics]${right_sep}#[fg=${!colors[1]},bg=${!colors[0]}] $script "
-            powerbg=${!colors[0]}
-        else
-            tmux set-option -ga status-right "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
-        fi
-    done
+    build_status_bar "left"
+    build_status_bar "right"
 }
 
 # run main function
