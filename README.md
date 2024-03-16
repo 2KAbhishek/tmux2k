@@ -40,17 +40,13 @@
 
 tmux2k is a `tmux` plugin for that adds `powerline` support and pretty colors to your `tmux` status bar.
 
-## Inspiration
-
-tmux2k was inspired by [dracula/tmux](https://github.com/dracula/tmux).
-
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
 
--   You have installed the latest version of `tmux`.
--   [tpm](https://github.com/tmux-plugins/tpm) for managing `tmux` plugins.
--   A [patched nerd font](https://www.nerdfonts.com/) for `powerline` and glyphs support.
+- You have installed the latest version of `tmux`.
+- [tpm](https://github.com/tmux-plugins/tpm) for managing `tmux` plugins.
+- A [patched nerd font](https://www.nerdfonts.com/) for `powerline` and glyphs support.
 
 ## Installing tmux2k
 
@@ -67,30 +63,32 @@ Add any configuration options below this line in your tmux config.
 
 ### Activating tmux2k
 
--   Make sure run -b `~/.tmux/plugins/tpm/tpm` is at the bottom of your `.tmux.conf`
--   Run `tmux`
--   Use the `tpm` install command: prefix + I (default prefix is `ctrl+b`)
+- Make sure run -b `~/.tmux/plugins/tpm/tpm` is at the bottom of your `.tmux.conf`
+- Run `tmux`
+- Use the `tpm` install command: prefix + I (default prefix is `ctrl+b`)
 
 ## Configuring tmux2k
 
 ```bash
 # Tmux 2K default configs
-# available plugins: battery, cpu-usage, git, gpu-usage, ram-usage, network, network-bandwidth, network-ping, weather, time
-set -g @tmux2k-left-plugins "git cpu-usage ram-usage"
+# available plugins: battery, cpu, git, gpu, ram, network, bandwidth, ping, weather, time
+set -g @tmux2k-left-plugins "git cpu ram"
 set -g @tmux2k-right-plugins "battery network time"
 set -g @tmux2k-show-powerline true
 set -g @tmux2k-show-fahrenheit false
 set -g @tmux2k-military-time true
 set -g @tmux2k-border-contrast true
 
-# available colors: white, gray, dark_gray, light_purple, dark_purple, cyan, green, orange, red, pink, yellow
+# available colors: black, blue, cyan, gray, green, orange, pink, purple, red, white, yellow, light_cyan, light_gray, light_green, light_purple, light_red, light_yellow, plugin_fg
+
+white, gray, dark_gray, light_purple, dark_purple, cyan, green, orange, red, pink, yellow
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
 set -g @tmux2k-cpu-usage-colors "blue dark_gray"
 
 # it can accept `session`, `rocket`, `window`, or any character.
-set -g @tmux2k-show-left-icon ""
+set -g @tmux2k-show-left-icon ""
 
-# network interface to monitor
+# network interface to watch
 set -g @tmux2k-network-name "en0"/"wlo1" (Mac/Linux)
 
 # update powerline symbols
@@ -99,6 +97,9 @@ set -g @tmux2k-show-right-sep ""
 
 # change refresh rate
 set -g @tmux2k-refresh-rate 5
+
+# disable powerline
+set -g @tmux2k-show-powerline false
 ```
 
 ## How it was built
@@ -107,27 +108,30 @@ tmux2k was built using `neovim`, `shellcheck`, `nerd-fonts`.
 
 ## What I learned
 
--   Learned a lot about the `tmux` and `tpm` ecosystem.
--   Did some fancy shell scripting.
+- Learned a lot about the `tmux` and `tpm` ecosystem.
+- Did some fancy shell scripting.
+
+## Inspiration
+
+tmux2k was inspired by [dracula/tmux](https://github.com/dracula/tmux).
 
 ## What's next
 
 ### To-Do
 
--   [ ] Fix left plugins color logic
--   [ ] Add more section scripts
+You tell me!
 
 ### 🧰 Tooling
 
--   [dots2k](https://github.com/2kabhishek/dots2k) — Dev Environment
--   [nvim2k](https://github.com/2kabhishek/nvim2k) — Personalized Editor
--   [sway2k](https://github.com/2kabhishek/sway2k) — Desktop Environment
--   [qute2k](https://github.com/2kabhishek/qute2k) — Personalized Browser
+- [dots2k](https://github.com/2kabhishek/dots2k) — Dev Environment
+- [nvim2k](https://github.com/2kabhishek/nvim2k) — Personalized Editor
+- [sway2k](https://github.com/2kabhishek/sway2k) — Desktop Environment
+- [qute2k](https://github.com/2kabhishek/qute2k) — Personalized Browser
 
 ### 🔍 More Info
 
--   [tmux-tea](https://github.com/2kabhishek/tmux-tea) — Simple and powerful tmux session manager
--   [tmux-tilit](https://github.com/2kabhishek/tmux-tilit) — Turns tmux into a terminal window manager
+- [tmux-tea](https://github.com/2kabhishek/tmux-tea) — Simple and powerful tmux session manager
+- [tmux-tilit](https://github.com/2kabhishek/tmux-tilit) — Turns tmux into a terminal window manager
 
 <div align="center">
 
