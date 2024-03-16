@@ -1,12 +1,10 @@
 #!/bin/bash
 
-INTERVAL="1" # update interval in seconds
+INTERVAL="1"
 
-# Network interface to monitor
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir"/utils.sh
 
-# Network interface to monitor
 network_name="en0"
 
 if [[ $(uname -s) == "Darwin" ]]; then
