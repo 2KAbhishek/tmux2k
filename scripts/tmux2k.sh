@@ -44,25 +44,24 @@ light_yellow='#f1fa8c'
 dark_gray='#282a36'
 light_gray='#45455a'
 
-datafile=/tmp/.tmux2k-data
+declare -A plugin_colors=(
+    ["git"]="green dark_gray"
+    ["battery"]="pink dark_gray"
+    ["gpu-usage"]="orange dark_gray"
+    ["cpu-usage"]="blue dark_gray"
+    ["ram-usage"]="yellow dark_gray"
+    ["network"]="purple dark_gray"
+    ["network-bandwidth"]="purple dark_gray"
+    ["network-ping"]="purple dark_gray"
+    ["weather"]="orange dark_gray"
+    ["time"]="cyan dark_gray"
+)
 
-# set configuration option variables
-show_fahrenheit=$(get_tmux_option "@tmux2k-show-fahrenheit" false)
-show_location=$(get_tmux_option "@tmux2k-show-location" false)
-fixed_location=$(get_tmux_option "@tmux2k-fixed-location")
-show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
-show_flags=$(get_tmux_option "@tmux2k-show-flags" true)
-show_left_icon=$(get_tmux_option "@tmux2k-show-left-icon" rocket)
-show_left_icon_padding=$(get_tmux_option "@tmux2k-left-icon-padding" 0)
-show_military=$(get_tmux_option "@tmux2k-military-time" true)
-show_timezone=$(get_tmux_option "@tmux2k-show-timezone" false)
-show_left_sep=$(get_tmux_option "@tmux2k-show-left-sep" )
-show_right_sep=$(get_tmux_option "@tmux2k-show-right-sep" )
-show_border_contrast=$(get_tmux_option "@tmux2k-border-contrast" true)
-show_day_month=$(get_tmux_option "@tmux2k-day-month" false)
-show_refresh=$(get_tmux_option "@tmux2k-refresh-rate" 60)
-IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery network time')"
-IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cpu-usage ram-usage')"
+get_plugin_colors() {
+    local plugin_name="$1"
+    local default_colors="${plugin_colors[$plugin_name]}"
+    get_tmux_option "@tmux2k-${plugin_name}-colors" "$default_colors"
+}
 
 main() {
     case $show_left_icon in
@@ -155,64 +154,25 @@ main() {
         tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon}"
     fi
 
-    for lplugin in "${lplugins[@]}"; do
-
-        if [ "$lplugin" = "git" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-git-colors' 'green dark_gray')"
-            script="#($current_dir/git.sh)"
-            powerbg=${blue}
+    for lplugin_index in "${!lplugins[@]}"; do
+        lplugin="${lplugins[$lplugin_index]}"
+        # Check if colors are defined for the plugin
+        if [ -z "${plugin_colors[$lplugin]}" ]; then
+            continue
         fi
 
-        if [ "$lplugin" = "battery" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-battery-colors' 'pink dark_gray')"
-            script="#($current_dir/battery.sh)"
-        fi
-
-        if [ "$lplugin" = "gpu-usage" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-gpu-usage-colors' 'orange dark_gray')"
-            script="#($current_dir/gpu_usage.sh)"
-        fi
-
-        if [ "$lplugin" = "cpu-usage" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-cpu-usage-colors' 'blue dark_gray')"
-            script="#($current_dir/cpu_info.sh)"
-            powerbg=${yellow}
-        fi
-
-        if [ "$lplugin" = "ram-usage" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-ram-usage-colors' 'yellow dark_gray')"
-            script="#($current_dir/ram_info.sh)"
-        fi
-
-        if [ "$lplugin" = "network" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-colors' 'purple dark_gray')"
-            script="#($current_dir/network.sh)"
-        fi
-
-        if [ "$lplugin" = "network-bandwidth" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-bandwidth-colors' 'purple dark_gray')"
-            tmux set-option -g status-left 250
-            script="#($current_dir/network_bandwidth.sh)"
-        fi
-
-        if [ "$lplugin" = "network-ping" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-ping-colors' 'purple dark_gray')"
-            script="#($current_dir/network_ping.sh)"
-        fi
-
-        if [ "$lplugin" = "weather" ]; then
-            # wait unit $datafile exists just to avoid errors
-            # this should almost never need to wait unless something unexpected occurs
-            while [ ! -f $datafile ]; do
+        IFS=' ' read -r -a colors <<<"$(get_plugin_colors "$lplugin")"
+        case $lplugin in
+        "weather")
+            # Wait until $datafile exists just to avoid errors
+            # This should almost never need to wait unless something unexpected occurs
+            while [ ! -f "$datafile" ]; do
                 sleep 0.01
             done
-
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-weather-colors' 'orange dark_gray')"
             script="#(cat $datafile)"
-        fi
-
-        if [ "$lplugin" = "time" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-time-colors' 'cyan dark_gray')"
+            powerbg=${lplugins[$((lplugin_index + 1))]}
+            ;;
+        "time")
             if $show_day_month && $show_military; then # military time and dd/mm
                 script=" %a %d/%m %R ${timezone} "
             elif $show_military; then # only military time
@@ -222,7 +182,15 @@ main() {
             else
                 script=" %a %m/%d %I:%M %p ${timezone} "
             fi
-        fi
+            powerbg=${lplugins[$((lplugin_index + 1))]}
+            ;;
+        *)
+            script="#($current_dir/$lplugin.sh)"
+            next_plugin=${lplugins[$((lplugin_index + 1))]}
+            IFS=' ' read -r -a next_colors <<<"$(get_plugin_colors "$next_plugin")"
+            powerbg=${!next_colors[0]:-$gray}
+            ;;
+        esac
 
         if $show_powerline; then
             tmux set-option -ga status-left "#[fg=${!colors[1]},bg=${!colors[0]}] $script #[fg=${!colors[0]},bg=${powerbg},nobold,nounderscore,noitalics]${left_sep}"
@@ -259,7 +227,8 @@ main() {
     # Status right
     tmux set-option -g status-right ""
 
-    for rplugin in "${rplugins[@]}"; do
+    for rplugin_index in "${!rplugins[@]}"; do
+        local rplugin="${rplugins[$rplugin_index]}"
 
         if [ "$rplugin" = "git" ]; then
             IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-git-colors' 'green dark_gray')"
@@ -273,17 +242,17 @@ main() {
 
         if [ "$rplugin" = "gpu-usage" ]; then
             IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-gpu-usage-colors' 'orange dark_gray')"
-            script="#($current_dir/gpu_usage.sh)"
+            script="#($current_dir/gpu-usage.sh)"
         fi
 
         if [ "$rplugin" = "cpu-usage" ]; then
             IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-cpu-usage-colors' 'blue dark_gray')"
-            script="#($current_dir/cpu_info.sh)"
+            script="#($current_dir/cpu-usage.sh)"
         fi
 
         if [ "$rplugin" = "ram-usage" ]; then
             IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-ram-usage-colors' 'yellow dark_gray')"
-            script="#($current_dir/ram_info.sh)"
+            script="#($current_dir/ram-usage.sh)"
         fi
 
         if [ "$rplugin" = "network" ]; then
@@ -294,12 +263,12 @@ main() {
         if [ "$rplugin" = "network-bandwidth" ]; then
             IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-bandwidth-colors' 'purple dark_gray')"
             tmux set-option -g status-right-length 250
-            script="#($current_dir/network_bandwidth.sh)"
+            script="#($current_dir/network-bandwidth.sh)"
         fi
 
         if [ "$rplugin" = "network-ping" ]; then
             IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-ping-colors' 'purple dark_gray')"
-            script="#($current_dir/network_ping.sh)"
+            script="#($current_dir/network-ping.sh)"
         fi
 
         if [ "$rplugin" = "weather" ]; then
