@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# setting the locale, some users have issues with different locales, this forces the correct one
+
 export LC_ALL=en_US.UTF-8
 
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -37,7 +37,6 @@ get_percent() {
         ;;
 
     FreeBSD)
-        # Looked at the code from neofetch
         hw_pagesize="$(sysctl -n hw.pagesize)"
         mem_inactive="$(($(sysctl -n vm.stats.vm.v_inactive_count) * hw_pagesize))"
         mem_unused="$(($(sysctl -n vm.stats.vm.v_free_count) * hw_pagesize))"
@@ -55,14 +54,11 @@ get_percent() {
         fi
         ;;
 
-    CYGWIN* | MINGW32* | MSYS* | MINGW*)
-        # TODO - windows compatability
-        ;;
+    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatability
     esac
 }
 
 main() {
-    # storing the refresh rate in the variable RATE, default is 5
     RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
     ram_label=$(get_tmux_option "@tmux2k-ram-usage-label" "")
     ram_percent=$(get_percent)
@@ -70,5 +66,4 @@ main() {
     sleep "$RATE"
 }
 
-#run main driver
 main

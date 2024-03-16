@@ -3,13 +3,12 @@
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir"/utils.sh
 
-IFS=' ' read -r -a hide_status <<<$(get_tmux_option "@tmux2k-git-disable-status" "false")
-IFS=' ' read -r -a current_symbol <<<$(get_tmux_option "@tmux2k-git-show-current-symbol" "")
-IFS=' ' read -r -a diff_symbol <<<$(get_tmux_option "@tmux2k-git-show-diff-symbol" "")
-IFS=' ' read -r -a no_repo_message <<<$(get_tmux_option "@tmux2k-git-no-repo-message" "")
+hide_status=$(get_tmux_option '@tmux2k-git-disable-status' 'false')
+current_symbol=$(get_tmux_option '@tmux2k-git-show-current-symbol' '')
+diff_symbol=$(get_tmux_option '@tmux2k-git-show-diff-symbol' '')
+no_repo_message=$(get_tmux_option '@tmux2k-git-no-repo-message' '')
 
-# Get added, modified, updated and deleted files from git status
-getChanges() {
+get_changes() {
     declare -i added=0
     declare -i modified=0
     declare -i updated=0
@@ -17,19 +16,10 @@ getChanges() {
 
     for i in $(git -C "$path" status -s); do
         case $i in
-        'A')
-            added+=1
-            ;;
-        'M')
-            modified+=1
-            ;;
-        'U')
-            updated+=1
-            ;;
-        'D')
-            deleted+=1
-            ;;
-
+        'A') added+=1 ;;
+        'M') modified+=1 ;;
+        'U') updated+=1 ;;
+        'D') deleted+=1 ;;
         esac
     done
 
@@ -42,8 +32,7 @@ getChanges() {
     echo "$output"
 }
 
-# getting the #{pane_current_path} from tmux2k.sh is no longer possible
-getPaneDir() {
+get_pane_dir() {
     nextone="false"
     for i in $(tmux list-panes -F "#{pane_active} #{pane_current_path}"); do
         if [ "$nextone" == "true" ]; then
@@ -56,8 +45,7 @@ getPaneDir() {
     done
 }
 
-# check if the current or diff symbol is empty to remove ugly padding
-checkEmptySymbol() {
+check_empty_symbol() {
     symbol=$1
     if [ "$symbol" == "" ]; then
         echo "true"
@@ -66,9 +54,8 @@ checkEmptySymbol() {
     fi
 }
 
-# check to see if the current repo is not up to date with HEAD
-checkForChanges() {
-    if [ "$(checkForGitDir)" == "true" ]; then
+check_for_changes() {
+    if [ "$(check_for_git_dir)" == "true" ]; then
         if [ "$(git -C "$path" status -s)" != "" ]; then
             echo "true"
         else
@@ -79,8 +66,7 @@ checkForChanges() {
     fi
 }
 
-# check if a git repo exists in the directory
-checkForGitDir() {
+check_for_git_dir() {
     if [ "$(git -C "$path" rev-parse --abbrev-ref HEAD)" != "" ]; then
         echo "true"
     else
@@ -88,32 +74,30 @@ checkForGitDir() {
     fi
 }
 
-# return branch name if there is one
-getBranch() {
-    if [ $(checkForGitDir) == "true" ]; then
+get_branch() {
+    if [ $(check_for_git_dir) == "true" ]; then
         printf "%.20s " $(git -C "$path" rev-parse --abbrev-ref HEAD)
     else
         echo "$no_repo_message"
     fi
 }
 
-# return the final message for the status bar
-getMessage() {
-    if [ $(checkForGitDir) == "true" ]; then
-        branch="$(getBranch)"
+get_message() {
+    if [ $(check_for_git_dir) == "true" ]; then
+        branch="$(get_branch)"
 
-        if [ $(checkForChanges) == "true" ]; then
+        if [ $(check_for_changes) == "true" ]; then
 
-            changes="$(getChanges)"
+            changes="$(get_changes)"
 
             if [ "${hide_status}" == "false" ]; then
-                if [ $(checkEmptySymbol "$diff_symbol") == "true" ]; then
+                if [ $(check_empty_symbol "$diff_symbol") == "true" ]; then
                     echo "${changes} $branch"
                 else
                     echo "$diff_symbol ${changes} $branch"
                 fi
             else
-                if [ $(checkEmptySymbol "$diff_symbol") == "true" ]; then
+                if [ $(check_empty_symbol "$diff_symbol") == "true" ]; then
                     echo "$branch"
                 else
                     echo "$diff_symbol $branch"
@@ -121,7 +105,7 @@ getMessage() {
             fi
 
         else
-            if [ $(checkEmptySymbol "$current_symbol") == "true" ]; then
+            if [ $(check_empty_symbol "$current_symbol") == "true" ]; then
                 echo "$branch"
             else
                 echo "$current_symbol $branch"
@@ -133,9 +117,8 @@ getMessage() {
 }
 
 main() {
-    path=$(getPaneDir)
-    getMessage
+    path=$(get_pane_dir)
+    get_message
 }
 
-#run main driver program
 main
