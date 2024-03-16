@@ -5,48 +5,66 @@ export LC_ALL=en_US.UTF-8
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir"/utils.sh
 
+# set configuration option variables
+show_fahrenheit=$(get_tmux_option "@tmux2k-show-fahrenheit" false)
+show_location=$(get_tmux_option "@tmux2k-show-location" false)
+fixed_location=$(get_tmux_option "@tmux2k-fixed-location")
+show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
+show_flags=$(get_tmux_option "@tmux2k-show-flags" true)
+show_left_icon=$(get_tmux_option "@tmux2k-show-left-icon" rocket)
+show_left_icon_padding=$(get_tmux_option "@tmux2k-left-icon-padding" 0)
+show_military=$(get_tmux_option "@tmux2k-military-time" true)
+show_timezone=$(get_tmux_option "@tmux2k-show-timezone" false)
+show_left_sep=$(get_tmux_option "@tmux2k-show-left-sep" )
+show_right_sep=$(get_tmux_option "@tmux2k-show-right-sep" )
+show_border_contrast=$(get_tmux_option "@tmux2k-border-contrast" true)
+show_day_month=$(get_tmux_option "@tmux2k-day-month" false)
+show_refresh=$(get_tmux_option "@tmux2k-refresh-rate" 60)
+IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery network time')"
+IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cpu-usage ram-usage')"
+
+datafile=/tmp/.tmux2k-data
+
+white='#d5d5da'
+black='#0a0a0f',
+gray='#15152a'
+red='#ff001f',
+green='#3dd50A',
+yellow='#ffd21a',
+blue='#1688f0',
+purple='#BF58FF',
+cyan='#11dddd',
+orange='#ffb86c'
+pink='#ff79c6'
+light_purple='#bd93f9'
+light_cyan='#8be9fd'
+light_green='#50fa7b'
+light_red='#ff0055'
+light_yellow='#f1fa8c'
+dark_gray='#282a36'
+light_gray='#45455a'
+
+datafile=/tmp/.tmux2k-data
+
+# set configuration option variables
+show_fahrenheit=$(get_tmux_option "@tmux2k-show-fahrenheit" false)
+show_location=$(get_tmux_option "@tmux2k-show-location" false)
+fixed_location=$(get_tmux_option "@tmux2k-fixed-location")
+show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
+show_flags=$(get_tmux_option "@tmux2k-show-flags" true)
+show_left_icon=$(get_tmux_option "@tmux2k-show-left-icon" rocket)
+show_left_icon_padding=$(get_tmux_option "@tmux2k-left-icon-padding" 0)
+show_military=$(get_tmux_option "@tmux2k-military-time" true)
+show_timezone=$(get_tmux_option "@tmux2k-show-timezone" false)
+show_left_sep=$(get_tmux_option "@tmux2k-show-left-sep" )
+show_right_sep=$(get_tmux_option "@tmux2k-show-right-sep" )
+show_border_contrast=$(get_tmux_option "@tmux2k-border-contrast" true)
+show_day_month=$(get_tmux_option "@tmux2k-day-month" false)
+show_refresh=$(get_tmux_option "@tmux2k-refresh-rate" 60)
+IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery network time')"
+IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cpu-usage ram-usage')"
+
 main() {
-    datafile=/tmp/.tmux2k-data
-
-    # set configuration option variables
-    show_fahrenheit=$(get_tmux_option "@tmux2k-show-fahrenheit" false)
-    show_location=$(get_tmux_option "@tmux2k-show-location" false)
-    fixed_location=$(get_tmux_option "@tmux2k-fixed-location")
-    show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
-    show_flags=$(get_tmux_option "@tmux2k-show-flags" true)
-    show_left_icon=$(get_tmux_option "@tmux2k-show-left-icon" rocket)
-    show_left_icon_padding=$(get_tmux_option "@tmux2k-left-icon-padding" 0)
-    show_military=$(get_tmux_option "@tmux2k-military-time" true)
-    show_timezone=$(get_tmux_option "@tmux2k-show-timezone" false)
-    show_left_sep=$(get_tmux_option "@tmux2k-show-left-sep" )
-    show_right_sep=$(get_tmux_option "@tmux2k-show-right-sep" )
-    show_border_contrast=$(get_tmux_option "@tmux2k-border-contrast" true)
-    show_day_month=$(get_tmux_option "@tmux2k-day-month" false)
-    show_refresh=$(get_tmux_option "@tmux2k-refresh-rate" 60)
-    IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery network time')"
-    IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cpu-usage ram-usage')"
-
-    # tmux2k Color Pallette
-    white='#d5d5da'
-    black='#0a0a0f',
-    gray='#15152a'
-    red='#ff001f',
-    green='#3dd50A',
-    yellow='#ffd21a',
-    blue='#1688f0',
-    purple='#BF58FF',
-    cyan='#11dddd',
-    orange='#ffb86c'
-    pink='#ff79c6'
-    light_purple='#bd93f9'
-    light_cyan='#8be9fd'
-    light_green='#50fa7b'
-    light_red='#ff0055'
-    light_yellow='#f1fa8c'
-    dark_gray='#282a36'
-    light_gray='#45455a'
-
-    # Handle left icon configuration
     case $show_left_icon in
     rocket)
         left_icon=""
