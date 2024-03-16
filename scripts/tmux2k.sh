@@ -205,7 +205,7 @@ main() {
     left_win_sep=""
     right_win_sep=""
     # Set window list at centre
-    tmux set -g status-justify centre
+    tmux set -g status-justify absolute-centre
 
     # Window option
     if $show_powerline; then
