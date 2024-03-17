@@ -6,12 +6,12 @@ current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir"/utils.sh
 
 show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
-show_refresh=$(get_tmux_option "@tmux2k-refresh-rate" 60)
-show_left_icon=$(get_tmux_option "@tmux2k-show-left-icon" rocket)
-show_left_sep=$(get_tmux_option "@tmux2k-show-left-sep" )
-show_right_sep=$(get_tmux_option "@tmux2k-show-right-sep" )
-win_left_sep=$(get_tmux_option "@tmux2k-window-left-sep" )
-win_right_sep=$(get_tmux_option "@tmux2k-window-right-sep" )
+refresh_rate=$(get_tmux_option "@tmux2k-refresh-rate" 60)
+start_icon=$(get_tmux_option "@tmux2k-start-icon" '')
+l_sep=$(get_tmux_option "@tmux2k-left-sep" )
+r_sep=$(get_tmux_option "@tmux2k-right-sep" )
+wl_sep=$(get_tmux_option "@tmux2k-window-left-sep" )
+wr_sep=$(get_tmux_option "@tmux2k-window-right-sep" )
 show_flags=$(get_tmux_option "@tmux2k-show-flags" true)
 IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cpu ram')"
 IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery network time')"
@@ -51,7 +51,41 @@ get_plugin_colors() {
     get_tmux_option "@tmux2k-${plugin_name}-colors" "$default_colors"
 }
 
-build_status_bar() {
+get_plugin_bg() {
+    IFS=' ' read -r -a colors <<<"$(get_plugin_colors "$1")"
+    return "${colors[0]}"
+}
+
+set_options() {
+    tmux set-option -g status-interval "$refresh_rate"
+    tmux set-option -g status-left-length 100
+    tmux set-option -g status-right-length 100
+    tmux set-option -g status-left ""
+    tmux set-option -g status-right ""
+
+    tmux set-option -g pane-active-border-style "fg=${blue}"
+    tmux set-option -g pane-border-style "fg=${bg_main}"
+    tmux set-option -g message-style "bg=${bg_main},fg=${blue}"
+    tmux set-option -g status-style "bg=${bg_main},fg=${white}"
+    tmux set -g status-justify absolute-centre
+
+    tmux set-window-option -g window-status-activity-style "bold"
+    tmux set-window-option -g window-status-bell-style "bold"
+    tmux set-window-option -g window-status-current-style "bold"
+}
+
+start_icon() {
+    case $start_icon in
+    session) start_icon="#S" ;;
+    window) start_icon="#W" ;;
+    esac
+
+    first_plugin=${lplugins[0]}
+    IFS=' ' read -r -a first_colors <<<"$(get_plugin_colors "$first_plugin")"
+    tmux set-option -g status-left "#[bg=${!first_colors[0]},fg=${text}]#{?client_prefix,#[bg=${light_yellow}} ${start_icon} "
+}
+
+status_bar() {
     side=$1
     if [ "$side" == "left" ]; then
         plugins=("${lplugins[@]}")
@@ -72,16 +106,18 @@ build_status_bar() {
             if $show_powerline; then
                 next_plugin=${plugins[$((plugin_index + 1))]}
                 IFS=' ' read -r -a next_colors <<<"$(get_plugin_colors "$next_plugin")"
-                powerbg=${!next_colors[0]:-$gray}
-                tmux set-option -ga status-left "#[fg=${!colors[1]},bg=${!colors[0]}] $script #[fg=${!colors[0]},bg=${powerbg},nobold,nounderscore,noitalics]${left_sep}"
-                powerbg=${gray}
+                pl_bg=${!next_colors[0]:-$bg_main}
+                tmux set-option -ga status-left \
+                    "#[fg=${!colors[1]},bg=${!colors[0]}] $script #[fg=${!colors[0]},bg=${pl_bg},nobold,nounderscore,noitalics]${l_sep}"
+                pl_bg=${bg_main}
             else
                 tmux set-option -ga status-left "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
             fi
         else
             if $show_powerline; then
-                tmux set-option -ga status-right "#[fg=${!colors[0]},bg=${powerbg},nobold,nounderscore,noitalics]${right_sep}#[fg=${!colors[1]},bg=${!colors[0]}] $script "
-                powerbg=${!colors[0]}
+                tmux set-option -ga status-right \
+                    "#[fg=${!colors[0]},bg=${pl_bg},nobold,nounderscore,noitalics]${r_sep}#[fg=${!colors[1]},bg=${!colors[0]}] $script "
+                pl_bg=${!colors[0]}
             else
                 tmux set-option -ga status-right "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
             fi
@@ -89,50 +125,30 @@ build_status_bar() {
     done
 }
 
-main() {
-    case $show_left_icon in
-    rocket) left_icon="" ;;
-    session) left_icon="#S" ;;
-    window) left_icon="#W" ;;
-    *) left_icon=$show_left_icon ;;
-    esac
-
-    tmux set-option -g status-interval "$show_refresh"
-    tmux set-option -g status-left-length 100
-    tmux set-option -g status-right-length 100
-    tmux set-option -g status-left ""
-    tmux set-option -g status-right ""
-
-    tmux set-option -g pane-active-border-style "fg=${blue}"
-    tmux set-option -g pane-border-style "fg=${gray}"
-    tmux set-option -g message-style "bg=${gray},fg=${blue}"
-    tmux set-option -g status-style "bg=${gray},fg=${white}"
-    tmux set -g status-justify absolute-centre
-
-    tmux set-window-option -g window-status-activity-style "bold"
-    tmux set-window-option -g window-status-bell-style "bold"
-    tmux set-window-option -g window-status-current-style "bold"
-
+window_list() {
     if $show_flags; then
         flags="#{?window_flags,#[fg=${light_red}]#{window_flags},}"
-        current_flags="#{?window_flags,#[fg=${light_yellow}]#{window_flags},}"
+        current_flags="#{?window_flags,#[fg=${light_red}]#{window_flags},}"
     fi
 
     if $show_powerline; then
-        right_sep="$show_right_sep"
-        left_sep="$show_left_sep"
-        tmux set-window-option -g window-status-current-format "#[fg=${blue},bg=${gray}]${win_left_sep}#[bg=${blue}]${current_flags}#[fg=${black}] #I:#W #[fg=${blue},bg=${gray}]${win_right_sep}"
-        tmux set-window-option -g window-status-format "#[fg=${light_gray},bg=${gray}]${win_left_sep}#[bg=${light_gray}]${flags}#[fg=${white}] #I:#W #[fg=${light_gray},bg=${gray}]${win_right_sep}"
-        tmux set-option -g status-left "#[bg=${green},fg=${plugin_fg}]#{?client_prefix,#[bg=${yellow}} ${left_icon} #[fg=${green},bg=${green}]#{?client_prefix,#[fg=${yellow}}${left_sep}"
-        powerbg=${gray}
+        tmux set-window-option -g window-status-current-format \
+            "#[fg=${blue},bg=${bg_main}]${wl_sep}#[bg=${blue}]${current_flags}#[fg=${black}] #I:#W #[fg=${blue},bg=${bg_main}]${wr_sep}"
+        tmux set-window-option -g window-status-format \
+            "#[fg=${bg_alt},bg=${bg_main}]${wl_sep}#[bg=${bg_alt}]${flags}#[fg=${white}] #I:#W #[fg=${bg_alt},bg=${bg_main}]${wr_sep}"
+        pl_bg=${bg_main}
     else
         tmux set-window-option -g window-status-current-format "#[fg=${black},bg=${blue}] #I:#W ${current_flags} "
-        tmux set-window-option -g window-status-format "#[fg=${white},bg=${light_gray}] #I:#W ${flags} "
-        tmux set-option -g status-left "#[bg=${green},fg=${plugin_fg}]#{?client_prefix,#[bg=${yellow}} ${left_icon}"
+        tmux set-window-option -g window-status-format "#[fg=${white},bg=${bg_alt}] #I:#W ${flags} "
     fi
+}
 
-    build_status_bar "left"
-    build_status_bar "right"
+main() {
+    set_options
+    start_icon
+    status_bar "left"
+    window_list
+    status_bar "right"
 }
 
 main
