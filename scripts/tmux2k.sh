@@ -128,7 +128,7 @@ status_bar() {
 window_list() {
     if $show_flags; then
         flags="#{?window_flags,#[fg=${light_red}]#{window_flags},}"
-        current_flags="#{?window_flags,#[fg=${light_red}]#{window_flags},}"
+        current_flags="#{?window_flags,#[fg=${light_green}]#{window_flags},}"
     fi
 
     if $show_powerline; then
