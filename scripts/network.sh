@@ -16,8 +16,8 @@ get_ssid() {
         ;;
 
     Darwin)
-        if /System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I | grep -E ' SSID' | cut -d ':' -f 2 | sed 's/ ^*//g' &>/dev/null; then
-            SSID="$(/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I | grep -E ' SSID' | cut -d ':' -f 2)"
+        SSID=$(networksetup -getairportnetwork en1 | awk -F ": " '{print $2}')
+        if [ -n "$SSID" ]; then
             printf '%s' " $SSID"
         else
             echo '󰈀 Ethernet'
