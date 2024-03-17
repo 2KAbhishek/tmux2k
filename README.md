@@ -36,13 +36,17 @@
 
 </div>
 
-## What is this
+tmux2k is a highly customizable framework designed to enhance your tmux status bar, providing you with a sleek and informative interface for your terminal sessions.
 
-tmux2k is a `tmux` plugin for that adds `powerline` support and pretty colors to your `tmux` status bar.
+## ✨ Features
 
-## Features
+- **Enhanced Aesthetics**: Prettify your tmux setup with a stylish and modern status bar.
+- **Informative Display**: Gain access to all the essential information you need right on your status bar, including system stats, git branch, weather updates, and more.
+- **Plugin Ecosystem**: Comes with a wide array of plugins to tailor your status bar to your specific needs, covering everything from system monitoring to version control integration.
+- **Ease of Customization**: Customize and extend tmux2k effortlessly, thanks to its intuitive configuration options and flexible architecture.
+- **Dynamic Updates**: Enjoy real-time updates and dynamic content rendering for a seamless and responsive user experience.
 
-Available Plugins:
+### 🧩 Available Plugins
 
 - `battery`: Show battery stats and percentage
 - `git`: Show Git branch and status information
@@ -55,13 +59,15 @@ Available Plugins:
 - `time`: Show current time and date
 - `weather`: Show weather information
 
-### Add New Plugins
+### 🪆 Add New Plugins
 
 To add a new plugin, add a script to the [scripts](./scripts) folder that prints something to the console.
 
 > The plugin name and script file name must match e.g: plugin named `foo` should have a file called `scripts/foo.sh`
 
-## Prerequisites
+## ⚡ Setup
+
+### ⚙️ Requirements
 
 Before you begin, ensure you have met the following requirements:
 
@@ -69,9 +75,7 @@ Before you begin, ensure you have met the following requirements:
 - [tpm](https://github.com/tmux-plugins/tpm) for managing `tmux` plugins.
 - A [patched nerd font](https://www.nerdfonts.com/) for `powerline` and glyphs support.
 
-## Installing tmux2k
-
-Using `tpm`
+### 💻 Installation
 
 If you are a `tpm` user, you can install the theme and keep up to date by adding the following to your `.tmux.conf` file:
 
@@ -80,15 +84,14 @@ set -g @plugin '2kabhishek/tmux2k'
 
 ```
 
-Add any configuration options below this line in your tmux config.
-
-### Using tmux2k
-
-- Make sure run -b `~/.tmux/plugins/tpm/tpm` is at the bottom of your `.tmux.conf`
 - Run `tmux`
 - Use the `tpm` install command: prefix + I (default prefix is `ctrl+b`)
 
-## Configuring tmux2k
+You can also directly clone the repo to your `~/.tmux/plugins/` folder.
+
+## 🚀 Usage
+
+tmux2k to should automatically start after installation. Here's how you can customize it's features
 
 ```bash
 # Left and right status bar plugins
@@ -125,7 +128,7 @@ set -g @tmux2k-cpu-colors "blue dark_gray"
 
 > You may have to restart `tmux` for some changes to reflect
 
-### Colors
+### 🎨 Colors
 
 ### Available Colors:
 
@@ -145,18 +148,21 @@ set -g @tmux2k-cpu-colors "blue dark_gray"
 - `purple`: Purple color. Default: `#bf58ff`
 - `light_purple`: Light purple color. Default: `#ff65c6`
 
-## How it was built
+## 🏗️ What's Next
 
-tmux2k was built using `neovim`, `shellcheck`, `nerd-fonts`.
+- [ ] Windows compatibility #8
+- [ ] Theming support #9
 
-## What I learned
+## 🧑‍💻 Behind The Code
+
+### 🌈 Inspiration
+
+I came across [dracula/tmux](https://github.com/dracula/tmux) sometime back but it didn't have everything I wanted.
+
+### 💡 Challenges/Learnings
 
 - Learned a lot about the `tmux` and `tpm` ecosystem.
 - Did some fancy shell scripting.
-
-## Inspiration
-
-tmux2k was inspired by [dracula/tmux](https://github.com/dracula/tmux).
 
 ## What's next
 
