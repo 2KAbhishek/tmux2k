@@ -16,7 +16,8 @@ get_ssid() {
         ;;
 
     Darwin)
-        SSID=$(networksetup -getairportnetwork en1 | awk -F ": " '{print $2}')
+        device_name=$(networksetup -listallhardwareports | grep -A 1 Wi-Fi | grep Device | awk '{print $2}')
+        SSID=$(networksetup -getairportnetwork "$device_name" | awk -F ": " '{print $2}')
         if [ -n "$SSID" ]; then
             printf '%s' " $SSID"
         else
