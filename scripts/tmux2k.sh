@@ -129,9 +129,9 @@ main() {
         tmux set-option -g status-left "#[bg=${green},fg=${plugin_fg}]#{?client_prefix,#[bg=${yellow}} ${left_icon} #[fg=${green},bg=${green}]#{?client_prefix,#[fg=${yellow}}${left_sep}"
         powerbg=${gray}
     else
-        tmux set-window-option -g window-status-current-format "#[fg=${white},bg=${blue}] #I:#W ${current_flags} "
+        tmux set-window-option -g window-status-current-format "#[fg=${black},bg=${blue}] #I:#W ${current_flags} "
         tmux set-window-option -g window-status-format "#[fg=${white},bg=${light_gray}] #I:#W ${flags} "
-        tmux set-option -g status-left "#[bg=${green},fg=${plugin_fg}]#{?client_prefix,#[bg=${yellow}],} ${left_icon}"
+        tmux set-option -g status-left "#[bg=${green},fg=${plugin_fg}]#{?client_prefix,#[bg=${yellow}} ${left_icon}"
     fi
 
     build_status_bar "left"
