@@ -150,8 +150,8 @@ set -g @tmux2k-cpu-colors "blue dark_gray"
 
 ## 🏗️ What's Next
 
-- [ ] Windows compatibility #8
-- [ ] Theming support #9
+- [ ] [Windows compatibility #8](https://github.com/2KAbhishek/tmux2k/issues/8)
+- [ ] [Theming support #9](https://github.com/2KAbhishek/tmux2k/issues/9)
 
 ## 🧑‍💻 Behind The Code
 
