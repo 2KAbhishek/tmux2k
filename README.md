@@ -20,7 +20,7 @@
 <a href="https://github.com/2KAbhishek/tmux2k/pulse">
 <img alt="Last Updated" src="https://img.shields.io/github/last-commit/2kabhishek/tmux2k?style=flat&color=e06c75&label="> </a>
 
-<h3>Power & Pizzazz for tmux 🥊💅</h3>
+<h3>Make tmux powerful and pretty 🥊💅</h3>
 
 <figure>
   <img src= "images/screenshot-full.png" alt="tmux2k Demo">
