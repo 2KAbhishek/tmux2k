@@ -55,6 +55,12 @@ Available Plugins:
 - `time`: Show current time and date
 - `weather`: Show weather information
 
+### Add New Plugins
+
+To add a new plugin, add a script to the [scripts](./scripts) folder that prints something to the console.
+
+> The plugin name and script file name must match e.g: plugin named `foo` should have a file called `scripts/foo.sh`
+
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
@@ -116,6 +122,8 @@ set -g @tmux2k-yellow '#f8c800' # change yellow color
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
 set -g @tmux2k-cpu-colors "blue dark_gray"
 ```
+
+> You may have to restart `tmux` for some changes to reflect
 
 ### Colors
 
