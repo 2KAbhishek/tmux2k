@@ -40,6 +40,21 @@
 
 tmux2k is a `tmux` plugin for that adds `powerline` support and pretty colors to your `tmux` status bar.
 
+## Features
+
+Available Plugins:
+
+- `battery`: Show battery stats and percentage
+- `git`: Show Git branch and status information
+- `cpu`: Show CPU usage information
+- `gpu`: Show GPU usage information
+- `ram`: Show RAM usage information
+- `network`: Show network status and statistics
+- `bandwidth`: Show network bandwidth usage
+- `ping`: Show network ping statistics
+- `time`: Show current time and date
+- `weather`: Show weather information
+
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
@@ -71,35 +86,28 @@ Add any configuration options below this line in your tmux config.
 
 ```bash
 # Tmux 2K default configs
-# available plugins: battery, cpu, git, gpu, ram, network, bandwidth, ping, weather, time
 set -g @tmux2k-left-plugins "git cpu ram"
 set -g @tmux2k-right-plugins "battery network time"
-set -g @tmux2k-show-powerline true
 set -g @tmux2k-show-fahrenheit false
 set -g @tmux2k-military-time true
-set -g @tmux2k-border-contrast true
 
-# available colors: black, blue, cyan, gray, green, orange, pink, purple, red, white, yellow, light_cyan, light_gray, light_green, light_purple, light_red, light_yellow, plugin_fg
-
-white, gray, dark_gray, light_purple, dark_purple, cyan, green, orange, red, pink, yellow
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
-set -g @tmux2k-cpu-usage-colors "blue dark_gray"
+set -g @tmux2k-cpu-colors "blue dark_gray"
 
-# it can accept `session`, `rocket`, `window`, or any character.
-set -g @tmux2k-show-left-icon ""
+# it can accept `session`, 'window`, or any string
+set -g @tmux2k-start-icon ""
 
 # network interface to watch
 set -g @tmux2k-network-name "en0"/"wlo1" (Mac/Linux)
 
 # update powerline symbols
-set -g @tmux2k-show-left-sep ""
-set -g @tmux2k-show-right-sep ""
+set -g @tmux2k-show-powerline true
+set -g @tmux2k-left-sep ""
+set -g @tmux2k-right-sep ""
 
 # change refresh rate
 set -g @tmux2k-refresh-rate 5
 
-# disable powerline
-set -g @tmux2k-show-powerline false
 ```
 
 ## How it was built
