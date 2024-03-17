@@ -76,7 +76,7 @@ set -g @plugin '2kabhishek/tmux2k'
 
 Add any configuration options below this line in your tmux config.
 
-### Activating tmux2k
+### Using tmux2k
 
 - Make sure run -b `~/.tmux/plugins/tpm/tpm` is at the bottom of your `.tmux.conf`
 - Run `tmux`
@@ -85,30 +85,57 @@ Add any configuration options below this line in your tmux config.
 ## Configuring tmux2k
 
 ```bash
-# Tmux 2K default configs
+# Left and right status bar plugins
 set -g @tmux2k-left-plugins "git cpu ram"
 set -g @tmux2k-right-plugins "battery network time"
+
+#
 set -g @tmux2k-show-fahrenheit false
 set -g @tmux2k-military-time true
-
-set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
-set -g @tmux2k-cpu-colors "blue dark_gray"
 
 # it can accept `session`, 'window`, or any string
 set -g @tmux2k-start-icon ""
 
 # network interface to watch
-set -g @tmux2k-network-name "en0"/"wlo1" (Mac/Linux)
+set -g @tmux2k-network-name "wlo1"
 
 # update powerline symbols
-set -g @tmux2k-show-powerline true
-set -g @tmux2k-left-sep ""
-set -g @tmux2k-right-sep ""
+set -g @tmux2k-right-sep  # alternate right status bar sep
+set -g @tmux2k-win-right-sep  # alternate window right sep
+set -g @tmux2k-show-powerline false # disable powerline
 
 # change refresh rate
 set -g @tmux2k-refresh-rate 5
 
+# to customize colors
+set -g @tmux2k-text '#cdcdcd' # change text to white
+set -g @tmux2k-bg-main '#ffffff' # change bg to white
+set -g @tmux2k-yellow '#f8c800' # change yellow color
+
+# to customize plugin colors
+set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
+set -g @tmux2k-cpu-colors "blue dark_gray"
 ```
+
+### Colors
+
+### Available Colors:
+
+- `text`: Default text color. Default: `#282a36`
+- `bg_main`: Background color for main sections. Default: `#15152a`
+- `bg_alt`: Background color for alternate sections. Default: `#45455a`
+- `black`: Black color. Default: `#0a0a0f`
+- `white`: White color. Default: `#d5d5da`
+- `red`: Red color. Default: `#ff001f`
+- `light_red`: Light red color. Default: `#ff0055`
+- `green`: Green color. Default: `#3dd50a`
+- `light_green`: Light green color. Default: `#ccffcc`
+- `blue`: Blue color. Default: `#1688f0`
+- `light_blue`: Light blue color. Default: `#11dddd`
+- `yellow`: Yellow color. Default: `#ffb86c`
+- `light_yellow`: Light yellow color. Default: `#ffd21a`
+- `purple`: Purple color. Default: `#bf58ff`
+- `light_purple`: Light purple color. Default: `#ff65c6`
 
 ## How it was built
 
