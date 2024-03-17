@@ -19,17 +19,17 @@ IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'batte
 text='#282a36'
 bg_main='#15152a'
 bg_alt='#45455a'
-black='#0a0a0f',
+black='#0a0a0f'
 white='#d5d5da'
-red='#ff001f',
+red='#ff001f'
 light_red='#ff0055'
-green='#3dd50A',
-light_green='#ccffcc',
-blue='#1688f0',
-light_blue='#11dddd',
+green='#3dd50a'
+light_green='#ccffcc'
+blue='#1688f0'
+light_blue='#11dddd'
 yellow='#ffb86c'
-light_yellow='#ffd21a',
-purple='#BF58FF',
+light_yellow='#ffd21a'
+purple='#bf58ff'
 light_purple='#ff65c6'
 
 declare -A plugin_colors=(
@@ -82,7 +82,7 @@ start_icon() {
 
     first_plugin=${lplugins[0]}
     IFS=' ' read -r -a first_colors <<<"$(get_plugin_colors "$first_plugin")"
-    tmux set-option -g status-left "#[bg=${!first_colors[0]},fg=${text}]#{?client_prefix,#[bg=${light_yellow}} ${start_icon} "
+    tmux set-option -g status-left "#[bg=${!first_colors[0]},fg=${text}]#{?client_prefix,#[bg=${light_yellow},} ${start_icon} "
 }
 
 status_bar() {
