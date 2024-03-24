@@ -32,6 +32,25 @@ light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#ffd21a')
 purple=$(get_tmux_option "@tmux2k-purple" '#bf58ff')
 light_purple=$(get_tmux_option "@tmux2k-light-purple" '#ff65c6')
 
+theme=$(get_tmux_option "@tmux2k-theme" 'default')
+
+if [ "$theme" == "catpuccin" ]; then
+    bg_main=$(get_tmux_option "@tmux2k-bg-main" '#24273a')
+    bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#363a4f')
+    black=$(get_tmux_option "@tmux2k-black" '#1e2030')
+    white=$(get_tmux_option "@tmux2k-white" '#ffffff')
+    red=$(get_tmux_option "@tmux2k-red" '#ed8796')
+    light_red=$(get_tmux_option "@tmux2k-light-red" '#ee99a0')
+    green=$(get_tmux_option "@tmux2k-green" '#a6da95')
+    light_green=$(get_tmux_option "@tmux2k-light-green" '#8bd5ca')
+    blue=$(get_tmux_option "@tmux2k-blue" '#8aadf4')
+    light_blue=$(get_tmux_option "@tmux2k-light-blue" '#91d7e3')
+    yellow=$(get_tmux_option "@tmux2k-yellow" '#f5a97f')
+    light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#eed49f')
+    purple=$(get_tmux_option "@tmux2k-purple" '#c6a0f6')
+    light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f5bde6')
+fi
+
 declare -A plugin_colors=(
     ["git"]="green text"
     ["cpu"]="blue text"
