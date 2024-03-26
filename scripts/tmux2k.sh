@@ -32,6 +32,19 @@ light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#ffd21a')
 purple=$(get_tmux_option "@tmux2k-purple" '#bf58ff')
 light_purple=$(get_tmux_option "@tmux2k-light-purple" '#ff65c6')
 
+declare -A plugin_colors=(
+    ["git"]="green text"
+    ["cpu"]="blue text"
+    ["ram"]="light_yellow text"
+    ["gpu"]="yellow text"
+    ["battery"]="light_purple text"
+    ["network"]="purple text"
+    ["bandwidth"]="purple text"
+    ["ping"]="purple text"
+    ["weather"]="yellow text"
+    ["time"]="light_blue text"
+)
+
 theme=$(get_tmux_option "@tmux2k-theme" 'default')
 
 if [ "$theme" == "catpuccin" ]; then
@@ -51,18 +64,21 @@ if [ "$theme" == "catpuccin" ]; then
     light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f5bde6')
 fi
 
-declare -A plugin_colors=(
-    ["git"]="green text"
-    ["cpu"]="blue text"
-    ["ram"]="light_yellow text"
-    ["gpu"]="yellow text"
-    ["battery"]="light_purple text"
-    ["network"]="purple text"
-    ["bandwidth"]="purple text"
-    ["ping"]="purple text"
-    ["weather"]="yellow text"
-    ["time"]="light_blue text"
-)
+if [ "$theme" == "icons" ]; then
+    text=$bg_main
+    declare -A plugin_colors=(
+        ["git"]="text green"
+        ["cpu"]="text blue"
+        ["ram"]="text light_yellow"
+        ["gpu"]="text yellow"
+        ["battery"]="text light_purple"
+        ["network"]="text purple"
+        ["bandwidth"]="text purple"
+        ["ping"]="text purple"
+        ["weather"]="text yellow"
+        ["time"]="text light_blue"
+    )
+fi
 
 get_plugin_colors() {
     local plugin_name="$1"
@@ -101,7 +117,7 @@ start_icon() {
 
     first_plugin=${lplugins[0]}
     IFS=' ' read -r -a first_colors <<<"$(get_plugin_colors "$first_plugin")"
-    tmux set-option -g status-left "#[bg=${!first_colors[0]},fg=${text}]#{?client_prefix,#[bg=${light_yellow},} ${start_icon} "
+    tmux set-option -g status-left "#[bg=${!first_colors[0]},fg=${!first_colors[1]}]#{?client_prefix,#[bg=${light_yellow},} ${start_icon} "
 }
 
 status_bar() {
