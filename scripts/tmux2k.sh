@@ -213,7 +213,6 @@ window_list() {
             "#[fg=${wfg},bg=${wbg}]${wl_sep}#[bg=${wfg}]${current_flags}#[fg=${wbg}] #I:#W #[fg=${wfg},bg=${wbg}]${wr_sep}"
         tmux set-window-option -g window-status-format \
             "#[fg=${bg_alt},bg=${wbg}]${wl_sep}#[bg=${bg_alt}]${flags}#[fg=${white}] #I:#W #[fg=${bg_alt},bg=${wbg}]${wr_sep}"
-        pl_bg=${wbg}
     else
         tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}] #I:#W ${current_flags} "
         tmux set-window-option -g window-status-format "#[fg=${white},bg=${bg_alt}] #I:#W ${flags} "

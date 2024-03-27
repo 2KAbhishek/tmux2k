@@ -23,15 +23,9 @@
 <h3>Make tmux powerful and pretty 🥊💅</h3>
 
 <figure>
-  <img src= "images/screenshot-full.png" alt="tmux2k Demo">
-  <br/>
-  <figcaption>tmux2k full screenshot</figcaption>
-</figure>
-
-<figure>
   <img src= "images/screenshot.png" alt="tmux2k Demo">
   <br/>
-  <figcaption>tmux2k statusbar screenshot</figcaption>
+  <figcaption>tmux2k in action</figcaption>
 </figure>
 
 </div>
@@ -45,6 +39,22 @@ tmux2k is a highly customizable framework designed to enhance your tmux status b
 - **Plugin Ecosystem**: Comes with a wide array of plugins to tailor your status bar to your specific needs, covering everything from system monitoring to version control integration.
 - **Ease of Customization**: Customize and extend tmux2k effortlessly, thanks to its intuitive configuration options and flexible architecture.
 - **Dynamic Updates**: Enjoy real-time updates and dynamic content rendering for a seamless and responsive user experience.
+
+### 🎨 Available Themes:
+
+- default
+  ![default](./images/default.png)
+  ![default-icons](./images/default-icons.png)
+  ![default-no-powerline](./images/default-no-powerline.png)
+- catppuccin
+  ![catppuccin](./images/catppuccin.png)
+  ![catppuccin-icons](./images/catppuccin-icons.png)
+- gruvbox
+  ![gruvbox](./images/gruvbox.png)
+  ![gruvbox-icons](./images/gruvbox-icons.png)
+- onedark
+  ![onedark](./images/onedark.png)
+  ![onedark-icons](./images/onedark-icons.png)
 
 ### 🧩 Available Plugins
 
@@ -138,14 +148,7 @@ set -g @tmux2k-cpu-colors "blue dark_gray"
 
 > You may have to restart `tmux` for some changes to reflect
 
-### 🎨 Themes
-
-#### Available Themes:
-
-- default
-- catppuccin
-- gruvbox
-- onedark
+### 🖌️ Customize Colors
 
 #### Available Colors:
 
