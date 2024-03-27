@@ -17,7 +17,7 @@ get_percent() {
         cpucores=$(sysctl -n hw.logicalcpu)
         cpuusage=$((cpuvalue / cpucores))
         percent="$cpuusage%"
-        normalize_padding $percent
+        normalize_padding "$percent"
         ;;
 
     CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility

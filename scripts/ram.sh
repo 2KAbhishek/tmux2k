@@ -10,15 +10,14 @@ get_percent() {
     Linux)
         total_mem=$(free -g | awk '/^Mem/ {print $2}')
         used_mem=$(free -g | awk '/^Mem/ {print $3}')
-        memory_percent=$(awk "BEGIN {printf \"%.2f\", ($used_mem / $total_mem * 100)}")
-        echo "$memory_percent%"
+        memory_percent=$(((used_mem * 100) / total_mem))
+        normalize_padding "$memory_percent%"
         ;;
     Darwin)
-        used_mem=$(vm_stat | grep ' active\|wired ' | sed 's/[^0-9]//g' | paste -sd ' ' - | \
-            awk -v pagesize="$(pagesize)" '{printf "%d\n", ($1+$2) * pagesize / 1048576}')
+        used_mem=$(vm_stat | grep ' active\|wired ' | sed 's/[^0-9]//g' | paste -sd ' ' - | awk -v pagesize=$(pagesize) '{printf "%d\n", ($1+$2) * pagesize / 1048576}')
         total_mem=$(system_profiler SPHardwareDataType | grep "Memory:" | awk '{print $2}')
-        memory_percent=$(awk "BEGIN {printf \"%.2f\", ($used_mem / $total_mem / 10)}")
-        echo "$memory_percent%"
+        memory_percent=$(((used_mem) / total_mem / 10))
+        normalize_padding "$memory_percent%"
         ;;
     FreeBSD)
         hw_pagesize="$(sysctl -n hw.pagesize)"
@@ -29,8 +28,8 @@ get_percent() {
         free_mem=$(((mem_inactive + mem_unused + mem_cache) / 1024 / 1024))
         total_mem=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         used_mem=$((total_mem - free_mem))
-        memory_percent=$(awk "BEGIN {printf \"%.2f\", ($used_mem / $total_mem * 100)}")
-        echo "$memory_percent%"
+        memory_percent=$(((used_mem * 100) / total_mem))
+        normalize_padding "$memory_percent%"
         ;;
     CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
