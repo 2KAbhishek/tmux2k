@@ -10,7 +10,7 @@ get_percent() {
     Linux)
         total_mem=$(free -g | awk '/^Mem/ {print $2}')
         used_mem=$(free -g | awk '/^Mem/ {print $3}')
-        memory_percent=$(awk "BEGIN {printf \"%.2f\", ($used_mem / $total_mem)}")
+        memory_percent=$(awk "BEGIN {printf \"%.2f\", ($used_mem / $total_mem * 100)}")
         echo "$memory_percent%"
         ;;
     Darwin)
@@ -29,7 +29,7 @@ get_percent() {
         free_mem=$(((mem_inactive + mem_unused + mem_cache) / 1024 / 1024))
         total_mem=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         used_mem=$((total_mem - free_mem))
-        memory_percent=$(awk "BEGIN {printf \"%.2f\", ($used_mem / $total_mem)}")
+        memory_percent=$(awk "BEGIN {printf \"%.2f\", ($used_mem / $total_mem * 100)}")
         echo "$memory_percent%"
         ;;
     CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
