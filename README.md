@@ -116,10 +116,20 @@ set -g @tmux2k-show-powerline false # disable powerline
 # change refresh rate
 set -g @tmux2k-refresh-rate 5
 
+# to hide powerline
+set -g @tmux2k-show-powerline false
+
+# to customize theme
+set -g @tmux2k-theme 'onedark'
+
+# to show icons only
+set -g @tmux2k-icons-only true
+
 # to customize colors
 set -g @tmux2k-text '#cdcdcd' # change text to white
 set -g @tmux2k-bg-main '#ffffff' # change bg to white
 set -g @tmux2k-yellow '#f8c800' # change yellow color
+
 
 # to customize plugin colors
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
@@ -128,9 +138,16 @@ set -g @tmux2k-cpu-colors "blue dark_gray"
 
 > You may have to restart `tmux` for some changes to reflect
 
-### 🎨 Colors
+### 🎨 Themes
 
-### Available Colors:
+#### Available Themes:
+
+- default
+- catppuccin
+- gruvbox
+- onedark
+
+#### Available Colors:
 
 - `text`: Default text color. Default: `#282a36`
 - `bg_main`: Background color for main sections. Default: `#15152a`
