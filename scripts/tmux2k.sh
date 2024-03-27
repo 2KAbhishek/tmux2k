@@ -45,6 +45,7 @@ declare -A plugin_colors=(
     ["ping"]="purple text"
     ["weather"]="yellow text"
     ["time"]="light_blue text"
+    ["window"]="bg_main blue"
 )
 
 get_plugin_colors() {
@@ -91,6 +92,7 @@ set_theme() {
             ["ping"]="text purple"
             ["weather"]="text yellow"
             ["time"]="text light_blue"
+            ["window"]="blue bg_main"
         )
     fi
 }
@@ -165,6 +167,10 @@ status_bar() {
 }
 
 window_list() {
+    IFS=' ' read -r -a colors <<<"$(get_plugin_colors "window")"
+    wbg=${!colors[0]}
+    wfg=${!colors[1]}
+
     if $show_flags; then
         flags="#{?window_flags,#[fg=${light_red}]#{window_flags},}"
         current_flags="#{?window_flags,#[fg=${light_green}]#{window_flags},}"
@@ -172,13 +178,18 @@ window_list() {
 
     if $show_powerline; then
         tmux set-window-option -g window-status-current-format \
-            "#[fg=${blue},bg=${bg_main}]${wl_sep}#[bg=${blue}]${current_flags}#[fg=${black}] #I:#W #[fg=${blue},bg=${bg_main}]${wr_sep}"
+            "#[fg=${wfg},bg=${wbg}]${wl_sep}#[bg=${wfg}]${current_flags}#[fg=${wbg}] #I:#W #[fg=${wfg},bg=${wbg}]${wr_sep}"
         tmux set-window-option -g window-status-format \
-            "#[fg=${bg_alt},bg=${bg_main}]${wl_sep}#[bg=${bg_alt}]${flags}#[fg=${white}] #I:#W #[fg=${bg_alt},bg=${bg_main}]${wr_sep}"
-        pl_bg=${bg_main}
+            "#[fg=${bg_alt},bg=${wbg}]${wl_sep}#[bg=${bg_alt}]${flags}#[fg=${white}] #I:#W #[fg=${bg_alt},bg=${wbg}]${wr_sep}"
+        pl_bg=${wbg}
     else
-        tmux set-window-option -g window-status-current-format "#[fg=${black},bg=${blue}] #I:#W ${current_flags} "
+        tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}] #I:#W ${current_flags} "
         tmux set-window-option -g window-status-format "#[fg=${white},bg=${bg_alt}] #I:#W ${flags} "
+    fi
+
+    if $icons_only; then
+        tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}] #I:#W "
+        tmux set-window-option -g window-status-format "#[fg=${white},bg=${wfg}] #I:#W "
     fi
 }
 
