@@ -36,9 +36,11 @@ tmux2k is a highly customizable framework designed to enhance your tmux status b
 
 ### 🎨 Available Themes:
 
-- default
+- default (`set @tmux2k-theme 'default'`)
   ![default](./images/default.png)
+- default icons only (`set @tmux2k-icons-only true`)
   ![default-icons](./images/default-icons.png)
+- default no powerline (`set @tmux2k-show-powerline false`)
   ![default-no-powerline](./images/default-no-powerline.png)
 - catppuccin
   ![catppuccin](./images/catppuccin.png)
@@ -62,6 +64,7 @@ tmux2k is a highly customizable framework designed to enhance your tmux status b
 - `ping`: Show network ping statistics
 - `time`: Show current time and date
 - `weather`: Show weather information
+- `wimdow`: tmux window list
 
 ### 🪆 Add New Plugins
 
@@ -102,8 +105,13 @@ tmux2k to should automatically start after installation. Here's how you can cust
 set -g @tmux2k-left-plugins "git cpu ram"
 set -g @tmux2k-right-plugins "battery network time"
 
-#
+# change refresh rate
+set -g @tmux2k-refresh-rate 5
+
+# weather scale
 set -g @tmux2k-show-fahrenheit false
+
+# 24 hour time
 set -g @tmux2k-military-time true
 
 # it can accept `session`, 'window`, or any string
@@ -115,12 +123,8 @@ set -g @tmux2k-network-name "wlo1"
 # update powerline symbols
 set -g @tmux2k-right-sep  # alternate right status bar sep
 set -g @tmux2k-win-right-sep  # alternate window right sep
-set -g @tmux2k-show-powerline false # disable powerline
 
-# change refresh rate
-set -g @tmux2k-refresh-rate 5
-
-# to hide powerline
+# to disable powerline
 set -g @tmux2k-show-powerline false
 
 # to customize theme
@@ -133,7 +137,6 @@ set -g @tmux2k-icons-only true
 set -g @tmux2k-text '#cdcdcd' # change text to white
 set -g @tmux2k-bg-main '#ffffff' # change bg to white
 set -g @tmux2k-yellow '#f8c800' # change yellow color
-
 
 # to customize plugin colors
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
