@@ -15,6 +15,8 @@ wr_sep=$(get_tmux_option "@tmux2k-window-right-sep" )
 show_flags=$(get_tmux_option "@tmux2k-show-flags" true)
 IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cpu ram')"
 IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'battery network time')"
+theme=$(get_tmux_option "@tmux2k-theme" 'default')
+icons_only=$(get_tmux_option "@tmux2k-icons-only" false)
 
 text=$(get_tmux_option "@tmux2k-text" '#282a36')
 bg_main=$(get_tmux_option "@tmux2k-bg-main" '#15152a')
@@ -45,41 +47,6 @@ declare -A plugin_colors=(
     ["time"]="light_blue text"
 )
 
-theme=$(get_tmux_option "@tmux2k-theme" 'default')
-
-if [ "$theme" == "catpuccin" ]; then
-    bg_main=$(get_tmux_option "@tmux2k-bg-main" '#24273a')
-    bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#363a4f')
-    black=$(get_tmux_option "@tmux2k-black" '#1e2030')
-    white=$(get_tmux_option "@tmux2k-white" '#ffffff')
-    red=$(get_tmux_option "@tmux2k-red" '#ed8796')
-    light_red=$(get_tmux_option "@tmux2k-light-red" '#ee99a0')
-    green=$(get_tmux_option "@tmux2k-green" '#a6da95')
-    light_green=$(get_tmux_option "@tmux2k-light-green" '#8bd5ca')
-    blue=$(get_tmux_option "@tmux2k-blue" '#8aadf4')
-    light_blue=$(get_tmux_option "@tmux2k-light-blue" '#91d7e3')
-    yellow=$(get_tmux_option "@tmux2k-yellow" '#f5a97f')
-    light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#eed49f')
-    purple=$(get_tmux_option "@tmux2k-purple" '#c6a0f6')
-    light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f5bde6')
-fi
-
-if [ "$theme" == "icons" ]; then
-    text=$bg_main
-    declare -A plugin_colors=(
-        ["git"]="text green"
-        ["cpu"]="text blue"
-        ["ram"]="text light_yellow"
-        ["gpu"]="text yellow"
-        ["battery"]="text light_purple"
-        ["network"]="text purple"
-        ["bandwidth"]="text purple"
-        ["ping"]="text purple"
-        ["weather"]="text yellow"
-        ["time"]="text light_blue"
-    )
-fi
-
 get_plugin_colors() {
     local plugin_name="$1"
     local default_colors="${plugin_colors[$plugin_name]}"
@@ -89,6 +56,43 @@ get_plugin_colors() {
 get_plugin_bg() {
     IFS=' ' read -r -a colors <<<"$(get_plugin_colors "$1")"
     return "${colors[0]}"
+}
+
+set_theme() {
+    case $theme in
+    "catppuccin")
+        bg_main=$(get_tmux_option "@tmux2k-bg-main" '#24273a')
+        bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#363a4f')
+        black=$(get_tmux_option "@tmux2k-black" '#1e2030')
+        white=$(get_tmux_option "@tmux2k-white" '#ffffff')
+        red=$(get_tmux_option "@tmux2k-red" '#ed8796')
+        light_red=$(get_tmux_option "@tmux2k-light-red" '#ee99a0')
+        green=$(get_tmux_option "@tmux2k-green" '#a6da95')
+        light_green=$(get_tmux_option "@tmux2k-light-green" '#8bd5ca')
+        blue=$(get_tmux_option "@tmux2k-blue" '#8aadf4')
+        light_blue=$(get_tmux_option "@tmux2k-light-blue" '#91d7e3')
+        yellow=$(get_tmux_option "@tmux2k-yellow" '#f5a97f')
+        light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#eed49f')
+        purple=$(get_tmux_option "@tmux2k-purple" '#c6a0f6')
+        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f5bde6')
+        ;;
+    esac
+
+    if $icons_only; then
+        text=$bg_main
+        plugin_colors=(
+            ["git"]="text green"
+            ["cpu"]="text blue"
+            ["ram"]="text light_yellow"
+            ["gpu"]="text yellow"
+            ["battery"]="text light_purple"
+            ["network"]="text purple"
+            ["bandwidth"]="text purple"
+            ["ping"]="text purple"
+            ["weather"]="text yellow"
+            ["time"]="text light_blue"
+        )
+    fi
 }
 
 set_options() {
@@ -179,6 +183,7 @@ window_list() {
 }
 
 main() {
+    set_theme
     set_options
     start_icon
     status_bar "left"
