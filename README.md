@@ -22,12 +22,6 @@
 
 <h3>Make tmux powerful and pretty 🥊💅</h3>
 
-<figure>
-  <img src= "images/screenshot.png" alt="tmux2k Demo">
-  <br/>
-  <figcaption>tmux2k in action</figcaption>
-</figure>
-
 </div>
 
 tmux2k is a highly customizable framework designed to enhance your tmux status bar, providing you with a sleek and informative interface for your terminal sessions.
