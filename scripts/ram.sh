@@ -8,34 +8,18 @@ source "$current_dir"/utils.sh
 get_percent() {
     case $(uname -s) in
     Linux)
-        total_mem_gb=$(free -g | awk '/^Mem/ {print $2}')
+        total_mem=$(free -g | awk '/^Mem/ {print $2}')
         used_mem=$(free -g | awk '/^Mem/ {print $3}')
-        total_mem=$(free -h | awk '/^Mem/ {print $2}')
-        if (("$total_mem_gb" == 0)); then
-            memory_usage=$(free -m | awk '/^Mem/ {print $3}')
-            total_mem_mb=$(free -m | awk '/^Mem/ {print $2}')
-            echo "$memory_usage"\M\B/"$total_mem_mb"\M\B
-        elif (("$used_mem" == 0)); then
-            memory_usage=$(free -m | awk '/^Mem/ {print $3}')
-            echo "$memory_usage"\M\B/"$total_mem_gb"\G\B
-        else
-            memory_usage=$(free -g | awk '/^Mem/ {print $3}')
-            echo "$memory_usage"\G\B/"$total_mem_gb"\G\B
-        fi
+        memory_percent=$(awk "BEGIN {printf \"%.2f\", ($used_mem / $total_mem)}")
+        echo "$memory_percent%"
         ;;
-
     Darwin)
-        # Get used memory blocks with vm_stat, multiply by page size to get size in bytes, then convert to MiB
-        used_mem=$(vm_stat | grep ' active\|wired ' | sed 's/[^0-9]//g' | paste -sd ' ' - | awk -v pagesize=$(pagesize) '{printf "%d\n", ($1+$2) * pagesize / 1048576}')
-        total_mem=$(system_profiler SPHardwareDataType | grep "Memory:" | awk '{print $2 $3}')
-        if (("$used_mem" < 1024)); then
-            echo "$used_mem"\M\B/"$total_mem"
-        else
-            memory=$(($used_mem / 1024))
-            echo $memory\G\B/$total_mem
-        fi
+        used_mem=$(vm_stat | grep ' active\|wired ' | sed 's/[^0-9]//g' | paste -sd ' ' - | \
+            awk -v pagesize="$(pagesize)" '{printf "%d\n", ($1+$2) * pagesize / 1048576}')
+        total_mem=$(system_profiler SPHardwareDataType | grep "Memory:" | awk '{print $2}')
+        memory_percent=$(awk "BEGIN {printf \"%.2f\", ($used_mem / $total_mem / 10)}")
+        echo "$memory_percent%"
         ;;
-
     FreeBSD)
         hw_pagesize="$(sysctl -n hw.pagesize)"
         mem_inactive="$(($(sysctl -n vm.stats.vm.v_inactive_count) * hw_pagesize))"
@@ -45,16 +29,10 @@ get_percent() {
         free_mem=$(((mem_inactive + mem_unused + mem_cache) / 1024 / 1024))
         total_mem=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         used_mem=$((total_mem - free_mem))
-        echo $used_mem
-        if (("$used_mem" < 1024)); then
-            echo $used_mem\M\B/$total_mem
-        else
-            memory=$(($used_mem / 1024))
-            echo $memory\G\B/$total_mem
-        fi
+        memory_percent=$(awk "BEGIN {printf \"%.2f\", ($used_mem / $total_mem)}")
+        echo "$memory_percent%"
         ;;
-
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatability
+    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 
