@@ -77,6 +77,38 @@ set_theme() {
         purple=$(get_tmux_option "@tmux2k-purple" '#c6a0f6')
         light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f5bde6')
         ;;
+    "gruvbox")
+        bg_main=$(get_tmux_option "@tmux2k-bg-main" '#282828')
+        bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#3c3836')
+        black=$(get_tmux_option "@tmux2k-black" '#282828')
+        white=$(get_tmux_option "@tmux2k-white" '#ebdbb2')
+        red=$(get_tmux_option "@tmux2k-red" '#cc241d')
+        light_red=$(get_tmux_option "@tmux2k-light-red" '#fb4934')
+        green=$(get_tmux_option "@tmux2k-green" '#98971a')
+        light_green=$(get_tmux_option "@tmux2k-light-green" '#b8bb26')
+        blue=$(get_tmux_option "@tmux2k-blue" '#458588')
+        light_blue=$(get_tmux_option "@tmux2k-light-blue" '#83a598')
+        yellow=$(get_tmux_option "@tmux2k-yellow" '#d79921')
+        light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#fabd2f')
+        purple=$(get_tmux_option "@tmux2k-purple" '#b16286')
+        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#d3869b')
+        ;;
+    "onedark")
+        bg_main=$(get_tmux_option "@tmux2k-bg-main" '#282c34')
+        bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#353b45')
+        black=$(get_tmux_option "@tmux2k-black" '#2d3139')
+        white=$(get_tmux_option "@tmux2k-white" '#abb2bf')
+        red=$(get_tmux_option "@tmux2k-red" '#e06c75')
+        light_red=$(get_tmux_option "@tmux2k-light-red" '#e06c75')
+        green=$(get_tmux_option "@tmux2k-green" '#98c379')
+        light_green=$(get_tmux_option "@tmux2k-light-green" '#98c379')
+        blue=$(get_tmux_option "@tmux2k-blue" '#61afef')
+        light_blue=$(get_tmux_option "@tmux2k-light-blue" '#61afef')
+        yellow=$(get_tmux_option "@tmux2k-yellow" '#e5c07b')
+        light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#e5c07b')
+        purple=$(get_tmux_option "@tmux2k-purple" '#c678dd')
+        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#c678dd')
+        ;;
     esac
 
     if $icons_only; then
