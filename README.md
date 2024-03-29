@@ -79,6 +79,7 @@ To add a new plugin, add a script to the [scripts](./scripts) folder that prints
 Before you begin, ensure you have met the following requirements:
 
 - You have installed the latest version of `tmux`.
+- bash 5.2 or newer, mac users can install it using `brew install bash`
 - [tpm](https://github.com/tmux-plugins/tpm) for managing `tmux` plugins.
 - A [patched nerd font](https://www.nerdfonts.com/) for `powerline` and glyphs support.
 
