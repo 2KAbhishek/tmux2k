@@ -74,7 +74,7 @@ set_theme() {
         light_blue=$(get_tmux_option "@tmux2k-light-blue" '#91d7e3')
         yellow=$(get_tmux_option "@tmux2k-yellow" '#f5a97f')
         light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#eed49f')
-        purple=$(get_tmux_option "@tmux2k-purple" '#c6a0f6')
+        purple=$(get_tmux_option "@tmux2k-purple" '#b6a0fe')
         light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f5bde6')
         ;;
     "gruvbox")
@@ -90,8 +90,8 @@ set_theme() {
         light_blue=$(get_tmux_option "@tmux2k-light-blue" '#83a598')
         yellow=$(get_tmux_option "@tmux2k-yellow" '#d79921')
         light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#fabd2f')
-        purple=$(get_tmux_option "@tmux2k-purple" '#b16286')
-        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#d3869b')
+        purple=$(get_tmux_option "@tmux2k-purple" '#b162d6')
+        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f386cb')
         ;;
     "onedark")
         bg_main=$(get_tmux_option "@tmux2k-bg-main" '#282c34')
@@ -106,8 +106,8 @@ set_theme() {
         light_blue=$(get_tmux_option "@tmux2k-light-blue" '#61afef')
         yellow=$(get_tmux_option "@tmux2k-yellow" '#e5c07b')
         light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#e5c07b')
-        purple=$(get_tmux_option "@tmux2k-purple" '#c678dd')
-        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#c678dd')
+        purple=$(get_tmux_option "@tmux2k-purple" '#c678fd')
+        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f678cd')
         ;;
     esac
 
