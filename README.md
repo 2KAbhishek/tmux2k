@@ -134,6 +134,9 @@ set -g @tmux2k-theme 'onedark'
 # to show icons only
 set -g @tmux2k-icons-only true
 
+# to enable compact window tab size
+set -g @tmux2k-compact-windows true
+
 # to customize colors
 set -g @tmux2k-text '#cdcdcd' # change text to white
 set -g @tmux2k-bg-main '#ffffff' # change bg to white
