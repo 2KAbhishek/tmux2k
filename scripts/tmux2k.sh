@@ -147,6 +147,7 @@ set_theme() {
     esac
 
     if $icons_only; then
+        show_powerline=false
         text=$bg_main
         plugin_colors=(
             ["git"]="text green"
