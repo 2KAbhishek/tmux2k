@@ -64,8 +64,15 @@ set -g @tmux2k-icons-only true
 set -g @tmux2k-duo-fg "#1688f0" # this will get you duo blue shown above
 set -g @tmux2k-duo-bg "#000000" # this will set the bg for duo theme
 
-# to not show powerline glyphs
+# to set powerline symbols
+set -g @tmux2k-right-sep  # alternate right status bar sep
+set -g @tmux2k-win-right-sep  # alternate window right sep
+
+# to not show powerline
 set -g @tmux2k-show-powerline false
+
+# set start icon, accpets: `session`, 'window`, or any string
+set -g @tmux2k-start-icon ""
 ```
 
 #### 🖌️ Customize Theme Colors
@@ -94,8 +101,9 @@ To customize theme colors:
 set -g @tmux2k-text '#cdcdcd' # change text to white
 set -g @tmux2k-bg-main '#ffffff' # change bg to white
 set -g @tmux2k-yellow '#f8c800' # change yellow color
-
 ```
+
+> You may have to restart `tmux` for some changes to reflect
 
 ### 🧩 Available Plugins
 
@@ -121,6 +129,21 @@ set -g @tmux2k-right-plugins "battery network time"
 # to customize plugin colors
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
 set -g @tmux2k-cpu-colors "red black" # set cpu plugin bg to red, fg to black
+
+# to enable compact window list size
+set -g @tmux2k-compact-windows true
+
+# change refresh rate
+set -g @tmux2k-refresh-rate 5
+
+# weather scale
+set -g @tmux2k-show-fahrenheit false
+
+# 24 hour time
+set -g @tmux2k-military-time true
+
+# network interface to watch
+set -g @tmux2k-network-name "wlo1"
 ```
 
 #### 🪆 Add New Plugins
@@ -153,38 +176,6 @@ set -g @plugin '2kabhishek/tmux2k'
 - Use the `tpm` install command: prefix + I (default prefix is `ctrl+b`)
 
 You can also directly clone the repo to your `~/.tmux/plugins/` folder.
-
-## 🚀 Usage
-
-tmux2k to should automatically start after installation. Here's how you can customize it's features
-
-```bash
-# Left and right status bar plugins
-set -g @tmux2k-left-plugins "git cpu ram"
-set -g @tmux2k-right-plugins "battery network time"
-
-# change refresh rate
-set -g @tmux2k-refresh-rate 5
-
-# weather scale
-set -g @tmux2k-show-fahrenheit false
-
-# 24 hour time
-set -g @tmux2k-military-time true
-
-# it can accept `session`, 'window`, or any string
-set -g @tmux2k-start-icon ""
-
-# network interface to watch
-set -g @tmux2k-network-name "wlo1"
-
-# update powerline symbols
-set -g @tmux2k-right-sep  # alternate right status bar sep
-set -g @tmux2k-win-right-sep  # alternate window right sep
-
-```
-
-> You may have to restart `tmux` for some changes to reflect
 
 ## 🏗️ What's Next
 
