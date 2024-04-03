@@ -36,21 +36,74 @@ tmux2k is a highly customizable framework designed to enhance your tmux status b
 
 ### 🎨 Available Themes:
 
-- default (`set @tmux2k-theme 'default'`)
-  ![default](./images/default.png)
-- default icons only (`set @tmux2k-icons-only true`)
-  ![default-icons](./images/default-icons.png)
-- default no powerline (`set @tmux2k-show-powerline false`)
-  ![default-no-powerline](./images/default-no-powerline.png)
-- catppuccin
-  ![catppuccin](./images/catppuccin.png)
-  ![catppuccin-icons](./images/catppuccin-icons.png)
-- gruvbox
-  ![gruvbox](./images/gruvbox.png)
-  ![gruvbox-icons](./images/gruvbox-icons.png)
-- onedark
-  ![onedark](./images/onedark.png)
-  ![onedark-icons](./images/onedark-icons.png)
+- default ![default](./images/default.png)
+- default icons ![default-icons](./images/default-icons.png)
+- catppuccin ![catppuccin](./images/catppuccin.png)
+- catppuccin icons ![catppuccin-icons](./images/catppuccin-icons.png)
+- gruvbox ![gruvbox](./images/gruvbox.png)
+- gruvbox icons ![gruvbox-icons](./images/gruvbox-icons.png)
+- monokai ![monokai](./images/monokai.png)
+- monokai icons ![monokai-icons](./images/monokai-icons.png)
+- onedark ![onedark](./images/onedark.png)
+- onedark icons ![onedark-icons](./images/onedark-icons.png)
+- duo ![duo](./images/duo.png)
+- duo icons ![duo-icons](./images/duo-icons.png)
+- duo blue ![duo-blue](./images/duo-blue.png)
+- default no powerline ![default-no-powerline](./images/default-no-powerline.png)
+
+To use themes:
+
+```bash
+# use a theme
+set -g @tmux2k-theme 'onedark'
+
+# to show icons only
+set -g @tmux2k-icons-only true
+
+# to customize duo bg and fg
+set -g @tmux2k-duo-fg "#1688f0" # this will get you duo blue shown above
+set -g @tmux2k-duo-bg "#000000" # this will set the bg for duo theme
+
+# to set powerline symbols
+set -g @tmux2k-right-sep  # alternate right status bar sep
+set -g @tmux2k-win-right-sep  # alternate window right sep
+
+# to not show powerline
+set -g @tmux2k-show-powerline false
+
+# set start icon, accpets: `session`, 'window`, or any string
+set -g @tmux2k-start-icon ""
+```
+
+#### 🖌️ Customize Theme Colors
+
+##### Available Colors:
+
+- `text`: Default text color. Default: `#282a36`
+- `bg_main`: Background color for main sections. Default: `#15152a`
+- `bg_alt`: Background color for alternate sections. Default: `#45455a`
+- `black`: Black color. Default: `#0a0a0f`
+- `white`: White color. Default: `#d5d5da`
+- `red`: Red color. Default: `#ff001f`
+- `light_red`: Light red color. Default: `#ff0055`
+- `green`: Green color. Default: `#3dd50a`
+- `light_green`: Light green color. Default: `#ccffcc`
+- `blue`: Blue color. Default: `#1688f0`
+- `light_blue`: Light blue color. Default: `#11dddd`
+- `yellow`: Yellow color. Default: `#ffb86c`
+- `light_yellow`: Light yellow color. Default: `#ffd21a`
+- `purple`: Purple color. Default: `#bf58ff`
+- `light_purple`: Light purple color. Default: `#ff65c6`
+
+To customize theme colors:
+
+```bash
+set -g @tmux2k-text '#cdcdcd' # change text to white
+set -g @tmux2k-bg-main '#ffffff' # change bg to white
+set -g @tmux2k-yellow '#f8c800' # change yellow color
+```
+
+> You may have to restart `tmux` for some changes to reflect
 
 ### 🧩 Available Plugins
 
@@ -66,7 +119,34 @@ tmux2k is a highly customizable framework designed to enhance your tmux status b
 - `weather`: Show weather information
 - `wimdow`: tmux window list
 
-### 🪆 Add New Plugins
+To use plugins:
+
+```bash
+# set the left and right plugin sections
+set -g @tmux2k-left-plugins "git cpu ram"
+set -g @tmux2k-right-plugins "battery network time"
+
+# to customize plugin colors
+set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
+set -g @tmux2k-cpu-colors "red black" # set cpu plugin bg to red, fg to black
+
+# to enable compact window list size
+set -g @tmux2k-compact-windows true
+
+# change refresh rate
+set -g @tmux2k-refresh-rate 5
+
+# weather scale
+set -g @tmux2k-show-fahrenheit false
+
+# 24 hour time
+set -g @tmux2k-military-time true
+
+# network interface to watch
+set -g @tmux2k-network-name "wlo1"
+```
+
+#### 🪆 Add New Plugins
 
 To add a new plugin, add a script to the [scripts](./scripts) folder that prints something to the console.
 
@@ -97,88 +177,15 @@ set -g @plugin '2kabhishek/tmux2k'
 
 You can also directly clone the repo to your `~/.tmux/plugins/` folder.
 
-## 🚀 Usage
-
-tmux2k to should automatically start after installation. Here's how you can customize it's features
-
-```bash
-# Left and right status bar plugins
-set -g @tmux2k-left-plugins "git cpu ram"
-set -g @tmux2k-right-plugins "battery network time"
-
-# change refresh rate
-set -g @tmux2k-refresh-rate 5
-
-# weather scale
-set -g @tmux2k-show-fahrenheit false
-
-# 24 hour time
-set -g @tmux2k-military-time true
-
-# it can accept `session`, 'window`, or any string
-set -g @tmux2k-start-icon ""
-
-# network interface to watch
-set -g @tmux2k-network-name "wlo1"
-
-# update powerline symbols
-set -g @tmux2k-right-sep  # alternate right status bar sep
-set -g @tmux2k-win-right-sep  # alternate window right sep
-
-# to disable powerline
-set -g @tmux2k-show-powerline false
-
-# to customize theme
-set -g @tmux2k-theme 'onedark'
-
-# to show icons only
-set -g @tmux2k-icons-only true
-
-# to enable compact window tab size
-set -g @tmux2k-compact-windows true
-
-# to customize colors
-set -g @tmux2k-text '#cdcdcd' # change text to white
-set -g @tmux2k-bg-main '#ffffff' # change bg to white
-set -g @tmux2k-yellow '#f8c800' # change yellow color
-
-# to customize plugin colors
-set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
-set -g @tmux2k-cpu-colors "blue dark_gray"
-```
-
-> You may have to restart `tmux` for some changes to reflect
-
-### 🖌️ Customize Colors
-
-#### Available Colors:
-
-- `text`: Default text color. Default: `#282a36`
-- `bg_main`: Background color for main sections. Default: `#15152a`
-- `bg_alt`: Background color for alternate sections. Default: `#45455a`
-- `black`: Black color. Default: `#0a0a0f`
-- `white`: White color. Default: `#d5d5da`
-- `red`: Red color. Default: `#ff001f`
-- `light_red`: Light red color. Default: `#ff0055`
-- `green`: Green color. Default: `#3dd50a`
-- `light_green`: Light green color. Default: `#ccffcc`
-- `blue`: Blue color. Default: `#1688f0`
-- `light_blue`: Light blue color. Default: `#11dddd`
-- `yellow`: Yellow color. Default: `#ffb86c`
-- `light_yellow`: Light yellow color. Default: `#ffd21a`
-- `purple`: Purple color. Default: `#bf58ff`
-- `light_purple`: Light purple color. Default: `#ff65c6`
-
 ## 🏗️ What's Next
 
-- [ ] [Windows compatibility #8](https://github.com/2KAbhishek/tmux2k/issues/8)
-- [ ] [Theming support #9](https://github.com/2KAbhishek/tmux2k/issues/9)
+- You tell me!
 
 ## 🧑‍💻 Behind The Code
 
 ### 🌈 Inspiration
 
-I came across [dracula/tmux](https://github.com/dracula/tmux) sometime back but it didn't have everything I wanted.
+I came across [dracula/tmux](https://github.com/dracula/tmux) sometime back and I wanted to create a more customizable and easy to expand solution.
 
 ### 💡 Challenges/Learnings
 

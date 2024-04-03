@@ -20,8 +20,8 @@ icons_only=$(get_tmux_option "@tmux2k-icons-only" false)
 compact=$(get_tmux_option "@tmux2k-compact-windows" false)
 
 text=$(get_tmux_option "@tmux2k-text" '#282a36')
-bg_main=$(get_tmux_option "@tmux2k-bg-main" '#15152a')
-bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#45455a')
+bg_main=$(get_tmux_option "@tmux2k-bg-main" '#000000')
+bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#1f1f1f')
 black=$(get_tmux_option "@tmux2k-black" '#0a0a0f')
 white=$(get_tmux_option "@tmux2k-white" '#d5d5da')
 red=$(get_tmux_option "@tmux2k-red" '#ff001f')
@@ -75,8 +75,27 @@ set_theme() {
         light_blue=$(get_tmux_option "@tmux2k-light-blue" '#91d7e3')
         yellow=$(get_tmux_option "@tmux2k-yellow" '#f5a97f')
         light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#eed49f')
-        purple=$(get_tmux_option "@tmux2k-purple" '#c6a0f6')
+        purple=$(get_tmux_option "@tmux2k-purple" '#b6a0fe')
         light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f5bde6')
+        ;;
+    "duo")
+        duo_bg=$(get_tmux_option "@tmux2k-duo-bg" '#000000')
+        duo_fg=$(get_tmux_option "@tmux2k-duo-fg" '#ffffff')
+        text=$(get_tmux_option "@tmux2k-white" "$duo_bg")
+        bg_main=$(get_tmux_option "@tmux2k-bg-main" "$duo_bg")
+        bg_alt=$(get_tmux_option "@tmux2k-bg-alt" "$duo_bg")
+        black=$(get_tmux_option "@tmux2k-black" "$duo_bg")
+        white=$(get_tmux_option "@tmux2k-white" "$duo_fg")
+        red=$(get_tmux_option "@tmux2k-red" "$duo_fg")
+        light_red=$(get_tmux_option "@tmux2k-light-red" "$duo_fg")
+        green=$(get_tmux_option "@tmux2k-green" "$duo_fg")
+        light_green=$(get_tmux_option "@tmux2k-light-green" "$duo_fg")
+        blue=$(get_tmux_option "@tmux2k-blue" "$duo_fg")
+        light_blue=$(get_tmux_option "@tmux2k-light-blue" "$duo_fg")
+        yellow=$(get_tmux_option "@tmux2k-yellow" "$duo_fg")
+        light_yellow=$(get_tmux_option "@tmux2k-light-yellow" "$duo_fg")
+        purple=$(get_tmux_option "@tmux2k-purple" "$duo_fg")
+        light_purple=$(get_tmux_option "@tmux2k-light-purple" "$duo_fg")
         ;;
     "gruvbox")
         bg_main=$(get_tmux_option "@tmux2k-bg-main" '#282828')
@@ -91,8 +110,24 @@ set_theme() {
         light_blue=$(get_tmux_option "@tmux2k-light-blue" '#83a598')
         yellow=$(get_tmux_option "@tmux2k-yellow" '#d79921')
         light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#fabd2f')
-        purple=$(get_tmux_option "@tmux2k-purple" '#b16286')
-        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#d3869b')
+        purple=$(get_tmux_option "@tmux2k-purple" '#b162d6')
+        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f386cb')
+        ;;
+    "monokai")
+        bg_main=$(get_tmux_option "@tmux2k-bg-main" '#272822')
+        bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#3e3d32')
+        black=$(get_tmux_option "@tmux2k-black" '#272822')
+        white=$(get_tmux_option "@tmux2k-white" '#f8f8f2')
+        red=$(get_tmux_option "@tmux2k-red" '#f92672')
+        light_red=$(get_tmux_option "@tmux2k-light-red" '#ff6188')
+        green=$(get_tmux_option "@tmux2k-green" '#a6e22e')
+        light_green=$(get_tmux_option "@tmux2k-light-green" '#a6e22e')
+        blue=$(get_tmux_option "@tmux2k-blue" '#66d9ef')
+        light_blue=$(get_tmux_option "@tmux2k-light-blue" '#66d9ef')
+        yellow=$(get_tmux_option "@tmux2k-yellow" '#e6db74')
+        light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#e6db74')
+        purple=$(get_tmux_option "@tmux2k-purple" '#ae81ff')
+        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#fe81ff')
         ;;
     "onedark")
         bg_main=$(get_tmux_option "@tmux2k-bg-main" '#282c34')
@@ -107,12 +142,13 @@ set_theme() {
         light_blue=$(get_tmux_option "@tmux2k-light-blue" '#61afef')
         yellow=$(get_tmux_option "@tmux2k-yellow" '#e5c07b')
         light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#e5c07b')
-        purple=$(get_tmux_option "@tmux2k-purple" '#c678dd')
-        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#c678dd')
+        purple=$(get_tmux_option "@tmux2k-purple" '#c678fd')
+        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f678cd')
         ;;
     esac
 
     if $icons_only; then
+        show_powerline=false
         text=$bg_main
         plugin_colors=(
             ["git"]="text green"
