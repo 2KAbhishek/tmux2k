@@ -117,7 +117,7 @@ set -g @tmux2k-yellow '#f8c800' # change yellow color
 - `ping`: Show network ping statistics
 - `time`: Show current time and date
 - `weather`: Show weather information
-- `wimdow`: tmux window list
+- `window`: tmux window list
 
 To use plugins:
 
