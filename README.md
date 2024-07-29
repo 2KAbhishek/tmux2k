@@ -126,6 +126,9 @@ To use plugins:
 set -g @tmux2k-left-plugins "git cpu ram"
 set -g @tmux2k-right-plugins "battery network time"
 
+# to set window list alignment (centre by default)
+set -g @tmux2k-window-list-alignment 'left'
+
 # to customize plugin colors
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
 set -g @tmux2k-cpu-colors "red black" # set cpu plugin bg to red, fg to black

@@ -6,6 +6,7 @@ current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir"/utils.sh
 
 show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
+window_list_alignment=$(get_tmux_option "@tmux2k-window-list-alignment" 'centre')
 refresh_rate=$(get_tmux_option "@tmux2k-refresh-rate" 60)
 start_icon=$(get_tmux_option "@tmux2k-start-icon" '')
 l_sep=$(get_tmux_option "@tmux2k-left-sep" )
@@ -177,7 +178,7 @@ set_options() {
     tmux set-option -g pane-border-style "fg=${bg_main}"
     tmux set-option -g message-style "bg=${bg_main},fg=${blue}"
     tmux set-option -g status-style "bg=${bg_main},fg=${white}"
-    tmux set -g status-justify absolute-centre
+    tmux set -g status-justify "$window_list_alignment"
 
     tmux set-window-option -g window-status-activity-style "bold"
     tmux set-window-option -g window-status-bell-style "bold"
