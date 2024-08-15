@@ -39,6 +39,7 @@ light_purple=$(get_tmux_option "@tmux2k-light-purple" '#ff65c6')
 declare -A plugin_colors=(
     ["git"]="green text"
     ["cpu"]="blue text"
+    ["cwd"]="purple text"
     ["ram"]="light_yellow text"
     ["gpu"]="yellow text"
     ["battery"]="light_purple text"
@@ -154,6 +155,7 @@ set_theme() {
         plugin_colors=(
             ["git"]="text green"
             ["cpu"]="text blue"
+            ["cwd"]="text purple"
             ["ram"]="text light_yellow"
             ["gpu"]="text yellow"
             ["battery"]="text light_purple"
