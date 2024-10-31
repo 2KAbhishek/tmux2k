@@ -110,6 +110,7 @@ set -g @tmux2k-yellow '#f8c800' # change yellow color
 - `battery`: Show battery stats and percentage
 - `git`: Show Git branch and status information
 - `cpu`: Show CPU usage information
+- `cwd`: Show current working directory
 - `gpu`: Show GPU usage information
 - `ram`: Show RAM usage information
 - `network`: Show network status and statistics
