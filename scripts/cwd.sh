@@ -48,7 +48,7 @@ main() {
     # Truncate path if it's too long
     truncated_cwd=$(truncate_path "$cwd")
 
-    echo " $truncated_cwd"
+    echo "  $truncated_cwd"
 }
 
 #run main driver program
