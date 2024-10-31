@@ -49,7 +49,6 @@ declare -A plugin_colors=(
     ["weather"]="yellow text"
     ["time"]="light_blue text"
     ["window"]="bg_main blue"
-    ["pomodoro"]="bg_main green"
 )
 
 get_plugin_colors() {
@@ -166,7 +165,6 @@ set_theme() {
             ["weather"]="text yellow"
             ["time"]="text light_blue"
             ["window"]="blue bg_main"
-            ["pomodoro"]="text bg_main"
         )
     fi
 }
