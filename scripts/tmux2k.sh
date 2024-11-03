@@ -8,7 +8,7 @@ source "$current_dir"/utils.sh
 show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
 window_list_alignment=$(get_tmux_option "@tmux2k-window-list-alignment" 'centre')
 refresh_rate=$(get_tmux_option "@tmux2k-refresh-rate" 60)
-start_icon=$(get_tmux_option "@tmux2k-start-icon" '')
+start_icon=$(get_tmux_option "@tmux2k-start-icon" "session")
 l_sep=$(get_tmux_option "@tmux2k-left-sep" )
 r_sep=$(get_tmux_option "@tmux2k-right-sep" )
 wl_sep=$(get_tmux_option "@tmux2k-window-left-sep" )
@@ -189,8 +189,8 @@ set_options() {
 
 start_icon() {
     case $start_icon in
-    session) start_icon="#S" ;;
-    window) start_icon="#W" ;;
+    session) start_icon=" #S" ;;
+    window) start_icon=" #W" ;;
     esac
 
     first_plugin=${lplugins[0]}
