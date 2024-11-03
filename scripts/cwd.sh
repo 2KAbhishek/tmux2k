@@ -14,38 +14,30 @@ get_pane_dir() {
 
 # truncate the path if it's longer than 30 characters
 truncate_path() {
-    local path="$1"
-    local limit=30
+    local path="$1" limit=20 truncated_path=""
 
-    if [ ${#path} -gt $limit ]; then
-        # Split the path into an array by '/'
-        IFS='/' read -r -a path_array <<<"$path"
-        truncated_path=""
+    # If path is greater than limit, then truncate parts to 2 characters
+    [[ ${#path} -le $limit ]] && echo "$path" && return
+    IFS='/' read -ra parts <<< "$path"
+    for ((i=0; i<${#parts[@]}-1; i++)); do
+        truncated_path+="${parts[i]:0:2}/"
+    done
+    truncated_path+="${parts[-1]}"
 
-        for ((i = 0; i < ${#path_array[@]} - 1; i++)); do
-            if [ ${#path_array[i]} -gt 1 ]; then
-                truncated_path+="${path_array[i]:0:2}/"
-            else
-                truncated_path+="${path_array[i]}/"
-            fi
-        done
-
-        # Add the last component of the current directory path
-        truncated_path+="${path_array[-1]}"
-
-        echo "$truncated_path"
+    # If there are more than 4 slashes, then we will truncate the middle part
+    if [[ $(tr -cd '/' <<< "$truncated_path" | wc -c) -gt 4 ]]; then
+        IFS='/' read -ra parts <<< "$truncated_path"
+        echo "${parts[0]}/${parts[1]}/.../${parts[-2]}/${parts[-1]}"
     else
-        echo "$path"
+        echo "$truncated_path"
     fi
 }
 
 main() {
     path=$(get_pane_dir)
 
-    # change '/home/user' to '~'
+    # Change '/home/user' to '~'
     cwd="${path/"$HOME"/'~'}"
-
-    # Truncate path if it's too long
     truncated_cwd=$(truncate_path "$cwd")
 
     echo "  $truncated_cwd"
