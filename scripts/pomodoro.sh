@@ -6,8 +6,9 @@ if [ -z "$TMUX" ]; then
 fi
 
 # Check for olimorris/tmux-pomodoro-plus scripts
-POMODORO_SCRIPT="$HOME/.tmux/plugins/tmux-pomodoro-plus/scripts/pomodoro.sh"
-POMODORO_HELPER="$HOME/.tmux/plugins/tmux-pomodoro-plus/scripts/helpers.sh"
+current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+POMODORO_SCRIPT="$current_dir/../../tmux-pomodoro-plus/scripts/pomodoro.sh"
+POMODORO_HELPER="$current_dir/../../tmux-pomodoro-plus/scripts/helpers.sh"
 
 if [ -f "$POMODORO_SCRIPT" ]; then
     . "$POMODORO_SCRIPT"
