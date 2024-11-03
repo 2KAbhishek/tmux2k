@@ -26,6 +26,8 @@
 
 tmux2k is a highly customizable framework designed to enhance your tmux status bar, providing you with a sleek and informative interface for your terminal sessions.
 
+![default-plugins](./images/default-plugins.png)
+
 ## ✨ Features
 
 - **Enhanced Aesthetics**: Prettify your tmux setup with a stylish and modern status bar.
@@ -120,14 +122,16 @@ set -g @tmux2k-yellow '#f8c800' # change yellow color
 - `weather`: Show weather information
 - `window`: tmux window list
 
-To use plugins:
+To customize plugins, I'll highly recommend checking out their respective scripts in the [scripts](./scripts) folder.
+
+Here's some example configurations:
 
 ```bash
 # set the left and right plugin sections
 set -g @tmux2k-left-plugins "git cpu ram"
 set -g @tmux2k-right-plugins "battery network time"
 
-# to set window list alignment (centre by default)
+# to set window list alignment (absolute-centre by default)
 set -g @tmux2k-window-list-alignment 'left'
 
 # to customize plugin colors
