@@ -24,7 +24,7 @@ truncate_path() {
 
         for ((i = 0; i < ${#path_array[@]} - 1; i++)); do
             if [ ${#path_array[i]} -gt 1 ]; then
-                truncated_path+="${path_array[i]:0:1}/"
+                truncated_path+="${path_array[i]:0:2}/"
             else
                 truncated_path+="${path_array[i]}/"
             fi
