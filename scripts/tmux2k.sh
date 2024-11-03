@@ -6,7 +6,7 @@ current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir"/utils.sh
 
 show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
-window_list_alignment=$(get_tmux_option "@tmux2k-window-list-alignment" 'centre')
+window_list_alignment=$(get_tmux_option "@tmux2k-window-list-alignment" 'absolute-centre')
 refresh_rate=$(get_tmux_option "@tmux2k-refresh-rate" 60)
 start_icon=$(get_tmux_option "@tmux2k-start-icon" "session")
 l_sep=$(get_tmux_option "@tmux2k-left-sep" )
