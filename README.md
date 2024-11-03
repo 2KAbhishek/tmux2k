@@ -121,6 +121,7 @@ set -g @tmux2k-yellow '#f8c800' # change yellow color
 - `time`: Show current time and date
 - `weather`: Show weather information
 - `window`: tmux window list
+- `pomodoro`: Shows the `#{pomodoro_status}` of the [tmux-pomodoro-plus](https://github.com/olimorris/tmux-pomodoro-plus) plugin (if installed)
 
 To customize plugins, I'll highly recommend checking out their respective scripts in the [scripts](./scripts) folder.
 
