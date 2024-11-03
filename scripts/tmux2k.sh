@@ -155,7 +155,7 @@ set_theme() {
         plugin_colors=(
             ["git"]="text green"
             ["cpu"]="text blue"
-            ["cwd"]="text purple"
+            ["cwd"]="text light_green"
             ["ram"]="text light_yellow"
             ["gpu"]="text yellow"
             ["battery"]="text light_purple"
