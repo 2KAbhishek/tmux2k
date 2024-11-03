@@ -48,8 +48,8 @@ declare -A plugin_colors=(
     ["ping"]="purple text"
     ["weather"]="yellow text"
     ["time"]="light_blue text"
+    ["pomodoro"]="red text"
     ["window"]="bg_main blue"
-    ["pomodoro"]="bg_main green"
 )
 
 get_plugin_colors() {
@@ -165,8 +165,8 @@ set_theme() {
             ["ping"]="text purple"
             ["weather"]="text yellow"
             ["time"]="text light_blue"
+            ["pomodoro"]="text red"
             ["window"]="blue bg_main"
-            ["pomodoro"]="text bg_main"
         )
     fi
 }
