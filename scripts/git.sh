@@ -5,7 +5,7 @@ source "$current_dir"/utils.sh
 
 hide_status=$(get_tmux_option '@tmux2k-git-disable-status' 'false')
 current_symbol=$(get_tmux_option '@tmux2k-git-show-current-symbol' '')
-diff_symbol=$(get_tmux_option '@tmux2k-git-show-diff-symbol' '')
+diff_symbol=$(get_tmux_option '@tmux2k-git-show-diff-symbol' '')
 no_repo_message=$(get_tmux_option '@tmux2k-git-no-repo-message' '')
 
 get_changes() {
