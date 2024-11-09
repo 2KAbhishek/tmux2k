@@ -251,7 +251,7 @@ window_list() {
     fi
 
     if $show_flags; then
-        flags="#{?window_flags,#[fg=${light_red}]#{window_flags},}"
+        flags="#{,#[fg=${light_red}]#{window_flags},}"
         current_flags="#{?window_flags,#[fg=${light_green}]#{window_flags},}"
     fi
 
