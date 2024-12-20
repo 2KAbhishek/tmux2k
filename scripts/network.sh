@@ -11,7 +11,7 @@ get_ssid() {
         if [ -n "$SSID" ]; then
             printf '%s' " $SSID"
         else
-            echo '󰈀 Ethernet'
+            echo '󰈀'
         fi
         ;;
 
