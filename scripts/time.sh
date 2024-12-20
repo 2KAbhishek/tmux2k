@@ -7,6 +7,7 @@ source "$current_dir"/utils.sh
 show_military=$(get_tmux_option "@tmux2k-military-time" false)
 show_timezone=$(get_tmux_option "@tmux2k-show-timezone" false)
 show_day_month=$(get_tmux_option "@tmux2k-day-month" false)
+time_format=$(get_tmux_option "@tmux2k-time-format" "")
 
 get_timezone() {
     if $show_timezone; then
@@ -29,6 +30,8 @@ main() {
         date +" %a %m/%d %R ${timezone}"
     elif $show_day_month; then
         date +" %a %b %d %I:%M %p ${timezone}"
+    elif [ -n "$time_format" ]; then
+        date +" ${time_format} ${timezone}"
     else
         date +" %a %I:%M %p ${timezone}"
     fi

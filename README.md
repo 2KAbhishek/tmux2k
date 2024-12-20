@@ -151,6 +151,10 @@ set -g @tmux2k-show-fahrenheit false
 # 24 hour time
 set -g @tmux2k-military-time true
 
+# Fully Custom Time format. Accepts any time format
+# that can be passed to `date`.
+set -g @tmux2k-time-format "%F %R"
+
 # network interface to watch
 set -g @tmux2k-network-name "wlo1"
 ```
