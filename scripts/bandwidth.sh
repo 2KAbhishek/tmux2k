@@ -70,7 +70,7 @@ main() {
             output_upload_unit="K"
         fi
 
-        echo " $output_upload$output_upload_unit  $output_download$output_download_unit"
+        echo "${output_upload}${output_upload_unit} ${output_download}${output_download_unit}"
     done
 }
 main
