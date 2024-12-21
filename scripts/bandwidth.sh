@@ -49,24 +49,24 @@ main() {
         total_upload_bps=$(expr "$total_upload_bytes" / "$RATE")
 
         if [ "$total_download_bps" -gt 1073741824 ]; then
-            output_download=$(echo "$total_download_bps 1024" | awk '{printf "%.1f \n", $1/($2 * $2 * $2)}')
+            output_download=$(echo "$total_download_bps 1024" | awk '{printf "%4d\n", $1/($2 * $2 * $2)}')
             output_download_unit="G"
         elif [ "$total_download_bps" -gt 1048576 ]; then
-            output_download=$(echo "$total_download_bps 1024" | awk '{printf "%.1f \n", $1/($2 * $2)}')
+            output_download=$(echo "$total_download_bps 1024" | awk '{printf "%4d\n", $1/($2 * $2)}')
             output_download_unit="M"
         else
-            output_download=$(echo "$total_download_bps 1024" | awk '{printf "%.1f \n", $1/$2}')
+            output_download=$(echo "$total_download_bps 1024" | awk '{printf "%4d\n", $1/$2}')
             output_download_unit="K"
         fi
 
         if [ "$total_upload_bps" -gt 1073741824 ]; then
-            output_upload=$(echo "$total_download_bps 1024" | awk '{printf "%.1f \n", $1/($2 * $2 * $2)}')
+            output_upload=$(echo "$total_download_bps 1024" | awk '{printf "%4d\n", $1/($2 * $2 * $2)}')
             output_upload_unit="G"
         elif [ "$total_upload_bps" -gt 1048576 ]; then
-            output_upload=$(echo "$total_upload_bps 1024" | awk '{printf "%.1f \n", $1/($2 * $2)}')
+            output_upload=$(echo "$total_upload_bps 1024" | awk '{printf "%4d\n", $1/($2 * $2)}')
             output_upload_unit="M"
         else
-            output_upload=$(echo "$total_upload_bps 1024" | awk '{printf "%.1f \n", $1/$2}')
+            output_upload=$(echo "$total_upload_bps 1024" | awk '{printf "%4d\n", $1/$2}')
             output_upload_unit="K"
         fi
 
