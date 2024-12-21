@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-INTERVAL="1"
-
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir"/utils.sh
 
@@ -20,6 +18,7 @@ fi
 network_name=$(get_tmux_option "@tmux2k-network-name" "en0")
 
 main() {
+    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5) # seconds
     while true; do
         output_download=""
         output_upload=""
@@ -30,7 +29,7 @@ main() {
             initial_download=$(cat /sys/class/net/"$network_name"/statistics/rx_bytes)
             initial_upload=$(cat /sys/class/net/"$network_name"/statistics/tx_bytes)
 
-            sleep "$INTERVAL"
+            sleep "$RATE"
 
             final_download=$(cat /sys/class/net/"$network_name"/statistics/rx_bytes)
             final_upload=$(cat /sys/class/net/"$network_name"/statistics/tx_bytes)
@@ -38,14 +37,16 @@ main() {
             initial_download=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $7}')
             initial_upload=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $10}')
 
-            sleep $INTERVAL
+            sleep $RATE
 
             final_download=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $7}')
             final_upload=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $10}')
         fi
 
-        total_download_bps=$(expr "$final_download" - "$initial_download")
-        total_upload_bps=$(expr "$final_upload" - "$initial_upload")
+        total_download_bytes=$(expr "$final_download" - "$initial_download")
+        total_upload_bytes=$(expr "$final_upload" - "$initial_upload")
+        total_download_bps=$(expr "$total_download_bytes" / "$RATE")
+        total_upload_bps=$(expr "$total_upload_bytes" / "$RATE")
 
         if [ "$total_download_bps" -gt 1073741824 ]; then
             output_download=$(echo "$total_download_bps 1024" | awk '{printf "%.1f \n", $1/($2 * $2 * $2)}')
