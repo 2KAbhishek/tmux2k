@@ -17,6 +17,21 @@ fi
 
 network_name=$(get_tmux_option "@tmux2k-network-name" "en0")
 
+get_output_rate(){
+    bps=$1
+    if [ "$bps" -gt 1073741824 ]; then
+        output=$(echo "$bps 1024" | awk '{printf "%4d\n", $1/($2 * $2 * $2)}')
+        output+="G"
+    elif [ "$bps" -gt 1048576 ]; then
+        output=$(echo "$bps 1024" | awk '{printf "%4d\n", $1/($2 * $2)}')
+        output+="M"
+    else
+        output=$(echo "$bps 1024" | awk '{printf "%4d\n", $1/$2}')
+        output+="K"
+    fi
+	echo "${output}"
+}
+
 main() {
     RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5) # seconds
     while true; do
@@ -48,29 +63,10 @@ main() {
         total_download_bps=$(expr "$total_download_bytes" / "$RATE")
         total_upload_bps=$(expr "$total_upload_bytes" / "$RATE")
 
-        if [ "$total_download_bps" -gt 1073741824 ]; then
-            output_download=$(echo "$total_download_bps 1024" | awk '{printf "%4d\n", $1/($2 * $2 * $2)}')
-            output_download_unit="G"
-        elif [ "$total_download_bps" -gt 1048576 ]; then
-            output_download=$(echo "$total_download_bps 1024" | awk '{printf "%4d\n", $1/($2 * $2)}')
-            output_download_unit="M"
-        else
-            output_download=$(echo "$total_download_bps 1024" | awk '{printf "%4d\n", $1/$2}')
-            output_download_unit="K"
-        fi
+        output_download=$(get_output_rate $total_download_bps)
+        output_upload=$(get_output_rate $total_upload_bps)
 
-        if [ "$total_upload_bps" -gt 1073741824 ]; then
-            output_upload=$(echo "$total_download_bps 1024" | awk '{printf "%4d\n", $1/($2 * $2 * $2)}')
-            output_upload_unit="G"
-        elif [ "$total_upload_bps" -gt 1048576 ]; then
-            output_upload=$(echo "$total_upload_bps 1024" | awk '{printf "%4d\n", $1/($2 * $2)}')
-            output_upload_unit="M"
-        else
-            output_upload=$(echo "$total_upload_bps 1024" | awk '{printf "%4d\n", $1/$2}')
-            output_upload_unit="K"
-        fi
-
-        echo "${output_upload}${output_upload_unit} ${output_download}${output_download_unit}"
+        echo "${output_upload}${output_download}"
     done
 }
 main
