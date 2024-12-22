@@ -6,7 +6,13 @@ source "$current_dir"/utils.sh
 if [[ $(uname -s) == "Darwin" ]]; then
     network_name=$(get_tmux_option "@tmux2k-network-name" "en0")
 elif [[ $(uname -s) == "Linux" ]]; then
-    network_name=$(get_tmux_option "@tmux2k-network-name" "wlo1")
+    default_network_device="wlo1"
+    if command -v ip > /dev/null; then
+        # if we have the `ip` command let's have the default
+        # be the device associated with the default route
+        default_network_device=$(ip route show default | cut -d ' ' -f 5)
+    fi
+    network_name=$(get_tmux_option "@tmux2k-network-name" "${default_network_device}")
 else
     # TODO: update this for windows
     echo "Unknown operating system"
