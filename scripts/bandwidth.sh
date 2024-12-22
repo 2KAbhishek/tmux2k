@@ -3,8 +3,6 @@
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir"/utils.sh
 
-network_name="en0"
-
 if [[ $(uname -s) == "Darwin" ]]; then
     network_name=$(get_tmux_option "@tmux2k-network-name" "en0")
 elif [[ $(uname -s) == "Linux" ]]; then
@@ -14,8 +12,6 @@ else
     echo "Unknown operating system"
     exit 1
 fi
-
-network_name=$(get_tmux_option "@tmux2k-network-name" "en0")
 
 get_output_rate(){
     bps=$1
