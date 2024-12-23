@@ -41,7 +41,7 @@ main() {
     if [ "$cpu_load" = true ]; then
         echo "$(get_load)"
     else
-        cpu_label=$(get_tmux_option "@tmux2k-cpu-usage-label" "")
+        cpu_label=$(get_tmux_option "@tmux2k-cpu-usage-label" "")
         cpu_percent=$(get_percent)
         echo "$cpu_label $cpu_percent"
     fi
