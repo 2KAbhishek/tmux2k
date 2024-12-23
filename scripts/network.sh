@@ -11,7 +11,7 @@ get_ssid() {
         if [ -n "$SSID" ]; then
             printf '%s' " $SSID"
         else
-            echo '󰈀 Ethernet'
+            echo '󰈀 Eth'
         fi
         ;;
 
@@ -21,11 +21,11 @@ get_ssid() {
         if [ -n "$SSID" ]; then
             printf '%s' " $SSID"
         else
-            echo '󰈀 Ethernet'
+            echo '󰈀 Eth'
         fi
         ;;
 
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatability
+    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 
