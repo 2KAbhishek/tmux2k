@@ -7,6 +7,7 @@ source "$current_dir"/utils.sh
 
 show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
 window_list_alignment=$(get_tmux_option "@tmux2k-window-list-alignment" 'absolute-centre')
+window_name_format=$(get_tmux_option "@tmux2k-window-name-format" '#I:#W')
 refresh_rate=$(get_tmux_option "@tmux2k-refresh-rate" 60)
 start_icon=$(get_tmux_option "@tmux2k-start-icon" "session")
 l_sep=$(get_tmux_option "@tmux2k-left-sep" )
@@ -246,6 +247,7 @@ window_list() {
     wfg=${!colors[1]}
 
     spacer=" "
+    window_name_format="#I:#W"
     if $compact; then
         spacer=""
     fi
@@ -257,17 +259,17 @@ window_list() {
 
     if $show_powerline; then
         tmux set-window-option -g window-status-current-format \
-            "#[fg=${wfg},bg=${wbg}]${wl_sep}#[bg=${wfg}]${current_flags}#[fg=${wbg}]${spacer}#I:#W${spacer}#[fg=${wfg},bg=${wbg}]${wr_sep}"
+            "#[fg=${wfg},bg=${wbg}]${wl_sep}#[bg=${wfg}]${current_flags}#[fg=${wbg}]${spacer}${window_name_format}${spacer}#[fg=${wfg},bg=${wbg}]${wr_sep}"
         tmux set-window-option -g window-status-format \
-            "#[fg=${bg_alt},bg=${wbg}]${wl_sep}#[bg=${bg_alt}]${flags}#[fg=${white}]${spacer}#I:#W${spacer}#[fg=${bg_alt},bg=${wbg}]${wr_sep}"
+            "#[fg=${bg_alt},bg=${wbg}]${wl_sep}#[bg=${bg_alt}]${flags}#[fg=${white}]${spacer}${window_name_format}${spacer}#[fg=${bg_alt},bg=${wbg}]${wr_sep}"
     else
-        tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}] #I:#W${spacer}${current_flags} "
-        tmux set-window-option -g window-status-format "#[fg=${white},bg=${bg_alt}] #I:#W${spacer}${flags} "
+        tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}] ${window_name_format}${spacer}${current_flags} "
+        tmux set-window-option -g window-status-format "#[fg=${white},bg=${bg_alt}] ${window_name_format}${spacer}${flags} "
     fi
 
     if $icons_only; then
-        tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}]${spacer}#I:#W${spacer}"
-        tmux set-window-option -g window-status-format "#[fg=${white},bg=${wfg}]${spacer}#I:#W${spacer}"
+        tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}]${spacer}${window_name_format}${spacer}"
+        tmux set-window-option -g window-status-format "#[fg=${white},bg=${wfg}]${spacer}${window_name_format}${spacer}"
     fi
 }
 
