@@ -247,7 +247,6 @@ window_list() {
     wfg=${!colors[1]}
 
     spacer=" "
-    window_name_format="#I:#W"
     if $compact; then
         spacer=""
     fi
