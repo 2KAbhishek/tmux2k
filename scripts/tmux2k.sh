@@ -197,7 +197,7 @@ start_icon() {
 
     first_plugin=${lplugins[0]}
     IFS=' ' read -r -a first_colors <<<"$(get_plugin_colors "$first_plugin")"
-    tmux set-option -g status-left "#[bg=${!first_colors[0]},fg=${!first_colors[1]}]#{?client_prefix,#[bg=${light_yellow},} ${start_icon} "
+    tmux set-option -g status-left "#[bg=${!first_colors[0]},fg=${!first_colors[1]}]#{?client_prefix,#[bg=${light_yellow}],} ${start_icon} "
 }
 
 status_bar() {
