@@ -157,6 +157,11 @@ set -g @tmux2k-time-format "%F %R"
 
 # network interface to watch
 set -g @tmux2k-network-name "wlo1"
+
+# fully custom window name format.
+# see also FORMATS and STYLES sections in tmux(1)
+set -g @tmux2k-window-name-format "█ #{window_index} #{window_name}:#{b:pane_current_path}"
+
 ```
 
 #### 🪆 Add New Plugins
