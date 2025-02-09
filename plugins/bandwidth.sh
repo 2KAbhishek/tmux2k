@@ -12,7 +12,7 @@ elif [[ $(uname -s) == "Linux" ]]; then
         # be the device associated with the default route
         default_network_device=$(ip route show default | cut -d ' ' -f 5)
     fi
-    network_name=$(get_tmux_option "@tmux2k-network-name" "${default_network_device}")
+    network_name=$(get_tmux_option "@tmux2k-bandwidth-network-name" "${default_network_device}")
 else
     # TODO: update this for windows
     echo "Unknown operating system"

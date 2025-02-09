@@ -19,7 +19,7 @@ get_ssid() {
         device_name=$(networksetup -listallhardwareports | grep -A 1 Wi-Fi | grep Device | awk '{print $2}')
         SSID=$(networksetup -getairportnetwork "$device_name" | awk -F ": " '{print $2}')
         if [ -n "$SSID" ]; then
-            printf '%s' " $SSID"
+            printf '%s' "  $SSID"
         else
             echo '󰈀 Eth'
         fi
