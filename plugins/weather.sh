@@ -5,9 +5,9 @@ export LC_ALL=en_US.UTF-8
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir/../lib/utils.sh"
 
-show_fahrenheit=$(get_tmux_option "@tmux2k-show-fahrenheit" false)
-show_location=$(get_tmux_option "@tmux2k-show-location" false)
-fixed_location=$(get_tmux_option "@tmux2k-fixed-location" "Rampurhat")
+weather_scale=$(get_tmux_option "@tmux2k-weather-scale" "c")
+display_location=$(get_tmux_option "@tmux2k-weather-display-location" false)
+fixed_location=$(get_tmux_option "@tmux2k-weather-location" "")
 
 declare -A weather_icons=(
     ["Clear"]="󰖙"
@@ -28,25 +28,22 @@ declare -A weather_icons=(
     ["Windy"]="󰖝"
 )
 
-display_location() {
+fetch_weather_location() {
     if [[ -n "$fixed_location" ]]; then
         echo "$fixed_location"
-    elif $show_location; then
-        city=$(curl -s https://ipinfo.io/city 2>/dev/null)
-        region=$(curl -s https://ipinfo.io/region 2>/dev/null)
-        echo "$city, $region"
     else
-        echo ''
+        city=$(curl -s https://ipinfo.io/city 2>/dev/null)
+        echo "$city"
     fi
 }
 
 fetch_weather_information() {
-    if $show_fahrenheit; then
-        display_weather='&u'
-    else
-        display_weather='&m'
-    fi
-    curl -sL "wttr.in/$fixed_location?format=%C+%t$display_weather"
+    case $weather_scale in
+    f) scale='&u' ;;
+    k) scale='&M' ;;
+    *) scale='&m' ;;
+    esac
+    curl -sL "wttr.in/$1?format=%C+%t$scale"
 }
 
 forecast_unicode() {
@@ -59,22 +56,18 @@ forecast_unicode() {
     fi
 }
 
-display_weather() {
-    weather_information=$(fetch_weather_information "$display_weather")
+main() {
+    location=$(fetch_weather_location)
+    weather_information=$(fetch_weather_information "$location")
 
     condition=$(echo "$weather_information" | rev | cut -d ' ' -f2- | tr -d '[:space:]' | rev)
     temperature=$(echo "$weather_information" | rev | cut -d ' ' -f 1 | rev)
     unicode=$(forecast_unicode "$condition")
 
-    echo "$unicode${temperature/+/} $condition"
-}
-
-main() {
-    # process should be cancelled when session is killed
-    if ping -q -c 1 -W 1 ipinfo.io &>/dev/null; then
-        echo "$(display_weather) $(display_location)"
+    if [[ $display_location == "true" ]]; then
+        echo "$unicode${temperature/+/} $condition $location"
     else
-        echo "Location Unavailable"
+        echo "$unicode${temperature/+/} $condition"
     fi
 }
 
