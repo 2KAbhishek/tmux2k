@@ -9,13 +9,12 @@ show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
 window_list_alignment=$(get_tmux_option "@tmux2k-window-list-alignment" 'absolute-centre')
 window_name_format=$(get_tmux_option "@tmux2k-window-name-format" '#I:#W')
 refresh_rate=$(get_tmux_option "@tmux2k-refresh-rate" 60)
-start_icon=$(get_tmux_option "@tmux2k-start-icon" "session")
 l_sep=$(get_tmux_option "@tmux2k-left-sep" )
 r_sep=$(get_tmux_option "@tmux2k-right-sep" )
 wl_sep=$(get_tmux_option "@tmux2k-window-left-sep" )
 wr_sep=$(get_tmux_option "@tmux2k-window-right-sep" )
 show_flags=$(get_tmux_option "@tmux2k-show-flags" true)
-IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'git cwd')"
+IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'session_icon git cwd')"
 IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'cpu ram battery network time')"
 theme=$(get_tmux_option "@tmux2k-theme" 'default')
 icons_only=$(get_tmux_option "@tmux2k-icons-only" false)
@@ -38,6 +37,7 @@ purple=$(get_tmux_option "@tmux2k-purple" '#bf58ff')
 light_purple=$(get_tmux_option "@tmux2k-light-purple" '#ff65c6')
 
 declare -A plugin_colors=(
+    ["session_icon"]="green text"
     ["git"]="green text"
     ["cpu"]="light_green text"
     ["cwd"]="blue text"
@@ -155,6 +155,7 @@ set_theme() {
         show_powerline=false
         text=$bg_main
         plugin_colors=(
+            ["session_icon"]="text green"
             ["git"]="text green"
             ["cpu"]="text light_green"
             ["cwd"]="text blue"
@@ -188,17 +189,6 @@ set_options() {
     tmux set-window-option -g window-status-activity-style "bold"
     tmux set-window-option -g window-status-bell-style "bold"
     tmux set-window-option -g window-status-current-style "bold"
-}
-
-start_icon() {
-    case $start_icon in
-    session) start_icon=" #S" ;;
-    window) start_icon=" #W" ;;
-    esac
-
-    first_plugin=${lplugins[0]}
-    IFS=' ' read -r -a first_colors <<<"$(get_plugin_colors "$first_plugin")"
-    tmux set-option -g status-left "#[bg=${!first_colors[0]},fg=${!first_colors[1]}]#{?client_prefix,#[bg=${blue}],} ${start_icon} "
 }
 
 status_bar() {
@@ -275,7 +265,6 @@ window_list() {
 main() {
     set_theme
     set_options
-    start_icon
     status_bar "left"
     window_list
     status_bar "right"
