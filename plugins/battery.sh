@@ -2,6 +2,17 @@
 
 export LC_ALL=en_US.UTF-8
 
+current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$current_dir/../lib/utils.sh"
+
+charging_icon=$(get_tmux_option "@tmux2k-battery-charging-icon" "")
+battery_missing=$(get_tmux_option "@tmux2k-battery-missing-icon" "󱉝")
+percentage_0=$(get_tmux_option "@tmux2k-battery-percentage-0" "")
+percentage_1=$(get_tmux_option "@tmux2k-battery-percentage-1" "")
+percentage_2=$(get_tmux_option "@tmux2k-battery-percentage-2" "")
+percentage_3=$(get_tmux_option "@tmux2k-battery-percentage-3" "")
+percentage_4=$(get_tmux_option "@tmux2k-battery-percentage-4" "")
+
 linux_acpi() {
     arg=$1
     BAT=$(ls -d /sys/class/power_supply/BAT* | head -1)
@@ -44,24 +55,23 @@ battery_status() {
     case $status in
     discharging | Discharging) echo '' ;;
     high) echo '' ;;
-    charging) echo '' ;;
-    *) echo '' ;;
+    charging) echo "$charging_icon" ;;
     esac
 }
 
 battery_label() {
     if [ "$bat_perc" -gt 90 ]; then
-        echo " "
+        echo "$percentage_4 "
     elif [ "$bat_perc" -gt 75 ]; then
-        echo " "
+        echo "$percentage_3 "
     elif [ "$bat_perc" -gt 50 ]; then
-        echo " "
+        echo "$percentage_2 "
     elif [ "$bat_perc" -gt 25 ]; then
-        echo " "
+        echo "$percentage_1 "
     elif [ "$bat_perc" -gt 10 ]; then
-        echo " "
+        echo "$percentage_0 "
     else
-        echo "󱉝 "
+        echo "$battery_missing "
     fi
 }
 

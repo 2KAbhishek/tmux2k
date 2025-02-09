@@ -54,7 +54,7 @@ main() {
             initial_download=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $7}')
             initial_upload=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $10}')
 
-            sleep $RATE
+            sleep "$RATE"
 
             final_download=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $7}')
             final_upload=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $10}')
@@ -65,10 +65,13 @@ main() {
         total_download_bps=$(expr "$total_download_bytes" / "$RATE")
         total_upload_bps=$(expr "$total_upload_bytes" / "$RATE")
 
-        output_download=$(get_output_rate $total_download_bps)
-        output_upload=$(get_output_rate $total_upload_bps)
+        output_download=$(get_output_rate "$total_download_bps")
+        output_upload=$(get_output_rate "$total_upload_bps")
 
-        echo "${output_upload}${output_download}"
+        up_icon=$(get_tmux_option "@tmux2k-bandwidth-up-icon" "")
+        down_icon=$(get_tmux_option "@tmux2k-bandwidth-up-icon" "")
+
+        echo "$output_upload $up_icon $output_download $down_icon"
     done
 }
 main

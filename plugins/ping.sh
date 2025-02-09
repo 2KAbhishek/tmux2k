@@ -13,7 +13,7 @@ ping_function() {
         echo "$pingtime ms"
         ;;
 
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatability
+    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 

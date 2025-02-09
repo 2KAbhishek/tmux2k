@@ -112,14 +112,28 @@ set -g @tmux2k-yellow '#f8c800' # change yellow color
 1. `bandwidth`: Show network bandwidth usage
 
    - `tmux2k-bandwidth-network-name`: Network interface to track bandwidth of, default: `en0`
+   - `tmux2k-bandwidth-up-icon`: Icon for bandwidth upload usage, default: ``
+   - `tmux2k-bandwidth-down-icon`: Icon for bandwidth download usage, default: ``
 
 2. `battery`: Show battery stats and percentage
+
+   - `tmux2k-battery-charging-icon`: Icon for charging status, default: ``
+   - `tmux2k-battery-missing-icon`: Icon for missing battery, default: `󱉝`
+   - `tmux2k-battery-percentage-0`: Icon for 0-25% battery, default: ``
+   - `tmux2k-battery-percentage-1`: Icon for 25-50% battery, default: ``
+   - `tmux2k-battery-percentage-2`: Icon for 50-75% battery, default: ``
+   - `tmux2k-battery-percentage-3`: Icon for 75-90% battery, default: ``
+   - `tmux2k-battery-percentage-4`: Icon for 90-100% battery, default: ``
+
 3. `cpu`: Show CPU usage information
 
    - `tmux2k-cpu-icon`: Icon for CPU usage, default: ``
    - `tmux2k-cpu-display-load`: Control CPU load display, default: `false`
 
 4. `cwd`: Show current working directory
+
+   - `tmux2k-cwd-icon`: Icon for directory, default: ``
+
 5. `git`: Show Git branch and status information
 
    - `tmux2k-git-display-status`: Control git status display, default: `false`
@@ -136,6 +150,11 @@ set -g @tmux2k-yellow '#f8c800' # change yellow color
    - `tmux2k-gpu-icon`: Icon for GPU usage, default: ```
 
 7. `network`: Show network status and statistics
+
+   - `tmux2k-network-ethernet-icon`: Icon for Ethernet connection, default: `󰈀`
+   - `tmux2k-network-wifi-icon`: Icon for Wi-Fi connection, default: ``
+   - `tmux2k-network-offline-icon`: Icon for offline status, default: `󰌙`
+
 8. `ping`: Show network ping statistics
 9. `pomodoro`: Shows pomodoro timer, needs [tmux-pomodoro-plus](https://github.com/olimorris/tmux-pomodoro-plus) (hit `prefix + p` to start)
 10. `ram`: Show RAM usage information
