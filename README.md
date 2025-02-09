@@ -109,59 +109,79 @@ set -g @tmux2k-yellow '#f8c800' # change yellow color
 
 ### 🧩 Available Plugins
 
-- `bandwidth`: Show network bandwidth usage
-- `battery`: Show battery stats and percentage
-- `cpu`: Show CPU usage information
-- `cwd`: Show current working directory
-- `git`: Show Git branch and status information
-- `gpu`: Show GPU usage information
-- `network`: Show network status and statistics
-- `ping`: Show network ping statistics
-- `pomodoro`: Shows pomodoro timer, needs [tmux-pomodoro-plus](https://github.com/olimorris/tmux-pomodoro-plus) (hit `prefix + p` to start)
-- `ram`: Show RAM usage information
-- `session_icon`: Shows Current Session/Window with custom icon
-- `time`: Show current time and date
-- `weather`: Show weather information
-- `window_list`: tmux window list
+1. `bandwidth`: Show network bandwidth usage
+
+   - `tmux2k-bandwidth-network-name`: Network interface to track bandwidth of, default: `en0`
+
+2. `battery`: Show battery stats and percentage
+3. `cpu`: Show CPU usage information
+
+   - `tmux2k-cpu-icon`: Icon for CPU usage, default: ``
+   - `tmux2k-cpu-display-load`: Control CPU load display, default: `false`
+
+4. `cwd`: Show current working directory
+5. `git`: Show Git branch and status information
+
+   - `tmux2k-git-display-status`: Control git status display, default: `false`
+   - `tmux2k-git-added-icon`: Icon for added files, default: ``
+   - `tmux2k-git-modified-icon`: Icon for modified files, default: ``
+   - `tmux2k-git-updated-icon`: Icon for updated files, default: ``
+   - `tmux2k-git-deleted-icon`: Icon for deleted files, default: ``
+   - `tmux2k-git-repo-icon`: Icon for repository, default: ``
+   - `tmux2k-git-diff-icon`: Icon for differences, default: ``
+   - `tmux2k-git-no-repo-icon`: Icon for no repository, default: ``
+
+6. `gpu`: Show GPU usage information
+
+   - `tmux2k-gpu-icon`: Icon for GPU usage, default: ```
+
+7. `network`: Show network status and statistics
+8. `ping`: Show network ping statistics
+9. `pomodoro`: Shows pomodoro timer, needs [tmux-pomodoro-plus](https://github.com/olimorris/tmux-pomodoro-plus) (hit `prefix + p` to start)
+10. `ram`: Show RAM usage information
+
+    - `tmux2k-ram-icon`: Icon for RAM usage, default: ``
+
+11. `session`: Shows Current Session/Window with custom icon
+
+    - `tmux2k-session-format`: Format for Tmux session, default: `#S`
+    - `tmux2k-session-icon`: Icon for Tmux session, default: ``
+
+12. `time`: Show current time and date
+
+    - `@tmux2k-time-format`: Sets the format for displaying the time. Default: `"%a %I:%M %p"`
+    - `@tmux2k-time-icon`: Sets the icon for the time display. Default: ``
+
+13. `weather`: Show weather information
+
+    - `@tmux2k-weather-scale`: Scale to use for temperature. Default: `c`, options: `[c, f, k]`
+    - `@tmux2k-weather-display-location`: Whether to show location name. Default: `true`
+    - `@tmux2k-weather-location`: Fixed location for weather. Default: `""`
+
+14. `window_list`: tmux window list
+
+    - `@tmux2k-window-list-left-sep`: Sets the left separator for the window list. Default: ``
+    - `@tmux2k-window-list-right-sep`: Sets the right separator for the window list. Default: ``
+    - `@tmux2k-window-list-alignment`: Sets the alignment of the window list. Default: `'absolute-centre'`
+    - `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
+    - `@tmux2k-window-list-flags`: Enables or disables window flags in the window list. Default: `true`
+    - `@tmux2k-window-list-compact`: Enables or disables compact mode for the window list. Default: `false`
 
 To customize plugins, I'll highly recommend checking out their respective scripts in the [scripts](./scripts) folder.
 
-Here's some example configurations:
+#### Gemeral Plugin Config
 
 ```bash
 # set the left and right plugin sections
-set -g @tmux2k-left-plugins "session_icon git cpu ram"
+set -g @tmux2k-left-plugins "session git cpu ram"
 set -g @tmux2k-right-plugins "battery network time"
+
+# contorl refresh rate, also applies to bandwidth, cpu, gpu, ping, pomodoro, ram
+set -g @tmux2k-refresh-rate 5
 
 # to customize plugin colors
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
 set -g @tmux2k-cpu-colors "red black" # set cpu plugin bg to red, fg to black
-
-# to enable compact window list size
-set -g @tmux2k-window-list-compact true
-
-# to set window list alignment (absolute-centre by default)
-set -g @tmux2k-window-list-alignment 'left'
-
-# change refresh rate
-set -g @tmux2k-refresh-rate 5
-
-# weather scale
-set -g @tmux2k-show-fahrenheit false
-
-# 24 hour time
-set -g @tmux2k-military-time true
-
-# Fully Custom Time format. Accepts any time format
-# that can be passed to `date`.
-set -g @tmux2k-time-format "%F %R"
-
-# network interface to watch for bandwidth
-set -g @tmux2k-bandwidth-network-name "wlo1"
-
-# fully custom window name format.
-# see also FORMATS and STYLES sections in man tmux(1)
-set -g @tmux2k-window-list-format "█ #{window_index} #{window_name}:#{b:pane_current_path}"
 ```
 
 #### 🪆 Add New Plugins
