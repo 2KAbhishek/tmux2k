@@ -4,37 +4,11 @@ export LC_ALL=en_US.UTF-8
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir/../lib/utils.sh"
 
-show_military=$(get_tmux_option "@tmux2k-military-time" false)
-show_timezone=$(get_tmux_option "@tmux2k-show-timezone" false)
-show_day_month=$(get_tmux_option "@tmux2k-day-month" false)
-time_format=$(get_tmux_option "@tmux2k-time-format" "")
-
-get_timezone() {
-    if $show_timezone; then
-        date +"%Z "
-    fi
-}
+time_format=$(get_tmux_option "@tmux2k-time-format" "%a %I:%M %p")
+time_icon=$(get_tmux_option "@tmux2k-time-icon" "")
 
 main() {
-    timezone=$(get_timezone)
-
-    if $show_military; then
-        tmux set-option -g clock-mode-style 24
-    else
-        tmux set-option -g clock-mode-style 12
-    fi
-
-    if $show_day_month && $show_military; then
-        date +" %a %d/%m %R ${timezone}"
-    elif $show_military; then
-        date +" %a %m/%d %R ${timezone}"
-    elif $show_day_month; then
-        date +" %a %b %d %I:%M %p ${timezone}"
-    elif [ -n "$time_format" ]; then
-        date +" ${time_format} ${timezone}"
-    else
-        date +" %a %I:%M %p ${timezone}"
-    fi
+    date +"$time_icon $time_format"
 }
 
 main
