@@ -5,20 +5,20 @@ export LC_ALL=en_US.UTF-8
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir"/utils.sh
 
-show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
-window_list_alignment=$(get_tmux_option "@tmux2k-window-list-alignment" 'absolute-centre')
-window_name_format=$(get_tmux_option "@tmux2k-window-name-format" '#I:#W')
 refresh_rate=$(get_tmux_option "@tmux2k-refresh-rate" 60)
+show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
 l_sep=$(get_tmux_option "@tmux2k-left-sep" )
 r_sep=$(get_tmux_option "@tmux2k-right-sep" )
-wl_sep=$(get_tmux_option "@tmux2k-window-left-sep" )
-wr_sep=$(get_tmux_option "@tmux2k-window-right-sep" )
-show_flags=$(get_tmux_option "@tmux2k-show-flags" true)
+wl_sep=$(get_tmux_option "@tmux2k-window-list-left-sep" )
+wr_sep=$(get_tmux_option "@tmux2k-window-list-right-sep" )
+window_list_alignment=$(get_tmux_option "@tmux2k-window-list-alignment" 'absolute-centre')
+window_list_format=$(get_tmux_option "@tmux2k-window-list-format" '#I:#W')
+window_list_flags=$(get_tmux_option "@tmux2k-window-list-flags" true)
+window_list_compact=$(get_tmux_option "@tmux2k-window-list-compact" false)
 IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'session_icon git cwd')"
 IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'cpu ram battery network time')"
 theme=$(get_tmux_option "@tmux2k-theme" 'default')
 icons_only=$(get_tmux_option "@tmux2k-icons-only" false)
-compact=$(get_tmux_option "@tmux2k-compact-windows" false)
 
 text=$(get_tmux_option "@tmux2k-text" '#282a36')
 bg_main=$(get_tmux_option "@tmux2k-bg-main" '#000000')
@@ -50,7 +50,7 @@ declare -A plugin_colors=(
     ["weather"]="yellow text"
     ["time"]="light_blue text"
     ["pomodoro"]="red text"
-    ["window"]="bg_main blue"
+    ["window_list"]="bg_main blue"
 )
 
 get_plugin_colors() {
@@ -168,7 +168,7 @@ set_theme() {
             ["weather"]="text yellow"
             ["time"]="text light_blue"
             ["pomodoro"]="text red"
-            ["window"]="blue bg_main"
+            ["window_list"]="blue bg_main"
         )
     fi
 }
@@ -232,33 +232,33 @@ status_bar() {
 }
 
 window_list() {
-    IFS=' ' read -r -a colors <<<"$(get_plugin_colors "window")"
+    IFS=' ' read -r -a colors <<<"$(get_plugin_colors "window_list")"
     wbg=${!colors[0]}
     wfg=${!colors[1]}
 
     spacer=" "
-    if $compact; then
+    if $window_list_compact; then
         spacer=""
     fi
 
-    if $show_flags; then
+    if $window_list_flags; then
         flags="#{?window_flags,#[fg=${light_red}]#{window_flags},}"
         current_flags="#{?window_flags,#[fg=${light_green}]#{window_flags},}"
     fi
 
     if $show_powerline; then
         tmux set-window-option -g window-status-current-format \
-            "#[fg=${wfg},bg=${wbg}]${wl_sep}#[bg=${wfg}]${current_flags}#[fg=${wbg}]${spacer}${window_name_format}${spacer}#[fg=${wfg},bg=${wbg}]${wr_sep}"
+            "#[fg=${wfg},bg=${wbg}]${wl_sep}#[bg=${wfg}]${current_flags}#[fg=${wbg}]${spacer}${window_list_format}${spacer}#[fg=${wfg},bg=${wbg}]${wr_sep}"
         tmux set-window-option -g window-status-format \
-            "#[fg=${bg_alt},bg=${wbg}]${wl_sep}#[bg=${bg_alt}]${flags}#[fg=${white}]${spacer}${window_name_format}${spacer}#[fg=${bg_alt},bg=${wbg}]${wr_sep}"
+            "#[fg=${bg_alt},bg=${wbg}]${wl_sep}#[bg=${bg_alt}]${flags}#[fg=${white}]${spacer}${window_list_format}${spacer}#[fg=${bg_alt},bg=${wbg}]${wr_sep}"
     else
-        tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}] ${window_name_format}${spacer}${current_flags} "
-        tmux set-window-option -g window-status-format "#[fg=${white},bg=${bg_alt}] ${window_name_format}${spacer}${flags} "
+        tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}] ${window_list_format}${spacer}${current_flags} "
+        tmux set-window-option -g window-status-format "#[fg=${white},bg=${bg_alt}] ${window_list_format}${spacer}${flags} "
     fi
 
     if $icons_only; then
-        tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}]${spacer}${window_name_format}${spacer}"
-        tmux set-window-option -g window-status-format "#[fg=${white},bg=${wfg}]${spacer}${window_name_format}${spacer}"
+        tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}]${spacer}${window_list_format}${spacer}"
+        tmux set-window-option -g window-status-format "#[fg=${white},bg=${wfg}]${spacer}${window_list_format}${spacer}"
     fi
 }
 

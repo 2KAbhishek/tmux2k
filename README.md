@@ -68,7 +68,7 @@ set -g @tmux2k-duo-bg "#000000" # this will set the bg for duo theme
 
 # to set powerline symbols
 set -g @tmux2k-right-sep  # alternate right status bar sep
-set -g @tmux2k-win-right-sep  # alternate window right sep
+set -g @tmux2k-window-list-right-sep  # alternate window list right sep
 
 # to not show powerline
 set -g @tmux2k-show-powerline false
@@ -122,7 +122,7 @@ set -g @tmux2k-yellow '#f8c800' # change yellow color
 - `session_icon`: Shows Current Session/Window with custom icon
 - `time`: Show current time and date
 - `weather`: Show weather information
-- `window`: tmux window list
+- `window_list`: tmux window list
 
 To customize plugins, I'll highly recommend checking out their respective scripts in the [scripts](./scripts) folder.
 
@@ -141,7 +141,7 @@ set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
 set -g @tmux2k-cpu-colors "red black" # set cpu plugin bg to red, fg to black
 
 # to enable compact window list size
-set -g @tmux2k-compact-windows true
+set -g @tmux2k-window-list-compact true
 
 # change refresh rate
 set -g @tmux2k-refresh-rate 5
@@ -160,9 +160,8 @@ set -g @tmux2k-time-format "%F %R"
 set -g @tmux2k-network-name "wlo1"
 
 # fully custom window name format.
-# see also FORMATS and STYLES sections in tmux(1)
-set -g @tmux2k-window-name-format "█ #{window_index} #{window_name}:#{b:pane_current_path}"
-
+# see also FORMATS and STYLES sections in man tmux(1)
+set -g @tmux2k-window-list-format "█ #{window_index} #{window_name}:#{b:pane_current_path}"
 ```
 
 #### 🪆 Add New Plugins
