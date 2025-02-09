@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$current_dir"/utils.sh
+source "$current_dir/../lib/utils.sh"
 
 if [[ $(uname -s) == "Darwin" ]]; then
-    network_name=$(get_tmux_option "@tmux2k-network-name" "en0")
+    network_name=$(get_tmux_option "@tmux2k-bandwidth-network-name" "en0")
 elif [[ $(uname -s) == "Linux" ]]; then
     default_network_device="wlo1"
-    if command -v ip > /dev/null; then
+    if command -v ip >/dev/null; then
         # if we have the `ip` command let's have the default
         # be the device associated with the default route
         default_network_device=$(ip route show default | cut -d ' ' -f 5)
@@ -19,7 +19,7 @@ else
     exit 1
 fi
 
-get_output_rate(){
+get_output_rate() {
     bps=$1
     if [ "$bps" -gt 1073741824 ]; then
         output=$(echo "$bps 1024" | awk '{printf "%4d\n", $1/($2 * $2 * $2)}')
@@ -31,7 +31,7 @@ get_output_rate(){
         output=$(echo "$bps 1024" | awk '{printf "%4d\n", $1/$2}')
         output+="K"
     fi
-	echo "${output}"
+    echo "${output}"
 }
 
 main() {

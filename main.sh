@@ -3,7 +3,7 @@
 export LC_ALL=en_US.UTF-8
 
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$current_dir"/scripts/utils.sh
+source "$current_dir/lib/utils.sh"
 
 refresh_rate=$(get_tmux_option "@tmux2k-refresh-rate" 60)
 show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
@@ -206,7 +206,7 @@ status_bar() {
         fi
 
         IFS=' ' read -r -a colors <<<"$(get_plugin_colors "$plugin")"
-        script="#($current_dir/scripts/$plugin.sh)"
+        script="#($current_dir/plugins/$plugin.sh)"
 
         if [ "$side" == "left" ]; then
             if $show_powerline; then

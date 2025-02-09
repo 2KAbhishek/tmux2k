@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$current_dir"/utils.sh
+source "$current_dir/../lib/utils.sh"
 
 hide_status=$(get_tmux_option '@tmux2k-git-disable-status' 'false')
 current_symbol=$(get_tmux_option '@tmux2k-git-show-current-symbol' '')

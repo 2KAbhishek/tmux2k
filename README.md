@@ -133,15 +133,15 @@ Here's some example configurations:
 set -g @tmux2k-left-plugins "session_icon git cpu ram"
 set -g @tmux2k-right-plugins "battery network time"
 
-# to set window list alignment (absolute-centre by default)
-set -g @tmux2k-window-list-alignment 'left'
-
 # to customize plugin colors
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
 set -g @tmux2k-cpu-colors "red black" # set cpu plugin bg to red, fg to black
 
 # to enable compact window list size
 set -g @tmux2k-window-list-compact true
+
+# to set window list alignment (absolute-centre by default)
+set -g @tmux2k-window-list-alignment 'left'
 
 # change refresh rate
 set -g @tmux2k-refresh-rate 5
@@ -156,8 +156,8 @@ set -g @tmux2k-military-time true
 # that can be passed to `date`.
 set -g @tmux2k-time-format "%F %R"
 
-# network interface to watch
-set -g @tmux2k-network-name "wlo1"
+# network interface to watch for bandwidth
+set -g @tmux2k-bandwidth-network-name "wlo1"
 
 # fully custom window name format.
 # see also FORMATS and STYLES sections in man tmux(1)
@@ -166,7 +166,7 @@ set -g @tmux2k-window-list-format "█ #{window_index} #{window_name}:#{b:pane_c
 
 #### 🪆 Add New Plugins
 
-To add a new plugin, add a script to the [scripts](./scripts) folder that prints something to the console.
+To add a new plugin, add a script to the [plugins](./plugins) folder, tmux2k will put the `echo/print` of the plugin to the your tmux status bar.
 
 > The plugin name and script file name must match e.g: plugin named `foo` should have a file called `scripts/foo.sh`
 
