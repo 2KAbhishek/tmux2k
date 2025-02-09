@@ -15,7 +15,7 @@ window_list_alignment=$(get_tmux_option "@tmux2k-window-list-alignment" 'absolut
 window_list_format=$(get_tmux_option "@tmux2k-window-list-format" '#I:#W')
 window_list_flags=$(get_tmux_option "@tmux2k-window-list-flags" true)
 window_list_compact=$(get_tmux_option "@tmux2k-window-list-compact" false)
-IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'session_icon git cwd')"
+IFS=' ' read -r -a lplugins <<<"$(get_tmux_option '@tmux2k-left-plugins' 'session git cwd')"
 IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'cpu ram battery network time')"
 theme=$(get_tmux_option "@tmux2k-theme" 'default')
 icons_only=$(get_tmux_option "@tmux2k-icons-only" false)
@@ -37,7 +37,7 @@ purple=$(get_tmux_option "@tmux2k-purple" '#bf58ff')
 light_purple=$(get_tmux_option "@tmux2k-light-purple" '#ff65c6')
 
 declare -A plugin_colors=(
-    ["session_icon"]="green text"
+    ["session"]="green text"
     ["git"]="green text"
     ["cpu"]="light_green text"
     ["cwd"]="blue text"
@@ -155,7 +155,7 @@ set_theme() {
         show_powerline=false
         text=$bg_main
         plugin_colors=(
-            ["session_icon"]="text green"
+            ["session"]="text green"
             ["git"]="text green"
             ["cpu"]="text light_green"
             ["cwd"]="text blue"
