@@ -73,8 +73,8 @@ set -g @tmux2k-win-right-sep  # alternate window right sep
 # to not show powerline
 set -g @tmux2k-show-powerline false
 
-# set start icon, accpets: `session`, 'window`, or any string
-set -g @tmux2k-start-icon ""
+# set session icon, accpets: `session`, 'window`, or any string
+set -g @tmux2k-session-icon " #S" # `#W` for window name
 ```
 
 #### 🖌️ Customize Theme Colors
@@ -109,19 +109,20 @@ set -g @tmux2k-yellow '#f8c800' # change yellow color
 
 ### 🧩 Available Plugins
 
+- `bandwidth`: Show network bandwidth usage
 - `battery`: Show battery stats and percentage
-- `git`: Show Git branch and status information
 - `cpu`: Show CPU usage information
 - `cwd`: Show current working directory
+- `git`: Show Git branch and status information
 - `gpu`: Show GPU usage information
-- `ram`: Show RAM usage information
 - `network`: Show network status and statistics
-- `bandwidth`: Show network bandwidth usage
 - `ping`: Show network ping statistics
+- `pomodoro`: Shows pomodoro timer, needs [tmux-pomodoro-plus](https://github.com/olimorris/tmux-pomodoro-plus) (hit `prefix + p` to start)
+- `ram`: Show RAM usage information
+- `session_icon`: Shows Current Session/Window with custom icon
 - `time`: Show current time and date
 - `weather`: Show weather information
 - `window`: tmux window list
-- `pomodoro`: Shows pomodoro timer, needs [tmux-pomodoro-plus](https://github.com/olimorris/tmux-pomodoro-plus) (hit `prefix + p` to start)
 
 To customize plugins, I'll highly recommend checking out their respective scripts in the [scripts](./scripts) folder.
 
@@ -129,7 +130,7 @@ Here's some example configurations:
 
 ```bash
 # set the left and right plugin sections
-set -g @tmux2k-left-plugins "git cpu ram"
+set -g @tmux2k-left-plugins "session_icon git cpu ram"
 set -g @tmux2k-right-plugins "battery network time"
 
 # to set window list alignment (absolute-centre by default)
