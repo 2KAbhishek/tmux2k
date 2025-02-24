@@ -55,6 +55,11 @@ declare -A plugin_colors=(
     ["custom"]="red text"
 )
 
+reverse_colors() {
+    local colors=($1)
+    echo "${colors[1]} ${colors[0]}"
+}
+
 get_plugin_colors() {
     local plugin_name="$1"
     local default_colors="${plugin_colors[$plugin_name]}"
@@ -156,22 +161,9 @@ set_theme() {
     if $icons_only; then
         show_powerline=false
         text=$bg_main
-        plugin_colors=(
-            ["session"]="text green"
-            ["git"]="text green"
-            ["cpu"]="text light_green"
-            ["cwd"]="text blue"
-            ["ram"]="text light_yellow"
-            ["gpu"]="text red"
-            ["battery"]="text light_purple"
-            ["network"]="text purple"
-            ["bandwidth"]="text purple"
-            ["ping"]="text purple"
-            ["weather"]="text yellow"
-            ["time"]="text light_blue"
-            ["pomodoro"]="text red"
-            ["window_list"]="blue bg_main"
-        )
+        for plugin in "${!plugin_colors[@]}"; do
+            plugin_colors[$plugin]=$(reverse_colors "${plugin_colors[$plugin]}")
+        done
     fi
 }
 
@@ -203,10 +195,6 @@ status_bar() {
 
     for plugin_index in "${!plugins[@]}"; do
         plugin="${plugins[$plugin_index]}"
-        if [ -z "${plugin_colors[$plugin]}" ]; then
-            continue
-        fi
-
         IFS=' ' read -r -a colors <<<"$(get_plugin_colors "$plugin")"
         script="#($current_dir/plugins/$plugin.sh)"
 
