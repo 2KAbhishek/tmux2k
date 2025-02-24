@@ -52,6 +52,7 @@ declare -A plugin_colors=(
     ["time"]="light_blue text"
     ["pomodoro"]="red text"
     ["window_list"]="bg_main blue"
+    ["custom"]="red text"
 )
 
 get_plugin_colors() {

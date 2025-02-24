@@ -216,7 +216,6 @@ tmux window list
     - `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
     - `@tmux2k-window-list-compact`: Enables or disables compact mode for the window list. Default: `false`
 
-
 #### Gemeral Plugin Configs
 
 
@@ -235,7 +234,11 @@ set -g @tmux2k-cpu-colors "red black" # set cpu plugin bg to red, fg to black
 
 #### 🪆 Add New Plugins
 
-To add a new plugin, add a script to the [plugins](./plugins) folder, tmux2k will put the `echo/print` of the plugin to the your tmux status bar.
+To add a new plugin:
+
+- Copy `plugin/custom.sh` and rename it to match your plugin name.
+- Update the new plugin script to `echo` the expected output.
+- Add color declaration for your plugin name into the `plugin_colors` array
 
 > The plugin name and script file name must match e.g: plugin named `foo` should have a file called `scripts/foo.sh`
 
