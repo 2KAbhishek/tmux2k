@@ -30,7 +30,6 @@ tmux2k is a highly customizable framework designed to enhance your tmux status b
 
 ## ✨ Features
 
-- **Stylish Aesthetics**: Modern and customizable status bar.
 - **Informative Display**: Essential system stats, git info, weather, and more.
 - **Plugin Ecosystem**: Extensive plugins for system monitoring and version control.
 - **Easy Customization**: Intuitive configuration and flexible architecture.
