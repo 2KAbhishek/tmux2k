@@ -99,14 +99,14 @@ set -g @tmux2k-session-icon " #S" # `#W` for window name
 
 ##### Available Colors:
 
-- white, gray, black
-- light_blue, blue, dark_blue
-- light_green, green, dark_green
-- light_orange, orange, dark_orange
-- light_pink, pink, dark_pink
-- light_purple, purple, dark_purple
-- light_red, red, dark_red
-- light_yellow, yellow, dark_yellow
+- `white`, `gray`, `black`
+- `light_blue`, `blue`, `dark_blue`
+- `light_green`, `green`, `dark_green`
+- `light_orange`, `orange`, `dark_orange`
+- `light_pink`, `pink`, `dark_pink`
+- `light_purple`, `purple`, `dark_purple`
+- `light_red`, `red`, `dark_red`
+- `light_yellow`, `yellow`, `dark_yellow`
 
 - `text`: Text color. Default: `black`
 - `bg_main`: Background color. Default: `black`
@@ -231,6 +231,16 @@ tmux window list
 - `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
 - `@tmux2k-window-list-compact`: Enables or disables compact mode for the window list. Default: `false`
 
+#### 🪆 Add New Plugins
+
+To add a new plugin:
+
+- Copy `plugin/custom.sh` and rename it to match your plugin name.
+- Update the new plugin script to `echo` the expected output.
+- Add color declaration for your plugin name into the `plugin_colors` array in `main.sh`
+
+> The plugin name and script file name must match e.g: plugin named `foo` should have a file called `scripts/foo.sh`
+
 #### Gemeral Plugin Configs
 
 ```bash
@@ -245,16 +255,6 @@ set -g @tmux2k-refresh-rate 5
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
 set -g @tmux2k-cpu-colors "red black" # set cpu plugin bg to red, fg to black
 ```
-
-#### 🪆 Add New Plugins
-
-To add a new plugin:
-
-- Copy `plugin/custom.sh` and rename it to match your plugin name.
-- Update the new plugin script to `echo` the expected output.
-- Add color declaration for your plugin name into the `plugin_colors` array
-
-> The plugin name and script file name must match e.g: plugin named `foo` should have a file called `scripts/foo.sh`
 
 ## 🏗️ What's Next
 
