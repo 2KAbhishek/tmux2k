@@ -32,7 +32,7 @@ fetch_weather_location() {
     if [[ -n "$fixed_location" ]]; then
         echo "$fixed_location"
     else
-        city=$(curl -s https://ipinfo.io/city 2>/dev/null)
+        city=$(curl -s https://ipinfo.io/city?token= 2>/dev/null) # alternative: ifconfig.co
         echo "$city"
     fi
 }
