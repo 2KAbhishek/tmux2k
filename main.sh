@@ -274,10 +274,10 @@ status_bar() {
                 pl_bg=${!next_colors[0]:-$bg_main}
                 if [ "$plugin" == "session" ]; then
                     tmux set-option -ga status-left \
-                        "#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${highlight}],} $script #[fg=${!colors[0]},bg=${pl_bg},nobold,nounderscore,noitalics]${l_sep}"
+                        "#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${highlight}],} $script #[fg=${!colors[0]},bg=${pl_bg}]#{?client_prefix,#[fg=${highlight}],}${l_sep}"
                 else
                     tmux set-option -ga status-left \
-                        "#[fg=${!colors[1]},bg=${!colors[0]}] $script #[fg=${!colors[0]},bg=${pl_bg},nobold,nounderscore,noitalics]${l_sep}"
+                        "#[fg=${!colors[1]},bg=${!colors[0]}] $script #[fg=${!colors[0]},bg=${pl_bg}]${l_sep}"
                 fi
                 pl_bg=${bg_main}
             else
@@ -291,10 +291,10 @@ status_bar() {
             if $show_powerline; then
                 if [ "$plugin" == "session" ]; then
                     tmux set-option -ga status-right \
-                        "#[fg=${!colors[0]},bg=${pl_bg},nobold,nounderscore,noitalics]${r_sep}#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${highlight}],} $script "
+                        "#[fg=${!colors[0]},bg=${pl_bg}]#{?client_prefix,#[fg=${highlight}],}${r_sep}#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${highlight}],} $script "
                 else
                     tmux set-option -ga status-right \
-                        "#[fg=${!colors[0]},bg=${pl_bg},nobold,nounderscore,noitalics]${r_sep}#[fg=${!colors[1]},bg=${!colors[0]}] $script "
+                        "#[fg=${!colors[0]},bg=${pl_bg}]${r_sep}#[fg=${!colors[1]},bg=${!colors[0]}] $script "
                 fi
                 pl_bg=${!colors[0]}
             else
