@@ -10,7 +10,7 @@ display_location=$(get_tmux_option "@tmux2k-weather-display-location" false)
 fixed_location=$(get_tmux_option "@tmux2k-weather-location" "")
 
 declare -A weather_icons=(
-    ["Clear"]="󰖙"
+    ["Clear"]=""
     ["Cloud"]=""
     ["Drizzle"]="󰖗"
     ["Fog"]=""
@@ -22,7 +22,7 @@ declare -A weather_icons=(
     ["Shower"]=""
     ["Smoke"]=""
     ["Snow"]=""
-    ["Sunny"]="󰖙"
+    ["Sunny"]=""
     ["Thunderstorm"]=""
     ["Tornado"]="󰼸"
     ["Windy"]="󰖝"
