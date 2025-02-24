@@ -96,6 +96,7 @@ set -g @tmux2k-session-icon " #S" # `#W` for window name
 - `light_yellow`: Light yellow color. Default: `#ffd21a`
 - `purple`: Purple color. Default: `#bf58ff`
 - `light_purple`: Light purple color. Default: `#ff65c6`
+- `highlight`: Used for pane borders, message color and prefix. Default: `blue`
 
 To customize theme colors:
 
