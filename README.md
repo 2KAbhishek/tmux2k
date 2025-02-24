@@ -100,22 +100,19 @@ set -g @tmux2k-session-icon " #S" # `#W` for window name
 
 ##### Available Colors:
 
-- `text`: Default text color. Default: `#282a36`
-- `bg_main`: Background color for main sections. Default: `#15152a`
-- `bg_alt`: Background color for alternate sections. Default: `#45455a`
-- `black`: Black color. Default: `#0a0a0f`
-- `white`: White color. Default: `#d5d5da`
-- `red`: Red color. Default: `#ff001f`
-- `light_red`: Light red color. Default: `#ff0055`
-- `green`: Green color. Default: `#3dd50a`
-- `light_green`: Light green color. Default: `#ccffcc`
-- `blue`: Blue color. Default: `#1688f0`
-- `light_blue`: Light blue color. Default: `#11dddd`
-- `yellow`: Yellow color. Default: `#ffb86c`
-- `light_yellow`: Light yellow color. Default: `#ffd21a`
-- `purple`: Purple color. Default: `#bf58ff`
-- `light_purple`: Light purple color. Default: `#ff65c6`
-- `highlight`: Used for pane borders, message color and prefix. Default: `blue`
+- white, gray, black
+- light_blue, blue, dark_blue
+- light_green, green, dark_green
+- light_orange, orange, dark_orange
+- light_pink, pink, dark_pink
+- light_purple, purple, dark_purple
+- light_red, red, dark_red
+- light_yellow, yellow, dark_yellow
+
+- `text`: Text color. Default: `black`
+- `bg_main`: Background color. Default: `black`
+- `bg_alt`: Alt Background color. Default: `gray`
+- `highlight`: Highlight color for pane borders, messages and prefix. Default: `blue`
 
 To customize theme colors:
 
