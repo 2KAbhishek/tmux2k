@@ -30,11 +30,30 @@ tmux2k is a highly customizable framework designed to enhance your tmux status b
 
 ## ✨ Features
 
-- **Enhanced Aesthetics**: Prettify your tmux setup with a stylish and modern status bar.
-- **Informative Display**: Gain access to all the essential information you need right on your status bar, including system stats, git branch, weather updates, and more.
-- **Plugin Ecosystem**: Comes with a wide array of plugins to tailor your status bar to your specific needs, covering everything from system monitoring to version control integration.
-- **Ease of Customization**: Customize and extend tmux2k effortlessly, thanks to its intuitive configuration options and flexible architecture.
-- **Dynamic Updates**: Enjoy real-time updates and dynamic content rendering for a seamless and responsive user experience.
+- **Stylish Aesthetics**: Modern and customizable status bar.
+- **Informative Display**: Essential system stats, git info, weather, and more.
+- **Plugin Ecosystem**: Extensive plugins for system monitoring and version control.
+- **Easy Customization**: Intuitive configuration and flexible architecture.
+- **Real-Time Updates**: Dynamic content rendering for a responsive experience.
+
+## ⚡ Setup
+
+### ⚙️ Requirements
+
+- bash 5.2 or newer, mac users can install it using `brew install bash`
+- A [patched nerd font](https://www.nerdfonts.com/) for `powerline` and glyphs support.
+
+### 💻 Installation
+
+If you are a `tpm` user, you can install the theme and keep up to date by adding the following to your `.tmux.conf` file:
+
+```bash
+set -g @plugin '2kabhishek/tmux2k'
+```
+
+Run tmux and use the tpm install command: `prefix + I` (default prefix is `ctrl+b`)
+
+You can also directly clone the repo to your `~/.tmux/plugins/` folder.
 
 ### 🎨 Available Themes:
 
@@ -114,61 +133,61 @@ set -g @tmux2k-yellow '#f8c800' # change yellow color
 
 Show network bandwidth usage
 
-   - `tmux2k-bandwidth-network-name`: Network interface to track bandwidth of, default: `en0`
-   - `tmux2k-bandwidth-up-icon`: Icon for bandwidth upload usage, default: ``
-   - `tmux2k-bandwidth-down-icon`: Icon for bandwidth download usage, default: ``
+- `tmux2k-bandwidth-network-name`: Network interface to track bandwidth of, default: `en0`
+- `tmux2k-bandwidth-up-icon`: Icon for bandwidth upload usage, default: ``
+- `tmux2k-bandwidth-down-icon`: Icon for bandwidth download usage, default: ``
 
 #### 2. `battery`
 
 Show battery stats and percentage
 
-   - `tmux2k-battery-charging-icon`: Icon for charging status, default: ``
-   - `tmux2k-battery-missing-icon`: Icon for missing battery, default: `󱉝`
-   - `tmux2k-battery-percentage-0`: Icon for 0-25% battery, default: ``
-   - `tmux2k-battery-percentage-1`: Icon for 25-50% battery, default: ``
-   - `tmux2k-battery-percentage-2`: Icon for 50-75% battery, default: ``
-   - `tmux2k-battery-percentage-3`: Icon for 75-90% battery, default: ``
-   - `tmux2k-battery-percentage-4`: Icon for 90-100% battery, default: ``
+- `tmux2k-battery-charging-icon`: Icon for charging status, default: ``
+- `tmux2k-battery-missing-icon`: Icon for missing battery, default: `󱉝`
+- `tmux2k-battery-percentage-0`: Icon for 0-25% battery, default: ``
+- `tmux2k-battery-percentage-1`: Icon for 25-50% battery, default: ``
+- `tmux2k-battery-percentage-2`: Icon for 50-75% battery, default: ``
+- `tmux2k-battery-percentage-3`: Icon for 75-90% battery, default: ``
+- `tmux2k-battery-percentage-4`: Icon for 90-100% battery, default: ``
 
 #### 3. `cpu`
 
 Show CPU usage information
 
-   - `tmux2k-cpu-icon`: Icon for CPU usage, default: ``
-   - `tmux2k-cpu-display-load`: Control CPU load display, default: `false`
+- `tmux2k-cpu-icon`: Icon for CPU usage, default: ``
+- `tmux2k-cpu-display-load`: Control CPU load display, default: `false`
 
 #### 4. `cwd`
 
 Show current working directory
 
-   - `tmux2k-cwd-icon`: Icon for directory, default: ``
+- `tmux2k-cwd-icon`: Icon for directory, default: ``
 
 #### 5. `git`
 
 Show Git branch and status information
 
-   - `tmux2k-git-display-status`: Control git status display, default: `false`
-   - `tmux2k-git-added-icon`: Icon for added files, default: ``
-   - `tmux2k-git-modified-icon`: Icon for modified files, default: ``
-   - `tmux2k-git-updated-icon`: Icon for updated files, default: ``
-   - `tmux2k-git-deleted-icon`: Icon for deleted files, default: ``
-   - `tmux2k-git-repo-icon`: Icon for repository, default: ``
-   - `tmux2k-git-diff-icon`: Icon for differences, default: ``
-   - `tmux2k-git-no-repo-icon`: Icon for no repository, default: ``
+- `tmux2k-git-display-status`: Control git status display, default: `false`
+- `tmux2k-git-added-icon`: Icon for added files, default: ``
+- `tmux2k-git-modified-icon`: Icon for modified files, default: ``
+- `tmux2k-git-updated-icon`: Icon for updated files, default: ``
+- `tmux2k-git-deleted-icon`: Icon for deleted files, default: ``
+- `tmux2k-git-repo-icon`: Icon for repository, default: ``
+- `tmux2k-git-diff-icon`: Icon for differences, default: ``
+- `tmux2k-git-no-repo-icon`: Icon for no repository, default: ``
 
 #### 6. `gpu`
 
 Show GPU usage information
 
-   - `tmux2k-gpu-icon`: Icon for GPU usage, default: ```
+- `tmux2k-gpu-icon`: Icon for GPU usage, default: ```
 
 #### 7. `network`
 
 Show network status and statistics
 
-   - `tmux2k-network-ethernet-icon`: Icon for Ethernet connection, default: `󰈀`
-   - `tmux2k-network-wifi-icon`: Icon for Wi-Fi connection, default: ``
-   - `tmux2k-network-offline-icon`: Icon for offline status, default: `󰌙`
+- `tmux2k-network-ethernet-icon`: Icon for Ethernet connection, default: `󰈀`
+- `tmux2k-network-wifi-icon`: Icon for Wi-Fi connection, default: ``
+- `tmux2k-network-offline-icon`: Icon for offline status, default: `󰌙`
 
 #### 8. `ping`
 
@@ -182,42 +201,41 @@ Shows pomodoro timer, needs [tmux-pomodoro-plus](https://github.com/olimorris/tm
 
 Show RAM usage information
 
-    - `tmux2k-ram-icon`: Icon for RAM usage, default: ``
+- `tmux2k-ram-icon`: Icon for RAM usage, default: ``
 
 #### 11. `session`
 
 Shows Current Session/Window with custom icon
 
-    - `tmux2k-session-format`: Format for Tmux session, default: `#S`
-    - `tmux2k-session-icon`: Icon for Tmux session, default: ``
+- `tmux2k-session-format`: Format for Tmux session, default: `#S`
+- `tmux2k-session-icon`: Icon for Tmux session, default: ``
 
 #### 12. `time`
 
 Show current time and date
 
-    - `@tmux2k-time-format`: Sets the format for displaying the time. Default: `"%a %I:%M %p"`
-    - `@tmux2k-time-icon`: Sets the icon for the time display. Default: ``
+- `@tmux2k-time-format`: Sets the format for displaying the time. Default: `"%a %I:%M %p"`
+- `@tmux2k-time-icon`: Sets the icon for the time display. Default: ``
 
 #### 13. `weather`
 
 Show weather information
 
-    - `@tmux2k-weather-scale`: Scale to use for temperature. Default: `c`, options: `[c, f, k]`
-    - `@tmux2k-weather-display-location`: Whether to show location name. Default: `true`
-    - `@tmux2k-weather-location`: Fixed location for weather. Default: `""`
+- `@tmux2k-weather-scale`: Scale to use for temperature. Default: `c`, options: `[c, f, k]`
+- `@tmux2k-weather-display-location`: Whether to show location name. Default: `true`
+- `@tmux2k-weather-location`: Fixed location for weather. Default: `""`
 
 #### 14. `window_list`
 
 tmux window list
 
-    - `@tmux2k-window-list-left-sep`: Sets the left separator for the window list. Default: ``
-    - `@tmux2k-window-list-right-sep`: Sets the right separator for the window list. Default: ``
-    - `@tmux2k-window-list-alignment`: Sets the alignment of the window list. Default: `'absolute-centre'`
-    - `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
-    - `@tmux2k-window-list-compact`: Enables or disables compact mode for the window list. Default: `false`
+- `@tmux2k-window-list-left-sep`: Sets the left separator for the window list. Default: ``
+- `@tmux2k-window-list-right-sep`: Sets the right separator for the window list. Default: ``
+- `@tmux2k-window-list-alignment`: Sets the alignment of the window list. Default: `'absolute-centre'`
+- `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
+- `@tmux2k-window-list-compact`: Enables or disables compact mode for the window list. Default: `false`
 
 #### Gemeral Plugin Configs
-
 
 ```bash
 # set the left and right plugin sections
@@ -241,31 +259,6 @@ To add a new plugin:
 - Add color declaration for your plugin name into the `plugin_colors` array
 
 > The plugin name and script file name must match e.g: plugin named `foo` should have a file called `scripts/foo.sh`
-
-## ⚡ Setup
-
-### ⚙️ Requirements
-
-Before you begin, ensure you have met the following requirements:
-
-- You have installed the latest version of `tmux`.
-- bash 5.2 or newer, mac users can install it using `brew install bash`
-- [tpm](https://github.com/tmux-plugins/tpm) for managing `tmux` plugins.
-- A [patched nerd font](https://www.nerdfonts.com/) for `powerline` and glyphs support.
-
-### 💻 Installation
-
-If you are a `tpm` user, you can install the theme and keep up to date by adding the following to your `.tmux.conf` file:
-
-```bash
-set -g @plugin '2kabhishek/tmux2k'
-
-```
-
-- Run `tmux`
-- Use the `tpm` install command: prefix + I (default prefix is `ctrl+b`)
-
-You can also directly clone the repo to your `~/.tmux/plugins/` folder.
 
 ## 🏗️ What's Next
 
