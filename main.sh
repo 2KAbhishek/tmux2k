@@ -20,38 +20,53 @@ IFS=' ' read -r -a rplugins <<<"$(get_tmux_option '@tmux2k-right-plugins' 'cpu r
 theme=$(get_tmux_option "@tmux2k-theme" 'default')
 icons_only=$(get_tmux_option "@tmux2k-icons-only" false)
 
-text=$(get_tmux_option "@tmux2k-text" '#282a36')
-bg_main=$(get_tmux_option "@tmux2k-bg-main" '#000000')
-bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#1f1f1f')
-black=$(get_tmux_option "@tmux2k-black" '#0a0a0f')
-white=$(get_tmux_option "@tmux2k-white" '#d5d5da')
-red=$(get_tmux_option "@tmux2k-red" '#ff001f')
-light_red=$(get_tmux_option "@tmux2k-light-red" '#ff0055')
-green=$(get_tmux_option "@tmux2k-green" '#3dd50a')
-light_green=$(get_tmux_option "@tmux2k-light-green" '#ccffcc')
-blue=$(get_tmux_option "@tmux2k-blue" '#1688f0')
+white=$(get_tmux_option "@tmux2k-white" '#ffffff')
+gray=$(get_tmux_option "@tmux2k-dark-gray" '#2f2f2f')
+black=$(get_tmux_option "@tmux2k-black" '#000000')
+
 light_blue=$(get_tmux_option "@tmux2k-light-blue" '#11dddd')
-yellow=$(get_tmux_option "@tmux2k-yellow" '#ffb86c')
-light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#ffd21a')
+blue=$(get_tmux_option "@tmux2k-blue" '#1688f0')
+dark_blue=$(get_tmux_option "@tmux2k-dark-blue" '#0000CD')
+
+light_green=$(get_tmux_option "@tmux2k-light-green" '#ccffcc')
+green=$(get_tmux_option "@tmux2k-green" '#3dd50a')
+dark_green=$(get_tmux_option "@tmux2k-dark-green" '#006400')
+
+light_orange=$(get_tmux_option "@tmux2k-light-orange" '#FFA07a')
+orange=$(get_tmux_option "@tmux2k-orange" '#FFA500')
+dark_orange=$(get_tmux_option "@tmux2k-dark-orange" '#FF4500')
+
+light_pink=$(get_tmux_option "@tmux2k-light-pink" '#FFB6C1')
+pink=$(get_tmux_option "@tmux2k-pink" '#FF69B4')
+dark_pink=$(get_tmux_option "@tmux2k-dark-pink" '#FF1493')
+
+light_purple=$(get_tmux_option "@tmux2k-light-purple" '#DDA0DD')
 purple=$(get_tmux_option "@tmux2k-purple" '#bf58ff')
-light_purple=$(get_tmux_option "@tmux2k-light-purple" '#ff65c6')
-highlight=$(get_tmux_option "@tmux2k-highlight" "blue")
+dark_purple=$(get_tmux_option "@tmux2k-dark-purple" '#4b0082')
+
+light_red=$(get_tmux_option "@tmux2k-light-red" '#E68a8a')
+red=$(get_tmux_option "@tmux2k-red" '#ff1f1f')
+dark_red=$(get_tmux_option "@tmux2k-dark-red" '#800000')
+
+light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#fffacd')
+yellow=$(get_tmux_option "@tmux2k-yellow" '#ffd21a')
+dark_yellow=$(get_tmux_option "@tmux2k-dark-yellow" '#b8860b')
 
 declare -A plugin_colors=(
     ["session"]="green text"
     ["git"]="green text"
     ["cpu"]="light_green text"
     ["cwd"]="blue text"
-    ["ram"]="light_yellow text"
+    ["ram"]="yellow text"
     ["gpu"]="red text"
-    ["battery"]="light_purple text"
+    ["battery"]="pink text"
     ["network"]="purple text"
     ["bandwidth"]="purple text"
     ["ping"]="purple text"
-    ["weather"]="yellow text"
+    ["weather"]="orange text"
     ["time"]="light_blue text"
     ["pomodoro"]="red text"
-    ["window_list"]="bg_main blue"
+    ["window_list"]="black blue"
     ["custom"]="red text"
 )
 
@@ -74,9 +89,8 @@ get_plugin_bg() {
 set_theme() {
     case $theme in
     "catppuccin")
-        bg_main=$(get_tmux_option "@tmux2k-bg-main" '#24273a')
-        bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#363a4f')
         black=$(get_tmux_option "@tmux2k-black" '#1e2030')
+        gray=$(get_tmux_option "@tmux2k-gray" '#3f3f3f')
         white=$(get_tmux_option "@tmux2k-white" '#ffffff')
         red=$(get_tmux_option "@tmux2k-red" '#ed8796')
         light_red=$(get_tmux_option "@tmux2k-light-red" '#ee99a0')
@@ -84,18 +98,61 @@ set_theme() {
         light_green=$(get_tmux_option "@tmux2k-light-green" '#8bd5ca')
         blue=$(get_tmux_option "@tmux2k-blue" '#8aadf4')
         light_blue=$(get_tmux_option "@tmux2k-light-blue" '#91d7e3')
-        yellow=$(get_tmux_option "@tmux2k-yellow" '#f5a97f')
-        light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#eed49f')
+        yellow=$(get_tmux_option "@tmux2k-light-yellow" '#eed49f')
+        orange=$(get_tmux_option "@tmux2k-yellow" '#f5a97f')
         purple=$(get_tmux_option "@tmux2k-purple" '#b6a0fe')
-        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f5bde6')
+        pink=$(get_tmux_option "@tmux2k-light-purple" '#f5bde6')
+        ;;
+    "gruvbox")
+        black=$(get_tmux_option "@tmux2k-black" '#282828')
+        gray=$(get_tmux_option "@tmux2k-gray" '#4f4f4f')
+        white=$(get_tmux_option "@tmux2k-white" '#ebdbb2')
+        red=$(get_tmux_option "@tmux2k-red" '#cc241d')
+        light_red=$(get_tmux_option "@tmux2k-light-red" '#fb4934')
+        green=$(get_tmux_option "@tmux2k-green" '#98971a')
+        light_green=$(get_tmux_option "@tmux2k-light-green" '#b8bb26')
+        blue=$(get_tmux_option "@tmux2k-blue" '#458588')
+        light_blue=$(get_tmux_option "@tmux2k-light-blue" '#83a598')
+        orange=$(get_tmux_option "@tmux2k-yellow" '#d79921')
+        yellow=$(get_tmux_option "@tmux2k-light-yellow" '#fabd2f')
+        purple=$(get_tmux_option "@tmux2k-purple" '#b162d6')
+        pink=$(get_tmux_option "@tmux2k-light-purple" '#f386cb')
+        ;;
+    "monokai")
+        black=$(get_tmux_option "@tmux2k-black" '#272822')
+        gray=$(get_tmux_option "@tmux2k-gray" '#4f4f4f')
+        white=$(get_tmux_option "@tmux2k-white" '#f8f8f2')
+        red=$(get_tmux_option "@tmux2k-red" '#f92672')
+        light_red=$(get_tmux_option "@tmux2k-light-red" '#ff6188')
+        green=$(get_tmux_option "@tmux2k-green" '#a6e22e')
+        light_green=$(get_tmux_option "@tmux2k-light-green" '#a6e22e')
+        blue=$(get_tmux_option "@tmux2k-blue" '#66d9ef')
+        light_blue=$(get_tmux_option "@tmux2k-light-blue" '#66d9ef')
+        orange=$(get_tmux_option "@tmux2k-yellow" '#ffa07a')
+        yellow=$(get_tmux_option "@tmux2k-light-yellow" '#e6db74')
+        purple=$(get_tmux_option "@tmux2k-purple" '#ae81ff')
+        pink=$(get_tmux_option "@tmux2k-light-purple" '#fe81ff')
+        ;;
+    "onedark")
+        black=$(get_tmux_option "@tmux2k-black" '#2d3139')
+        gray=$(get_tmux_option "@tmux2k-gray" '#4f4f4f')
+        white=$(get_tmux_option "@tmux2k-white" '#f8f8f8')
+        red=$(get_tmux_option "@tmux2k-red" '#e06c75')
+        light_red=$(get_tmux_option "@tmux2k-light-red" '#e06c75')
+        green=$(get_tmux_option "@tmux2k-green" '#98c379')
+        light_green=$(get_tmux_option "@tmux2k-light-green" '#98c379')
+        blue=$(get_tmux_option "@tmux2k-blue" '#61afef')
+        light_blue=$(get_tmux_option "@tmux2k-light-blue" '#61afef')
+        orange=$(get_tmux_option "@tmux2k-yellow" '#ffa07a')
+        yellow=$(get_tmux_option "@tmux2k-light-yellow" '#e5c07b')
+        purple=$(get_tmux_option "@tmux2k-purple" '#c678fd')
+        pink=$(get_tmux_option "@tmux2k-light-purple" '#f678cd')
         ;;
     "duo")
         duo_bg=$(get_tmux_option "@tmux2k-duo-bg" '#000000')
         duo_fg=$(get_tmux_option "@tmux2k-duo-fg" '#ffffff')
-        text=$(get_tmux_option "@tmux2k-white" "$duo_bg")
-        bg_main=$(get_tmux_option "@tmux2k-bg-main" "$duo_bg")
-        bg_alt=$(get_tmux_option "@tmux2k-bg-alt" "$duo_bg")
         black=$(get_tmux_option "@tmux2k-black" "$duo_bg")
+        gray=$(get_tmux_option "@tmux2k-dark-gray" "$duo_bg")
         white=$(get_tmux_option "@tmux2k-white" "$duo_fg")
         red=$(get_tmux_option "@tmux2k-red" "$duo_fg")
         light_red=$(get_tmux_option "@tmux2k-light-red" "$duo_fg")
@@ -104,67 +161,23 @@ set_theme() {
         blue=$(get_tmux_option "@tmux2k-blue" "$duo_fg")
         light_blue=$(get_tmux_option "@tmux2k-light-blue" "$duo_fg")
         yellow=$(get_tmux_option "@tmux2k-yellow" "$duo_fg")
-        light_yellow=$(get_tmux_option "@tmux2k-light-yellow" "$duo_fg")
+        orange=$(get_tmux_option "@tmux2k-yellow" "$duo_fg")
         purple=$(get_tmux_option "@tmux2k-purple" "$duo_fg")
-        light_purple=$(get_tmux_option "@tmux2k-light-purple" "$duo_fg")
-        ;;
-    "gruvbox")
-        bg_main=$(get_tmux_option "@tmux2k-bg-main" '#282828')
-        bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#3c3836')
-        black=$(get_tmux_option "@tmux2k-black" '#282828')
-        white=$(get_tmux_option "@tmux2k-white" '#ebdbb2')
-        red=$(get_tmux_option "@tmux2k-red" '#cc241d')
-        light_red=$(get_tmux_option "@tmux2k-light-red" '#fb4934')
-        green=$(get_tmux_option "@tmux2k-green" '#98971a')
-        light_green=$(get_tmux_option "@tmux2k-light-green" '#b8bb26')
-        blue=$(get_tmux_option "@tmux2k-blue" '#458588')
-        light_blue=$(get_tmux_option "@tmux2k-light-blue" '#83a598')
-        yellow=$(get_tmux_option "@tmux2k-yellow" '#d79921')
-        light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#fabd2f')
-        purple=$(get_tmux_option "@tmux2k-purple" '#b162d6')
-        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f386cb')
-        ;;
-    "monokai")
-        bg_main=$(get_tmux_option "@tmux2k-bg-main" '#272822')
-        bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#3e3d32')
-        black=$(get_tmux_option "@tmux2k-black" '#272822')
-        white=$(get_tmux_option "@tmux2k-white" '#f8f8f2')
-        red=$(get_tmux_option "@tmux2k-red" '#f92672')
-        light_red=$(get_tmux_option "@tmux2k-light-red" '#ff6188')
-        green=$(get_tmux_option "@tmux2k-green" '#a6e22e')
-        light_green=$(get_tmux_option "@tmux2k-light-green" '#a6e22e')
-        blue=$(get_tmux_option "@tmux2k-blue" '#66d9ef')
-        light_blue=$(get_tmux_option "@tmux2k-light-blue" '#66d9ef')
-        yellow=$(get_tmux_option "@tmux2k-yellow" '#e6db74')
-        light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#e6db74')
-        purple=$(get_tmux_option "@tmux2k-purple" '#ae81ff')
-        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#fe81ff')
-        ;;
-    "onedark")
-        bg_main=$(get_tmux_option "@tmux2k-bg-main" '#282c34')
-        bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#353b45')
-        black=$(get_tmux_option "@tmux2k-black" '#2d3139')
-        white=$(get_tmux_option "@tmux2k-white" '#abb2bf')
-        red=$(get_tmux_option "@tmux2k-red" '#e06c75')
-        light_red=$(get_tmux_option "@tmux2k-light-red" '#e06c75')
-        green=$(get_tmux_option "@tmux2k-green" '#98c379')
-        light_green=$(get_tmux_option "@tmux2k-light-green" '#98c379')
-        blue=$(get_tmux_option "@tmux2k-blue" '#61afef')
-        light_blue=$(get_tmux_option "@tmux2k-light-blue" '#61afef')
-        yellow=$(get_tmux_option "@tmux2k-yellow" '#e5c07b')
-        light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#e5c07b')
-        purple=$(get_tmux_option "@tmux2k-purple" '#c678fd')
-        light_purple=$(get_tmux_option "@tmux2k-light-purple" '#f678cd')
+        pink=$(get_tmux_option "@tmux2k-light-purple" "$duo_fg")
         ;;
     esac
 
     if $icons_only; then
         show_powerline=false
-        text=$bg_main
         for plugin in "${!plugin_colors[@]}"; do
             plugin_colors[$plugin]=$(reverse_colors "${plugin_colors[$plugin]}")
         done
     fi
+
+    text=$(get_tmux_option "@tmux2k-text" "$black")
+    bg_main=$(get_tmux_option "@tmux2k-bg-main" "$black")
+    bg_alt=$(get_tmux_option "@tmux2k-bg-alt" "$gray")
+    highlight=$(get_tmux_option "@tmux2k-highlight" "$blue")
 }
 
 set_options() {
@@ -250,7 +263,7 @@ window_list() {
     fi
 
     if $window_list_flags; then
-        flags="#{?window_flags,#[fg=${light_red}]#{window_flags},}"
+        flags="#{?window_flags,#[fg=${red}]#{window_flags},}"
         current_flags="#{?window_flags,#[fg=${light_green}]#{window_flags},}"
     fi
 
