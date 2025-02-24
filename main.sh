@@ -53,19 +53,20 @@ yellow=$(get_tmux_option "@tmux2k-yellow" '#ffd21a')
 dark_yellow=$(get_tmux_option "@tmux2k-dark-yellow" '#b8860b')
 
 declare -A plugin_colors=(
-    ["session"]="green text"
-    ["git"]="green text"
+    ["bandwidth"]="purple text"
+    ["battery"]="pink text"
     ["cpu"]="light_green text"
     ["cwd"]="blue text"
-    ["ram"]="yellow text"
+    ["git"]="green text"
     ["gpu"]="red text"
-    ["battery"]="pink text"
     ["network"]="purple text"
-    ["bandwidth"]="purple text"
     ["ping"]="purple text"
-    ["weather"]="orange text"
-    ["time"]="light_blue text"
     ["pomodoro"]="red text"
+    ["ram"]="yellow text"
+    ["session"]="green text"
+    ["time"]="light_blue text"
+    ["uptime"]="light_blue text"
+    ["weather"]="orange text"
     ["window_list"]="black blue"
     ["custom"]="red text"
 )

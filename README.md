@@ -231,6 +231,12 @@ tmux window list
 - `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
 - `@tmux2k-window-list-compact`: Enables or disables compact mode for the window list. Default: `false`
 
+#### 15. `uptime`
+
+Show current system uptime
+
+- `tmux2k-uptime-icon`: Icon for system uptime, default: `󰀠`
+
 #### 🪆 Add New Plugins
 
 To add a new plugin:
