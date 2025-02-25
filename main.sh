@@ -277,8 +277,9 @@ status_bar() {
                 IFS=' ' read -r -a next_colors <<<"$(get_plugin_colors "$next_plugin")"
                 pl_bg=${!next_colors[0]:-$bg_main}
                 if [ "$plugin" == "session" ]; then
-                    tmux set-option -ga status-left \
-                        "#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${prefix_highlight}],} $script #[fg=${!colors[0]},bg=${pl_bg}]#{?client_prefix,#[fg=${prefix_highlight}],}${l_sep}"
+                    # tmux set-option -ga status-left \
+                    #     "#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${prefix_highlight}],} $script #[fg=${!colors[0]},bg=${pl_bg}]#{?client_prefix,#[fg=${prefix_highlight}],}${l_sep}"
+                    tmux set-option -ga status-left "$script"
                 else
                     tmux set-option -ga status-left \
                         "#[fg=${!colors[1]},bg=${!colors[0]}] $script #[fg=${!colors[0]},bg=${pl_bg}]${l_sep}"
