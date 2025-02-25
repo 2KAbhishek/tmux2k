@@ -6,32 +6,21 @@ source "$current_dir/../lib/utils.sh"
 uptime_icon=$(get_tmux_option "@tmux2k-uptime-icon" "󰀠")
 
 main() {
-    uptime_output=$(uptime)
-    uptime_text=$(echo "$uptime_output" | awk -F'up ' '{print $2}' | awk -F',' '{print $1}')
-
-    days=0
-    hours=0
-    minutes=0
-
-    echo "$uptime_text" | awk '
-{
-    for (i = 1; i <= NF; i++) {
-        if ($i ~ /^[0-9]+$/ && $(i+1) == "days") { days = $i }
-        if ($i ~ /^[0-9]+:[0-9]+$/) { split($i, t, ":"); hours = t[1]; minutes = t[2] }
-        if ($i ~ /^[0-9]+$/ && $(i+1) == "hours") { hours = $i }
-        if ($i ~ /^[0-9]+$/ && $(i+1) == "mins") { minutes = $i }
-    }
-}
-END { printf "%d %d %d\n", days, hours, minutes }' | {
-        read  days hours minutes
-
-        output=""
-        [ "$days" -gt 0 ] && output="$output${days}D "
-        [ "$hours" -gt 0 ] && output="$output${hours}H "
-        [ "$minutes" -gt 0 ] && output="$output${minutes}M"
-
-        echo "$uptime_icon $output"
-    }
+    uptime | awk '
+    {
+        for(i=1;i<=NF;i++) {
+            if($i=="up") {
+                if($(i+1) ~ /^[0-9]+$/ && $(i+2) ~ /^day/) d=$(i+1)
+                else if($(i+1) ~ /^[0-9]+:[0-9]+/) {split($(i+1),t,":"); h=t[1]; m=t[2]}
+            }
+            if($i ~ /^[0-9]+:[0-9]+/) {split($i,t,":"); h=t[1]; m=t[2]}
+        }
+        gsub(/,/,"",m)
+        printf "%s %s%s%s\n", "'"$uptime_icon"'", \
+            (d?d"D ":""), \
+            (h?h"H ":""), \
+            (m?m"M":"")
+    }'
 }
 
 main
