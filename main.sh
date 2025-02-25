@@ -233,8 +233,11 @@ set_theme() {
     text=$(get_tmux_option "@tmux2k-text" "$black")
     bg_main=$(get_tmux_option "@tmux2k-bg-main" "$black")
     bg_alt=$(get_tmux_option "@tmux2k-bg-alt" "$gray")
-    highlight=$(get_tmux_option "@tmux2k-highlight" "$blue")
-    highlight_prefix=$(get_tmux_option "@tmux2k-highlight-prefix" "$blue")
+    message_bg=$(get_tmux_option "@tmux2k-message-bg" "$blue")
+    message_fg=$(get_tmux_option "@tmux2k-message-fg" "$black")
+    pane_active_border=$(get_tmux_option "@tmux2k-pane-active-border" "$blue")
+    pane_border=$(get_tmux_option "@tmux2k-pane-border" "$black")
+    prefix_highlight=$(get_tmux_option "@tmux2k-prefix-highlight" "$blue")
 }
 
 set_options() {
@@ -244,12 +247,12 @@ set_options() {
     tmux set-option -g status-left ""
     tmux set-option -g status-right ""
 
-    tmux set-option -g pane-active-border-style "fg=${highlight}"
-    tmux set-option -g pane-border-style "fg=${bg_main}"
-    tmux set-option -g message-style "bg=${bg_main},fg=${highlight}"
-    tmux set-option -g status-style "bg=${bg_main},fg=${white}"
-    tmux set -g status-justify "$window_list_alignment"
+    tmux set-option -g status-style "bg=${bg_main},fg=${text}"
+    tmux set-option -g message-style "bg=${message_bg},fg=${message_fg}"
+    tmux set-option -g pane-active-border-style "fg=${pane_active_border}"
+    tmux set-option -g pane-border-style "fg=${pane_border}"
 
+    tmux set -g status-justify "$window_list_alignment"
     tmux set-window-option -g window-status-activity-style "bold"
     tmux set-window-option -g window-status-bell-style "bold"
     tmux set-window-option -g window-status-current-style "bold"
@@ -275,7 +278,7 @@ status_bar() {
                 pl_bg=${!next_colors[0]:-$bg_main}
                 if [ "$plugin" == "session" ]; then
                     tmux set-option -ga status-left \
-                        "#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${highlight_prefix}],} $script #[fg=${!colors[0]},bg=${pl_bg}]#{?client_prefix,#[fg=${highlight_prefix}],}${l_sep}"
+                        "#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${prefix_highlight}],} $script #[fg=${!colors[0]},bg=${pl_bg}]#{?client_prefix,#[fg=${prefix_highlight}],}${l_sep}"
                 else
                     tmux set-option -ga status-left \
                         "#[fg=${!colors[1]},bg=${!colors[0]}] $script #[fg=${!colors[0]},bg=${pl_bg}]${l_sep}"
@@ -283,7 +286,7 @@ status_bar() {
                 pl_bg=${bg_main}
             else
                 if [ "$plugin" == "session" ]; then
-                    tmux set-option -ga status-left "#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${highlight_prefix}],} $script "
+                    tmux set-option -ga status-left "#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${prefix_highlight}],} $script "
                 else
                     tmux set-option -ga status-left "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
                 fi
@@ -292,7 +295,7 @@ status_bar() {
             if $show_powerline; then
                 if [ "$plugin" == "session" ]; then
                     tmux set-option -ga status-right \
-                        "#[fg=${!colors[0]},bg=${pl_bg}]#{?client_prefix,#[fg=${highlight_prefix}],}${r_sep}#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${highlight_prefix}],} $script "
+                        "#[fg=${!colors[0]},bg=${pl_bg}]#{?client_prefix,#[fg=${prefix_highlight}],}${r_sep}#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${prefix_highlight}],} $script "
                 else
                     tmux set-option -ga status-right \
                         "#[fg=${!colors[0]},bg=${pl_bg}]${r_sep}#[fg=${!colors[1]},bg=${!colors[0]}] $script "
@@ -300,7 +303,7 @@ status_bar() {
                 pl_bg=${!colors[0]}
             else
                 if [ "$plugin" == "session" ]; then
-                    tmux set-option -ga status-right "#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${highlight_prefix}],} $script "
+                    tmux set-option -ga status-right "#[fg=${!colors[1]},bg=${!colors[0]}]#{?client_prefix,#[bg=${prefix_highlight}],} $script "
                 else
                     tmux set-option -ga status-right "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
                 fi

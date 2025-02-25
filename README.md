@@ -99,6 +99,8 @@ set -g @tmux2k-session-icon " #S" # `#W` for window name
 
 ##### Available Colors:
 
+Base Colors
+
 - `white`, `gray`, `black`
 - `light_blue`, `blue`, `dark_blue`
 - `light_green`, `green`, `dark_green`
@@ -108,17 +110,23 @@ set -g @tmux2k-session-icon " #S" # `#W` for window name
 - `light_red`, `red`, `dark_red`
 - `light_yellow`, `yellow`, `dark_yellow`
 
+UI Colors
+
 - `text`: Text color. Default: `black`
 - `bg_main`: Background color. Default: `black`
 - `bg_alt`: Alt Background color. Default: `gray`
-- `highlight`: Highlight color for pane borders, messages and prefix. Default: `blue`
+- `message_bg`: Message background color. Default: `blue`
+- `message_fg`: Message text color. Default: `black`
+- `pane_active_border`: Active pane border color. Default: `blue`
+- `pane_border`: Inactive pane border color. Default: `black`
+- `prefix_highlight`: Highlight color for active prefix. Default: `blue`
 
 To customize theme colors:
 
 ```bash
-set -g @tmux2k-text '#cdcdcd' # change text to white
+set -g @tmux2k-light-yellow '#f8c800' # change light yellow base color
 set -g @tmux2k-bg-main '#ffffff' # change bg to white
-set -g @tmux2k-yellow '#f8c800' # change yellow color
+set -g @tmux2k-prefix-highlight '#f8c800' # change prefix color
 ```
 
 > You may have to restart `tmux` for some changes to reflect
