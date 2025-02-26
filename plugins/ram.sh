@@ -8,8 +8,8 @@ source "$current_dir/../lib/utils.sh"
 get_percent() {
     case $(uname -s) in
     Linux)
-        total_mem=$(free -g | awk '/^Mem/ {print $2}')
-        used_mem=$(free -g | awk '/^Mem/ {print $3}')
+        total_mem=$(free -m | awk '/^Mem/ {print $2}')
+        used_mem=$(free -m | awk '/^Mem/ {print $3}')
         memory_percent=$(((used_mem * 100) / total_mem))
         normalize_padding "$memory_percent%"
         ;;
