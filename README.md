@@ -160,13 +160,23 @@ Show CPU usage information
 - `tmux2k-cpu-icon`: Icon for CPU usage, default: ``
 - `tmux2k-cpu-display-load`: Control CPU load display, default: `false`
 
-#### 4. `cwd`
+#### 4. `cpu-temp`
+
+Show CPU temperature
+
+- `tmux2k-cpu-temp-icon`: Icon for CPU temperature, default: ``
+- `tmux2k-cpu-temp-show-degree-sign`: Control showing degree sign (``) after CPU temperature, default: `false`
+- `tmux2k-cpu-temp-delimiter`: Decimal delimiter for CPU temperature, default: `.`
+- `tmux2k-cpu-temp-round`: Round CPU temperature to the nearest integer, default: `false`
+
+
+#### 5. `cwd`
 
 Show current working directory
 
 - `tmux2k-cwd-icon`: Icon for directory, default: ``
 
-#### 5. `git`
+#### 6. `git`
 
 Show Git branch and status information
 
@@ -179,13 +189,13 @@ Show Git branch and status information
 - `tmux2k-git-diff-icon`: Icon for differences, default: ``
 - `tmux2k-git-no-repo-icon`: Icon for no repository, default: ``
 
-#### 6. `gpu`
+#### 7. `gpu`
 
 Show GPU usage information
 
 - `tmux2k-gpu-icon`: Icon for GPU usage, default: ```
 
-#### 7. `network`
+#### 8. `network`
 
 Show network status and statistics
 
@@ -193,35 +203,35 @@ Show network status and statistics
 - `tmux2k-network-wifi-icon`: Icon for Wi-Fi connection, default: ``
 - `tmux2k-network-offline-icon`: Icon for offline status, default: `󰌙`
 
-#### 8. `ping`
+#### 9. `ping`
 
 Show network ping statistics
 
-#### 9. `pomodoro`
+#### 10. `pomodoro`
 
 Shows pomodoro timer, needs [tmux-pomodoro-plus](https://github.com/olimorris/tmux-pomodoro-plus) (hit `prefix + p` to start)
 
-#### 10. `ram`
+#### 11. `ram`
 
 Show RAM usage information
 
 - `tmux2k-ram-icon`: Icon for RAM usage, default: ``
 
-#### 11. `session`
+#### 12. `session`
 
 Shows Current Session/Window with custom icon
 
 - `tmux2k-session-format`: Format for Tmux session, default: `#S`
 - `tmux2k-session-icon`: Icon for Tmux session, default: ``
 
-#### 12. `time`
+#### 13. `time`
 
 Show current time and date
 
 - `@tmux2k-time-format`: Sets the format for displaying the time. Default: `"%a %I:%M %p"`
 - `@tmux2k-time-icon`: Sets the icon for the time display. Default: ``
 
-#### 13. `weather`
+#### 14. `weather`
 
 Show weather information
 
@@ -229,7 +239,7 @@ Show weather information
 - `@tmux2k-weather-display-location`: Whether to show location name. Default: `true`
 - `@tmux2k-weather-location`: Fixed location for weather. Default: `""`
 
-#### 14. `window_list`
+#### 15. `window_list`
 
 tmux window list
 
@@ -239,7 +249,7 @@ tmux window list
 - `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
 - `@tmux2k-window-list-compact`: Enables or disables compact mode for the window list. Default: `false`
 
-#### 15. `uptime`
+#### 16. `uptime`
 
 Show current system uptime
 
