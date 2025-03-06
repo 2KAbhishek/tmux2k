@@ -160,12 +160,11 @@ Show CPU usage information
 - `tmux2k-cpu-icon`: Icon for CPU usage, default: ``
 - `tmux2k-cpu-display-load`: Control CPU load display, default: `false`
 
-#### 4. `cpu-temp`
+#### 4. `cpu_temp`
 
 Show CPU temperature
 
 - `tmux2k-cpu-temp-icon`: Icon for CPU temperature, default: ``
-- `tmux2k-cpu-temp-show-degree-sign`: Control showing degree sign (``) after CPU temperature, default: `false`
 - `tmux2k-cpu-temp-delimiter`: Decimal delimiter for CPU temperature, default: `.`
 - `tmux2k-cpu-temp-round`: Round CPU temperature to the nearest integer, default: `false`
 

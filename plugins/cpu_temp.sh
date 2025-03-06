@@ -9,12 +9,12 @@ get_cpu_temp() {
     case $(uname -s) in
     Linux)
         temperature=$(LC_NUMERIC=en_US.UTF-8 sensors | grep -oP 'Tctl:.*?\+\K[0-9.]+')
-		#temperature=$(sensors | grep 'Tctl' | awk '{print substr($2, 2)}')       
         normalize_padding "$temperature"
         ;;
 
     Darwin)
-    
+        temperature=$(ioreg -r -n "AppleSmartBattery" | grep -i "Temperature" | awk '{print $3/100}')
+        normalize_padding "$temperature"
         ;;
 
     CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
@@ -22,37 +22,27 @@ get_cpu_temp() {
 }
 
 round() {
-  printf "%.${2}f" "${1}"
+    printf "%.${2}f" "${1}"
 }
 
 main() {
     RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
-
     temp_icon=$(get_tmux_option "@tmux2k-cpu-temp-icon" "")
- 	show_degree_sign=$(get_tmux_option "@tmux2k-cpu-temp-show-degree-sign" false)
-	delimiter=$(get_tmux_option "@tmux2k-cpu-temp-delimiter" ".")
-	round=$(get_tmux_option "@tmux2k-cpu-temp-round" false)
-	cpu_temp=$(get_cpu_temp)
+    delimiter=$(get_tmux_option "@tmux2k-cpu-temp-delimiter" ".")
+    round=$(get_tmux_option "@tmux2k-cpu-temp-round" false)
+    cpu_temp=$(get_cpu_temp)
 
-	if [ "$round" = true ]; then
-		cpu_temp=$(round ${cpu_temp} 0)
-	else 
-		cpu_temp=$(round ${cpu_temp} 1)
-	fi
+    if [ "$round" = true ]; then
+        cpu_temp=$(round "$cpu_temp" 0)
+    else
+        cpu_temp=$(round "$cpu_temp" 1)
+    fi
 
-	cpu_temp=${cpu_temp/./$delimiter}
-	
-	result="$temp_icon $cpu_temp"
-	
-	if [ "$show_degree_sign" = true ]; then
-		result+=""
-	fi
+    cpu_temp=${cpu_temp/./$delimiter}
+    result="$temp_icon $cpu_temp"
 
     echo -n "$result"
-
-
-
-#    sleep "$RATE"
+    sleep "$RATE"
 }
 
 main
