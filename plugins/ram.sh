@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US
 
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir/../lib/utils.sh"
@@ -11,7 +13,7 @@ get_percent() {
         total_mem=$(free -m | awk '/^Mem/ {print $2}')
         used_mem=$(free -m | awk '/^Mem/ {print $3}')
         memory_percent=$(((used_mem * 100) / total_mem))
-        normalize_padding "$memory_percent%"
+        normalize_padding "$memory_percent%" 4
         ;;
     Darwin)
         used_mem=$(vm_stat | grep ' active\|wired ' | sed 's/[^0-9]//g' | paste -sd ' ' - | awk -v pagesize=$(pagesize) '{printf "%d\n", ($1+$2) * pagesize / 1048576}')
@@ -36,11 +38,10 @@ get_percent() {
 }
 
 main() {
-    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
+#    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
     ram_icon=$(get_tmux_option "@tmux2k-ram-icon" "")
     ram_percent=$(get_percent)
     echo "$ram_icon $ram_percent"
-    sleep "$RATE"
 }
 
 main
