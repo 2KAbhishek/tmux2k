@@ -314,7 +314,7 @@ status_bar() {
 }
 
 window_list() {
-    IFS=' ' read -r -a colors <<<"$(get_plugin_colors "window_list")"
+    IFS=' ' read -r -a colors <<<"$(get_plugin_colors "window-list")"
     wbg=${!colors[0]}
     wfg=${!colors[1]}
 
