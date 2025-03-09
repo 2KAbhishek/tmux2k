@@ -4,7 +4,7 @@ current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir/../lib/utils.sh"
 
 if [[ $(uname -s) == "Darwin" ]]; then
-    network_name=$(get_tmux_option "@tmux2k-bandwidth-network-name" "en0")
+    network_name=$(get_tmux_option "@tmux2k-bandwidth-network-name" "en1")
 elif [[ $(uname -s) == "Linux" ]]; then
     default_network_device="wlo1"
     if command -v ip >/dev/null; then
@@ -22,20 +22,20 @@ fi
 get_output_rate() {
     bps=$1
     if [ "$bps" -gt 1073741824 ]; then
-        output=$(echo "$bps 1024" | awk '{printf "%4d\n", $1/($2 * $2 * $2)}')
+        output=$(echo "$bps 1024" | awk '{printf "%d\n", $1/($2 * $2 * $2)}')
         output+="G"
     elif [ "$bps" -gt 1048576 ]; then
-        output=$(echo "$bps 1024" | awk '{printf "%4d\n", $1/($2 * $2)}')
+        output=$(echo "$bps 1024" | awk '{printf "%d\n", $1/($2 * $2)}')
         output+="M"
     else
-        output=$(echo "$bps 1024" | awk '{printf "%4d\n", $1/$2}')
+        output=$(echo "$bps 1024" | awk '{printf "%d\n", $1/$2}')
         output+="K"
     fi
     echo "${output}"
 }
 
 main() {
-    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5) # seconds
+    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 1) # seconds
     while true; do
         output_download=""
         output_upload=""
@@ -71,7 +71,7 @@ main() {
         up_icon=$(get_tmux_option "@tmux2k-bandwidth-up-icon" "")
         down_icon=$(get_tmux_option "@tmux2k-bandwidth-up-icon" "")
 
-        echo "$output_upload $up_icon $output_download $down_icon"
+        echo "$up_icon $output_upload $down_icon $output_download"
     done
 }
 main
