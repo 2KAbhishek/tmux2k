@@ -13,7 +13,7 @@ get_tmux_option() {
 
 normalize_padding() {
     percent_len=${#1}
-    max_len=${2:-5}
+    max_len=${2:-4}
     let diff_len=$max_len-$percent_len
     # if the diff_len is even, left will have 1 more space than right
     let left_spaces=($diff_len + 1)/2
