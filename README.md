@@ -160,7 +160,7 @@ Show CPU usage information
 - `tmux2k-cpu-icon`: Icon for CPU usage, default: ``
 - `tmux2k-cpu-display-load`: Control CPU load display, default: `false`
 
-#### 4. `cpu_temp`
+#### 4. `cpu-temp`
 
 Show CPU temperature
 
@@ -245,7 +245,7 @@ Show weather information
 - `@tmux2k-weather-display-location`: Whether to show location name. Default: `true`
 - `@tmux2k-weather-location`: Fixed location for weather. Default: `""`
 
-#### 16. `window_list`
+#### 16. `window-list`
 
 tmux window list
 

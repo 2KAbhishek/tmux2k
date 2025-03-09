@@ -56,7 +56,7 @@ declare -A plugin_colors=(
     ["bandwidth"]="purple text"
     ["battery"]="pink text"
     ["cpu"]="light_green text"
-    ["cpu_temp"]="light_purple text"
+    ["cpu-temp"]="light_purple text"
     ["cwd"]="blue text"
     ["git"]="green text"
     ["gpu"]="red text"
@@ -69,7 +69,7 @@ declare -A plugin_colors=(
     ["time"]="light_blue text"
     ["uptime"]="light_blue text"
     ["weather"]="orange text"
-    ["window_list"]="black blue"
+    ["window-list"]="black blue"
     ["custom"]="red text"
 )
 
