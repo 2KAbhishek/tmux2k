@@ -198,8 +198,8 @@ Show GPU usage information
 
 Group output from several other plugins to present information in more compact manner.
 
-- `tmux2k-group-plugins`: Set plugins for combining their output, default: `cpu ram cpu-temp uptime`
-- `tmux2k-group-delimiter`: Delimiter between plugin's output, default: `󰇝`
+- `tmux2k-group-plugins`: Set plugins for combining their output, default: `cpu ram uptime`
+- `tmux2k-group-delimiter`: Delimiter between plugin's output, default: ``
 
 #### 9. `network`
 
