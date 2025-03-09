@@ -194,7 +194,14 @@ Show GPU usage information
 
 - `tmux2k-gpu-icon`: Icon for GPU usage, default: ```
 
-#### 8. `network`
+#### 8. `group`
+
+Group output from several other plugins to present information in more compact manner.
+
+- `tmux2k-group-plugins`: Set plugins for combining their output, default: `cpu ram cpu-temp uptime`
+- `tmux2k-group-delimiter`: Delimiter between plugin's output, default: `󰇝`
+
+#### 9. `network`
 
 Show network status and statistics
 
@@ -202,35 +209,35 @@ Show network status and statistics
 - `tmux2k-network-wifi-icon`: Icon for Wi-Fi connection, default: ``
 - `tmux2k-network-offline-icon`: Icon for offline status, default: `󰌙`
 
-#### 9. `ping`
+#### 10. `ping`
 
 Show network ping statistics
 
-#### 10. `pomodoro`
+#### 11. `pomodoro`
 
 Shows pomodoro timer, needs [tmux-pomodoro-plus](https://github.com/olimorris/tmux-pomodoro-plus) (hit `prefix + p` to start)
 
-#### 11. `ram`
+#### 12. `ram`
 
 Show RAM usage information
 
 - `tmux2k-ram-icon`: Icon for RAM usage, default: ``
 
-#### 12. `session`
+#### 13. `session`
 
 Shows Current Session/Window with custom icon
 
 - `tmux2k-session-format`: Format for Tmux session, default: `#S`
 - `tmux2k-session-icon`: Icon for Tmux session, default: ``
 
-#### 13. `time`
+#### 14. `time`
 
 Show current time and date
 
 - `@tmux2k-time-format`: Sets the format for displaying the time. Default: `"%a %I:%M %p"`
 - `@tmux2k-time-icon`: Sets the icon for the time display. Default: ``
 
-#### 14. `weather`
+#### 15. `weather`
 
 Show weather information
 
@@ -238,7 +245,7 @@ Show weather information
 - `@tmux2k-weather-display-location`: Whether to show location name. Default: `true`
 - `@tmux2k-weather-location`: Fixed location for weather. Default: `""`
 
-#### 15. `window_list`
+#### 16. `window_list`
 
 tmux window list
 
@@ -248,7 +255,7 @@ tmux window list
 - `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
 - `@tmux2k-window-list-compact`: Enables or disables compact mode for the window list. Default: `false`
 
-#### 16. `uptime`
+#### 17. `uptime`
 
 Show current system uptime
 
