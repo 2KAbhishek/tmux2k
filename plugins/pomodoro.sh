@@ -16,9 +16,7 @@ if [ -f "$POMODORO_SCRIPT" ]; then
 fi
 
 main() {
-    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
     pomodoro_status="$(pomodoro_status)"
-    sleep "$RATE"
 }
 
 main

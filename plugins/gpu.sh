@@ -27,11 +27,9 @@ get_gpu() {
 }
 
 main() {
-    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
     gpu_icon=$(get_tmux_option "@tmux2k-gpu-icon" "")
     gpu_usage=$(get_gpu)
     echo "$gpu_icon $gpu_usage"
-    sleep "$RATE"
 }
 
 main

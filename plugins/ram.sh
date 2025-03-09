@@ -36,11 +36,9 @@ get_percent() {
 }
 
 main() {
-    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
     ram_icon=$(get_tmux_option "@tmux2k-ram-icon" "")
     ram_percent=$(get_percent)
     echo "$ram_icon $ram_percent"
-    sleep "$RATE"
 }
 
 main

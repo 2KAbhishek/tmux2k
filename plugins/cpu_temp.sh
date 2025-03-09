@@ -26,7 +26,6 @@ round() {
 }
 
 main() {
-    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
     temp_icon=$(get_tmux_option "@tmux2k-cpu-temp-icon" "")
     delimiter=$(get_tmux_option "@tmux2k-cpu-temp-delimiter" ".")
     round=$(get_tmux_option "@tmux2k-cpu-temp-round" false)
@@ -42,7 +41,6 @@ main() {
     result="$temp_icon $cpu_temp"
 
     echo -n "$result"
-    sleep "$RATE"
 }
 
 main

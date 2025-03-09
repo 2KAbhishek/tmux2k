@@ -18,9 +18,8 @@ ping_function() {
 }
 
 main() {
-
     echo "$(ping_function)"
-    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
+    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 1)
     sleep "$RATE"
 }
 

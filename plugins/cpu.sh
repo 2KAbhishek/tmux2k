@@ -36,7 +36,6 @@ get_load() {
 }
 
 main() {
-#    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
     cpu_load=$(get_tmux_option "@tmux2k-cpu-display-load" false)
     if [ "$cpu_load" = true ]; then
         get_load
@@ -45,7 +44,6 @@ main() {
         cpu_percent=$(get_percent)
         echo "$cpu_icon $cpu_percent"
     fi
-#    sleep "$RATE"
 }
 
 main
