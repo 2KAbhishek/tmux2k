@@ -39,7 +39,9 @@ tmux2k is a highly customizable framework designed to enhance your tmux status b
 
 ### ⚙️ Requirements
 
-- bash 5.2 or newer, mac users can install it using `brew install bash`
+> [!IMPORTANT]
+> bash 5.2 or newer, macOS users can install it using `brew install bash`
+
 - A [patched nerd font](https://www.nerdfonts.com/) for `powerline` and glyphs support.
 
 ### 💻 Installation
@@ -247,11 +249,12 @@ Show weather information
 
 #### 16. `window-list`
 
-tmux window list
+tmux window list, this plugin is not supposed to be added to left / right plugin arrays, use the alignment option to position it.
 
+- `@tmux2k-window-list-alignment`: Sets the alignment of the window list. Default: `'absolute-centre'`
+   Available options: left | centre | right | absolute-centre
 - `@tmux2k-window-list-left-sep`: Sets the left separator for the window list. Default: ``
 - `@tmux2k-window-list-right-sep`: Sets the right separator for the window list. Default: ``
-- `@tmux2k-window-list-alignment`: Sets the alignment of the window list. Default: `'absolute-centre'`
 - `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
 - `@tmux2k-window-list-compact`: Enables or disables compact mode for the window list. Default: `false`
 
