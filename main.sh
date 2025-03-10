@@ -68,6 +68,7 @@ declare -A plugin_colors=(
     ["session"]="green text"
     ["time"]="light_blue text"
     ["uptime"]="light_blue text"
+    ["uptime2"]="light_blue text"
     ["weather"]="orange text"
     ["window-list"]="black blue"
     ["custom"]="red text"
