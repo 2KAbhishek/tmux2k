@@ -268,35 +268,45 @@ Show current system uptime
 
 Show current system uptime
 
-- `tmux2k-uptime2-format-string`: Sets format string, default `󰀠 %D[#dd %02#hh %02#mm%D]%d[%H[#hh %02#mm%H]%h[%2#m min%h]%d]")`
-   In format string following placeholders can be used:
-   `#d` - stay for days. Can be empty.
-   `#h` - stay for hours. Can be empty.
-   `#m` - stay for minutes. Can not be empty 
-   `#H` - stay for full hours. Full hours are calculated as `days*24+hours`
-   `#M` - stay for full minutes. Full minutes are calculated as `(days*24+hours)*60+minutes`
-   `#D` - stay for fractional days. Fractional days are calculated as `days+((hours*60+minutes)/(24*60))`. Fractional days are floating point.
-   `#F` - stay for full fractional hours. Full fractional hours are calculated as (full_hours)+(minutes/60). Full fractional hours are floating point.
-   `#f` - stay for fractional hours. Fractional hours are calculated as `(hours)+(minutes/60)`. Fractional hours are floating point.
-   Each placeholder can be preceeded by printf like format specifier. Most usefull formats are:
-   `%02` - print value in width 2 with leading zero.
-   `%2`  - print value in width 2 without leading zero.
-   `%.2` - print floating point value with 2 digits after dot.
-	Examples:
-	Lets assume that uptime is 1 day 18 hours 0 minutes. Than
-	`%3#d` expands to `  1`, `%03#d` expands to `001`, `%.2#D` expands to `1.75`, `%02#m` expands to `00` 
-    One can add contitional formatting using brackets, Supported brackets include:
-    `%D[`<Content>`%D]` - <content> is diplayed only if days value is not empty. 
-    `%d[`<Content>`%d]` - <content> is diplayed only if days value is empty.
-    `%H[`<Content>`%H]` - <content> is diplayed only if hours value is not empty.
-    `%h[`<Content>`%h]` - <content> is diplayed only if hours value is empty.
-    `%<number>[`<content>`%]` - <content> is displayed in the center of field with width <number>
-    Examples:
-    Default value of format strings displays:
-    Uptime: `30 minutes` Displayed value `30 min`
-    Uptime: `1 hour, 5 minutes` Displayed value ` 1h 05m`
-    Uptime: `3 days, 1 hour, 5 minutes` Displayed value `1d 01h 05m`
-	Uptime: `5 minutes`, format string `%5[%02m%]` Displayed value: `  05 `
+- `tmux2k-uptime2-format-string`: Sets format string, default `"󰀠 %D[#dd %02#hh %02#mm%D]%d[%H[#hh %02#mm%H]%h[%2#m min%h]%d]"`
+
+In format string following placeholders can be used:
+
+-  `#d` - stay for days. Can be empty.
+-  `#h` - stay for hours. Can be empty.
+-  `#m` - stay for minutes. Can not be empty 
+-  `#H` - stay for full hours. Full hours are calculated as `days*24+hours`
+-  `#M` - stay for full minutes. Full minutes are calculated as `(days*24+hours)*60+minutes`
+-  `#D` - stay for fractional days. Fractional days are calculated as `days+((hours*60+minutes)/(24*60))`. Fractional days are floating point.
+-  `#F` - stay for full fractional hours. Full fractional hours are calculated as (full_hours)+(minutes/60). Full fractional hours are floating point.
+-  `#f` - stay for fractional hours. Fractional hours are calculated as `(hours)+(minutes/60)`. Fractional hours are floating point.
+
+Each placeholder can be preceeded by printf like format specifier. Most usefull formats are:
+
+- `%02` - print value in width 2 with leading zero.
+- `%2`  - print value in width 2 without leading zero.
+- `%.2` - print floating point value with 2 digits after dot.
+
+Examples:
+Lets assume that uptime is 1 day 18 hours 0 minutes. Than
+
+- `%3#d` expands to `  1`, `%03#d` expands to `001`, `%.2#D` expands to `1.75`, `%02#m` expands to `00` 
+
+One can add contitional formatting using brackets, Supported brackets include:
+
+- `%D[`<Content>`%D]` - <content> is diplayed only if days value is not empty. 
+- `%d[`<Content>`%d]` - <content> is diplayed only if days value is empty.
+- `%H[`<Content>`%H]` - <content> is diplayed only if hours value is not empty.
+- `%h[`<Content>`%h]` - <content> is diplayed only if hours value is empty.
+- `%<number>[`<content>`%]` - <content> is displayed in the center of field with width <number>
+
+Examples:
+Default value of format strings displays:
+
+- Uptime: `30 minutes` Displayed value `30 min`
+- Uptime: `1 hour, 5 minutes` Displayed value ` 1h 05m`
+- Uptime: `3 days, 1 hour, 5 minutes` Displayed value `1d 01h 05m`
+- Uptime: `5 minutes`, format string `%5[%02m%]` Displayed value: `  05 `
 	
 #### 🪆 Add New Plugins
 
