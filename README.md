@@ -215,6 +215,8 @@ Show network status and statistics
 
 Show network ping statistics
 
+- `tmux2k-ping-server`: Host to ping, default: `google.com`
+
 #### 11. `pomodoro`
 
 Shows pomodoro timer, needs [tmux-pomodoro-plus](https://github.com/olimorris/tmux-pomodoro-plus) (hit `prefix + p` to start)
