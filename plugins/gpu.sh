@@ -21,13 +21,13 @@ get_gpu() {
     if [[ "$gpu" == NVIDIA ]]; then
         usage=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | awk '{ sum += $0 } END { printf("%s%%\n", sum / NR) }')
     else
-        usage='unknown'
+        usage='N/A'
     fi
     normalize_padding "$usage"
 }
 
 main() {
-    gpu_icon=$(get_tmux_option "@tmux2k-gpu-icon" "")
+    gpu_icon=$(get_tmux_option "@tmux2k-gpu-icon" "")
     gpu_usage=$(get_gpu)
     echo "$gpu_icon $gpu_usage"
 }

@@ -193,7 +193,7 @@ Show Git branch and status information
 
 Show GPU usage information
 
-- `tmux2k-gpu-icon`: Icon for GPU usage, default: ```
+- `tmux2k-gpu-icon`: Icon for GPU usage, default: ``
 
 #### 8. `group`
 
@@ -264,7 +264,7 @@ tmux window list, this plugin is not supposed to be added to left / right plugin
 
 Show current system uptime
 
-- `tmux2k-uptime-icon`: Icon for system uptime, default: `󰀠`
+- `tmux2k-uptime-icon`: Icon for system uptime, default: `󱎫`
 
 #### 🪆 Add New Plugins
 
