@@ -3,7 +3,7 @@
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir/../lib/utils.sh"
 
-uptime_icon=$(get_tmux_option "@tmux2k-uptime-icon" "󰀠")
+uptime_icon=$(get_tmux_option "@tmux2k-uptime-icon" "󱎫")
 
 main() {
     uptime | awk '
