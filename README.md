@@ -170,7 +170,6 @@ Show CPU temperature
 - `tmux2k-cpu-temp-delimiter`: Decimal delimiter for CPU temperature, default: `.`
 - `tmux2k-cpu-temp-round`: Round CPU temperature to the nearest integer, default: `false`
 
-
 #### 5. `cwd`
 
 Show current working directory
@@ -216,6 +215,7 @@ Show network status and statistics
 Show network ping statistics
 
 - `tmux2k-ping-server`: Host to ping, default: `google.com`
+- `tmux2k-ram-icon`: Icon for ping, default: `󱘖`
 
 #### 11. `pomodoro`
 
@@ -254,7 +254,7 @@ Show weather information
 tmux window list, this plugin is not supposed to be added to left / right plugin arrays, use the alignment option to position it.
 
 - `@tmux2k-window-list-alignment`: Sets the alignment of the window list. Default: `'absolute-centre'`
-   Available options: left | centre | right | absolute-centre
+  Available options: left | centre | right | absolute-centre
 - `@tmux2k-window-list-left-sep`: Sets the left separator for the window list. Default: ``
 - `@tmux2k-window-list-right-sep`: Sets the right separator for the window list. Default: ``
 - `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
