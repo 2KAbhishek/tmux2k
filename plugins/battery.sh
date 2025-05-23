@@ -55,7 +55,7 @@ battery_status() {
     case $status in
     discharging | Discharging) echo '' ;;
     high) echo '' ;;
-    charging) echo "$charging_icon" ;;
+    charging | Charging) echo "$charging_icon" ;;
     esac
 }
 
