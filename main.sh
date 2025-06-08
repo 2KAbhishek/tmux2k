@@ -70,6 +70,7 @@ declare -A plugin_colors=(
     ["uptime"]="light_blue text"
     ["weather"]="orange text"
     ["window-list"]="black blue"
+    ["tdo"]="green text"
     ["custom"]="red text"
 )
 
