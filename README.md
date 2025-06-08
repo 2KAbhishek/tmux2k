@@ -266,6 +266,12 @@ Show current system uptime
 
 - `tmux2k-uptime-icon`: Icon for system uptime, default: `󱎫`
 
+#### 18. `tdo`
+
+Show pending todo with [tdo](https://github.com/2kabhishek/tdo)
+
+- `@tmux2k-tdo-icon`: Sets the icon for the todos display. Default: ``
+
 #### 🪆 Add New Plugins
 
 To add a new plugin:
