@@ -6,7 +6,7 @@ source "$current_dir/../lib/utils.sh"
 tdo_icon=$(get_tmux_option "@tmux2k-tdo-icon" "")
 
 main() {
-    if ! command -v tdos &>/dev/null; then
+    if ! command -v tdo &>/dev/null; then
         return
     fi
     tdo_count=$(tdo --pending)
