@@ -21,7 +21,7 @@ theme=$(get_tmux_option "@tmux2k-theme" 'default')
 icons_only=$(get_tmux_option "@tmux2k-icons-only" false)
 
 white=$(get_tmux_option "@tmux2k-white" '#ffffff')
-gray=$(get_tmux_option "@tmux2k-dark-gray" '#2f2f2f')
+gray=$(get_tmux_option "@tmux2k-dark-gray" '#3f3f4f')
 black=$(get_tmux_option "@tmux2k-black" '#000000')
 
 light_blue=$(get_tmux_option "@tmux2k-light-blue" '#11dddd')
@@ -239,7 +239,7 @@ set_theme() {
     message_bg=$(get_tmux_option "@tmux2k-message-bg" "$blue")
     message_fg=$(get_tmux_option "@tmux2k-message-fg" "$black")
     pane_active_border=$(get_tmux_option "@tmux2k-pane-active-border" "$blue")
-    pane_border=$(get_tmux_option "@tmux2k-pane-border" "$black")
+    pane_border=$(get_tmux_option "@tmux2k-pane-border" "$gray")
     prefix_highlight=$(get_tmux_option "@tmux2k-prefix-highlight" "$blue")
 }
 
@@ -252,7 +252,7 @@ set_options() {
 
     tmux set-option -g status-style "bg=${bg_main},fg=${text}"
     tmux set-option -g message-style "bg=${message_bg},fg=${message_fg}"
-    tmux set-option -g pane-active-border-style "fg=${pane_active_border}"
+    tmux set-option -g pane-active-border-style "bg=${bg_main},fg=${pane_active_border},bold"
     tmux set-option -g pane-border-style "fg=${pane_border}"
 
     tmux set -g status-justify "$window_list_alignment"
