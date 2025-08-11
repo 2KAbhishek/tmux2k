@@ -246,7 +246,8 @@ Show current time and date
 Show weather information
 
 - `@tmux2k-weather-scale`: Scale to use for temperature. Default: `c`, options: `[c, f, k]`
-- `@tmux2k-weather-display-location`: Whether to show location name. Default: `true`
+- `@tmux2k-weather-display-condition`: Whether to show weather condition name. Default: `true`
+- `@tmux2k-weather-display-location`: Whether to show location name. Default: `false`
 - `@tmux2k-weather-location`: Fixed location for weather. Default: `""`
 
 #### 16. `window-list`

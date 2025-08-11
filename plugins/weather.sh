@@ -6,6 +6,7 @@ current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir/../lib/utils.sh"
 
 weather_scale=$(get_tmux_option "@tmux2k-weather-scale" "c")
+display_condition=$(get_tmux_option "@tmux2k-weather-display-condition" true)
 display_location=$(get_tmux_option "@tmux2k-weather-display-location" false)
 fixed_location=$(get_tmux_option "@tmux2k-weather-location" "")
 
@@ -64,11 +65,17 @@ main() {
     temperature=$(echo "$weather_information" | rev | cut -d ' ' -f 1 | rev)
     unicode=$(forecast_unicode "$condition")
 
-    if [[ $display_location == "true" ]]; then
-        echo "$unicode${temperature/+/} $condition $location"
+    if [[ $display_condition == "true" ]]; then
+        condition=" $condition"
     else
-        echo "$unicode${temperature/+/} $condition"
+        condition=""
     fi
+    if [[ $display_location == "true" ]]; then
+        location=" $location"
+    else
+        location=""
+    fi
+    echo "$unicode${temperature/+/}$condition$location"
 }
 
 main
