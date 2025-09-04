@@ -40,7 +40,8 @@ tmux2k is a highly customizable framework designed to enhance your tmux status b
 ### ⚙️ Requirements
 
 > [!IMPORTANT]
-> bash 5.2 or newer, macOS users can install it using `brew install bash`
+> bash 5.2 or newer is required for colors to work correctly, macOS users can install it using `brew install bash`
+> The default macOS terminal is not supported, I would recomment Kitty, Alacritty or another modern terminal emulator
 
 - A [patched nerd font](https://www.nerdfonts.com/) for `powerline` and glyphs support.
 
