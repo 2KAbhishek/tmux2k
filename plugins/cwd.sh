@@ -42,7 +42,7 @@ main() {
     # Change '/home/user' to '~'
     cwd="${path/"$HOME"/'~'}"
     truncated_cwd=$(truncate_path "$cwd")
-    cwd_icon=$(get_tmux_option "@tmux2k-ram-icon" "")
+    cwd_icon=$(get_tmux_option "@tmux2k-cwd-icon" "")
 
     echo "$cwd_icon $truncated_cwd"
 }
