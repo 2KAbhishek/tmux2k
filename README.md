@@ -175,6 +175,9 @@ Show CPU temperature
 Show current working directory
 
 - `tmux2k-cwd-icon`: Icon for directory, default: ``
+- `tmux2k-cwd-length`: Maximum path length before truncation, default: `20`
+- `tmux2k-cwd-min-depth`: Minimum directory depth before mid-truncation, default: `4`
+- `tmux2k-cwd-prefix-chars`: Characters to keep from each directory name when truncating, default: `2`
 
 #### 6. `git`
 

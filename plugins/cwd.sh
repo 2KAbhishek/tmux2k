@@ -3,7 +3,6 @@
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir/../lib/utils.sh"
 
-# return current working directory of tmux pane
 get_pane_dir() {
     nextone="false"
     ret=""
@@ -15,31 +14,36 @@ get_pane_dir() {
     echo "${ret%?}"
 }
 
-# truncate the path if it's longer than 30 characters
 truncate_path() {
-    local path="$1" limit=20 truncated_path=""
+    local path="$1"
+    local max_length=$(get_tmux_option "@tmux2k-cwd-length" 40)
+    local min_depth=$(get_tmux_option "@tmux2k-cwd-min-depth" 4)
+    local prefix_chars=$(get_tmux_option "@tmux2k-cwd-prefix-chars" 2)
 
-    # If path is greater than limit, then truncate parts to 2 characters
-    [[ ${#path} -le $limit ]] && echo "$path" && return
+    [[ ${#path} -le $max_length ]] && echo "$path" && return
+
     IFS='/' read -ra parts <<<"$path"
-    for ((i = 0; i < ${#parts[@]} - 1; i++)); do
-        truncated_path+="${parts[i]:0:2}/"
-    done
-    truncated_path+="${parts[-1]}"
+    local truncated=""
 
-    # If there are more than 4 slashes, then we will truncate the middle part
-    if [[ $(tr -cd '/' <<<"$truncated_path" | wc -c) -gt 4 ]]; then
-        IFS='/' read -ra parts <<<"$truncated_path"
+    for ((i = 0; i < ${#parts[@]} - 1; i++)); do
+        truncated+="${parts[i]:0:$prefix_chars}/"
+    done
+    truncated+="${parts[-1]}"
+
+    [[ ${#truncated} -le $max_length ]] && echo "$truncated" && return
+
+    local slash_count=$(tr -cd '/' <<<"$truncated" | wc -c)
+    if [[ $slash_count -gt $min_depth ]]; then
+        IFS='/' read -ra parts <<<"$truncated"
         echo "${parts[0]}/${parts[1]}/.../${parts[-2]}/${parts[-1]}"
     else
-        echo "$truncated_path"
+        echo "$truncated"
     fi
 }
 
 main() {
     path=$(get_pane_dir)
 
-    # Change '/home/user' to '~'
     cwd="${path/"$HOME"/'~'}"
     truncated_cwd=$(truncate_path "$cwd")
     cwd_icon=$(get_tmux_option "@tmux2k-ram-icon" "")
@@ -47,5 +51,4 @@ main() {
     echo "$cwd_icon $truncated_cwd"
 }
 
-#run main driver program
 main
