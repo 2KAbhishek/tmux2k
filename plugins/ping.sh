@@ -37,7 +37,7 @@ ping_function() {
                 ;;
         esac
         if [[ -n "$pingtime" ]]; then
-            # convertir ms en secondes
+            # convert ms to seconds
             duration=$(echo "$pingtime / 1000" | bc -l)
             printf "%.2fs\n" "$duration"
         else
