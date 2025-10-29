@@ -21,7 +21,21 @@ ping_function() {
             echo "-.--s"
         fi
     else
-        pingtime=$(ping -c 1 "$pingserver" | tail -1 | awk '{split($4, times, "/"); print times[2]}')
+        os_type=$(uname)
+        case "$os_type" in
+            Linux*)
+                # Linux: rtt min/avg/max/mdev = 12.345/67.890/123.456/7.890 ms
+                pingtime=$(ping -c 1 "$pingserver" | tail -1 | awk -F'/' '/^rtt/ {print $5}')
+                ;;
+            Darwin*)
+                # macOS: round-trip min/avg/max/stddev = 12.345/67.890/123.456/7.890 ms
+                pingtime=$(ping -c 1 "$pingserver" | tail -1 | awk -F'/' '/^round-trip/ {print $2}')
+                ;;
+            *)
+                # Fallback: try Linux format
+                pingtime=$(ping -c 1 "$pingserver" | tail -1 | awk -F'/' '{print $5}')
+                ;;
+        esac
         if [[ -n "$pingtime" ]]; then
             # convertir ms en secondes
             duration=$(echo "$pingtime / 1000" | bc -l)
