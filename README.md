@@ -218,7 +218,7 @@ Show network status and statistics
 
 Show network ping statistics
 
-- `tmux2k-ping-server`: Host to ping, default: `google.com`
+- `tmux2k-ping-server`: Host to ping, default: `google.com`, you can now ping to a port, example: `localhost:5000`, `nc` will be used to ping the target on the given port
 - `tmux2k-ram-icon`: Icon for ping, default: `󱘖`
 
 #### 11. `pomodoro`
