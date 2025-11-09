@@ -73,6 +73,7 @@ declare -A plugin_colors=(
     ["tdo"]="green text"
     ["custom"]="red text"
     ["updates"]="purple text"
+    ["docker"]="orange text"
 )
 
 reverse_colors() {

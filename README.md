@@ -180,7 +180,15 @@ Show current working directory
 - `tmux2k-cwd-min-depth`: Minimum directory depth before mid-truncation, default: `4`
 - `tmux2k-cwd-prefix-chars`: Characters to keep from each directory name when truncating, default: `2`
 
-#### 6. `git`
+#### 6. `docker`
+
+Show if the docker engine is running and, depending on the mode, show number of containers or filtered containers based on grep term and label.
+
+- `tmux2k-docker-mode`: Control docker mode, default: `containers`
+- `tmux2k-docker-grep`: Grep term for filtering containers, default: ``
+- `tmux2k-docker-label`: Label for displaying containers, default: ``
+
+#### 7. `git`
 
 Show Git branch and status information
 
@@ -193,20 +201,20 @@ Show Git branch and status information
 - `tmux2k-git-diff-icon`: Icon for differences, default: ``
 - `tmux2k-git-no-repo-icon`: Icon for no repository, default: ``
 
-#### 7. `gpu`
+#### 8. `gpu`
 
 Show GPU usage information
 
 - `tmux2k-gpu-icon`: Icon for GPU usage, default: ``
 
-#### 8. `group`
+#### 9. `group`
 
 Group output from several other plugins to present information in more compact manner.
 
 - `tmux2k-group-plugins`: Set plugins for combining their output, default: `cpu ram uptime`
 - `tmux2k-group-delimiter`: Delimiter between plugin's output, default: ``
 
-#### 9. `network`
+#### 10. `network`
 
 Show network status and statistics
 
@@ -214,45 +222,45 @@ Show network status and statistics
 - `tmux2k-network-wifi-icon`: Icon for Wi-Fi connection, default: ``
 - `tmux2k-network-offline-icon`: Icon for offline status, default: `󰌙`
 
-#### 10. `ping`
+#### 11. `ping`
 
 Show network ping statistics
 
 - `tmux2k-ping-server`: Host to ping, default: `google.com`
 - `tmux2k-ram-icon`: Icon for ping, default: `󱘖`
 
-#### 11. `pomodoro`
+#### 12. `pomodoro`
 
 Shows pomodoro timer, needs [tmux-pomodoro-plus](https://github.com/olimorris/tmux-pomodoro-plus) (hit `prefix + p` to start)
 
-#### 12. `ram`
+#### 13. `ram`
 
 Show RAM usage information
 
 - `tmux2k-ram-icon`: Icon for RAM usage, default: ``
 
-#### 13. `session`
+#### 14. `session`
 
 Shows Current Session/Window with custom icon
 
 - `tmux2k-session-format`: Format for Tmux session, default: `#S`
 - `tmux2k-session-icon`: Icon for Tmux session, default: ``
 
-#### 14. `time`
+#### 15. `time`
 
 Show current time and date
 
 - `@tmux2k-time-format`: Sets the format for displaying the time. Default: `"%a %I:%M %p"`
 - `@tmux2k-time-icon`: Sets the icon for the time display. Default: ``
 
-#### 15. `updates`
+#### 16. `updates`
 
 Show available system updates. The following package managers are supported:
 - `pacman` [+ `yay`] (arch, manjaro, endeavourOS)
 - `apt` (debian, ubuntu, popos, elementaryOS, mint, zorin)
 - `brew` (macOS)
 
-#### 16. `weather`
+#### 17. `weather`
 
 Show weather information
 
@@ -261,7 +269,7 @@ Show weather information
 - `@tmux2k-weather-display-location`: Whether to show location name. Default: `false`
 - `@tmux2k-weather-location`: Fixed location for weather. Default: `""`
 
-#### 17. `window-list`
+#### 18. `window-list`
 
 tmux window list, this plugin is not supposed to be added to left / right plugin arrays, use the alignment option to position it.
 
@@ -272,13 +280,13 @@ tmux window list, this plugin is not supposed to be added to left / right plugin
 - `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
 - `@tmux2k-window-list-compact`: Enables or disables compact mode for the window list. Default: `false`
 
-#### 18. `uptime`
+#### 19. `uptime`
 
 Show current system uptime
 
 - `tmux2k-uptime-icon`: Icon for system uptime, default: `󱎫`
 
-#### 19. `tdo`
+#### 20. `tdo`
 
 Show pending todo with [tdo](https://github.com/2kabhishek/tdo)
 
