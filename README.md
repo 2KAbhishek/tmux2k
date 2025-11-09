@@ -245,7 +245,14 @@ Show current time and date
 - `@tmux2k-time-format`: Sets the format for displaying the time. Default: `"%a %I:%M %p"`
 - `@tmux2k-time-icon`: Sets the icon for the time display. Default: ``
 
-#### 15. `weather`
+#### 15. `updates`
+
+Show available system updates. The following package managers are supported:
+- `pacman` [+ `yay`] (arch, manjaro, endeavourOS)
+- `apt` (debian, ubuntu, popos, elementaryOS, mint, zorin)
+- `brew` (macOS)
+
+#### 16. `weather`
 
 Show weather information
 
@@ -254,7 +261,7 @@ Show weather information
 - `@tmux2k-weather-display-location`: Whether to show location name. Default: `false`
 - `@tmux2k-weather-location`: Fixed location for weather. Default: `""`
 
-#### 16. `window-list`
+#### 17. `window-list`
 
 tmux window list, this plugin is not supposed to be added to left / right plugin arrays, use the alignment option to position it.
 
@@ -265,13 +272,13 @@ tmux window list, this plugin is not supposed to be added to left / right plugin
 - `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
 - `@tmux2k-window-list-compact`: Enables or disables compact mode for the window list. Default: `false`
 
-#### 17. `uptime`
+#### 18. `uptime`
 
 Show current system uptime
 
 - `tmux2k-uptime-icon`: Icon for system uptime, default: `󱎫`
 
-#### 18. `tdo`
+#### 19. `tdo`
 
 Show pending todo with [tdo](https://github.com/2kabhishek/tdo)
 
