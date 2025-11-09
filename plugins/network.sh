@@ -14,7 +14,11 @@ offline_icon=$(get_tmux_option "@tmux2k-network-offline-icon" "󰌙")
 get_ssid() {
     case $(uname -s) in
     Linux)
-        SSID=$(iwgetid -r)
+        if command -v iwgetid >/dev/null 2>&1; then
+            SSID=$(iwgetid -r)
+        else
+            SSID=$(iw wlan0 link | awk -F ':' '/SSID/{print $2}')
+        fi
         if [ -n "$SSID" ]; then
             printf '%s' "$wifi_icon $SSID"
         else
