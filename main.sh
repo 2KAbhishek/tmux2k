@@ -72,6 +72,7 @@ declare -A plugin_colors=(
     ["window-list"]="black blue"
     ["tdo"]="green text"
     ["custom"]="red text"
+    ["updates"]="purple text"
 )
 
 reverse_colors() {
