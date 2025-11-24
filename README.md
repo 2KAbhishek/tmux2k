@@ -182,11 +182,10 @@ Show current working directory
 
 #### 6. `docker`
 
-Show if the docker engine is running and, depending on the mode, show number of containers or filtered containers based on grep term and label.
+Show the number of running Docker containers, with support for filtering by grep term.
 
-- `tmux2k-docker-mode`: Control docker mode, default: `containers`
+- `tmux2k-docker-icon`: Icon for docker, default: ``
 - `tmux2k-docker-grep`: Grep term for filtering containers, default: ``
-- `tmux2k-docker-label`: Label for displaying containers, default: ``
 
 #### 7. `git`
 
