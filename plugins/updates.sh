@@ -11,21 +11,21 @@ choose_icon() {
     local os_id="$1"
 
     case "$os_id" in
-        arch|endeavouros|manjaro)
-            printf '󰣇'
-            ;;
-        debian|linuxmint|raspbian)
-            printf '󰣚'
-            ;;
-        ubuntu|pop|elementary|zorin)
-            printf '󰕈'
-            ;;
-        darwin)
-            printf ''
-            ;;
-        *)
-            printf ''
-            ;;
+    arch | endeavouros | manjaro)
+        printf '󰣇'
+        ;;
+    debian | linuxmint | raspbian)
+        printf '󰣚'
+        ;;
+    ubuntu | pop | elementary | zorin)
+        printf '󰕈'
+        ;;
+    darwin)
+        printf ''
+        ;;
+    *)
+        printf ''
+        ;;
     esac
 }
 
@@ -51,7 +51,7 @@ get_arch_updates() {
     if [ "$aur_count" -gt 0 ]; then
         echo "$ICON [$repo_count+$aur_count]"
     else
-        echo "$ICON [$repo_count]"
+        echo "$ICON $repo_count"
     fi
 }
 
@@ -60,9 +60,9 @@ get_debian_updates() {
 
     if command -v apt >/dev/null 2>&1; then
         count="$(
-            apt list --upgradable 2>/dev/null \
-            | grep -v '^Listing\.' \
-            | wc -l || echo 0
+            apt list --upgradable 2>/dev/null |
+                grep -v '^Listing\.' |
+                wc -l || echo 0
         )"
     elif command -v apt-get >/dev/null 2>&1; then
         local line
@@ -75,7 +75,7 @@ get_debian_updates() {
     count="$(trim "$count")"
     [[ "$count" =~ ^[0-9]+$ ]] || count=0
 
-    echo "$ICON [$count]"
+    echo "$ICON $count"
 }
 
 get_macos_updates() {
@@ -88,7 +88,7 @@ get_macos_updates() {
     brew_count="$(trim "$brew_count")"
     [[ "$brew_count" =~ ^[0-9]+$ ]] || brew_count=0
 
-    echo "$ICON [$brew_count]"
+    echo "$ICON $brew_count"
 }
 
 main() {
@@ -99,31 +99,31 @@ main() {
         os_id="$ID"
     else
         case "$(uname -s)" in
-            Darwin)
-                os_id="darwin"
-                ;;
+        Darwin)
+            os_id="darwin"
+            ;;
         esac
     fi
 
     ICON="$(choose_icon "$os_id")"
 
     case "$os_id" in
-        arch|endeavouros|manjaro)
-            get_arch_updates
-            ;;
-        debian|linuxmint|raspbian|ubuntu|pop|elementary|zorin)
+    arch | endeavouros | manjaro)
+        get_arch_updates
+        ;;
+    debian | linuxmint | raspbian | ubuntu | pop | elementary | zorin)
+        get_debian_updates
+        ;;
+    darwin)
+        get_macos_updates
+        ;;
+    *)
+        if command -v apt >/dev/null 2>&1 || command -v apt-get >/dev/null 2>&1; then
             get_debian_updates
-            ;;
-        darwin)
-            get_macos_updates
-            ;;
-        *)
-            if command -v apt >/dev/null 2>&1 || command -v apt-get >/dev/null 2>&1; then
-                get_debian_updates
-            else
-                echo "$ICON [0]"
-            fi
-            ;;
+        else
+            echo "$ICON [0]"
+        fi
+        ;;
     esac
 }
 
