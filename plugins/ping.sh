@@ -21,7 +21,7 @@ ping_function() {
                 duration=$((end_time - start_time))
                 echo "${duration} ms"
             else
-                echo "timeout"
+                echo ""
             fi
         else
             pingtime=$(ping -c 1 "$pingserver" | tail -1 | awk '{split($4, times, "/"); printf "%.2f", times[2]}')
