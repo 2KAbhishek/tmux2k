@@ -44,7 +44,7 @@ light_purple=$(get_tmux_option "@tmux2k-light-purple" '#DDA0DD')
 purple=$(get_tmux_option "@tmux2k-purple" '#bf58ff')
 dark_purple=$(get_tmux_option "@tmux2k-dark-purple" '#4b0082')
 
-light_red=$(get_tmux_option "@tmux2k-light-red" '#E68a8a')
+light_red=$(get_tmux_option "@tmux2k-light-red" '#ff4a6a')
 red=$(get_tmux_option "@tmux2k-red" '#ff1f1f')
 dark_red=$(get_tmux_option "@tmux2k-dark-red" '#800000')
 
@@ -58,6 +58,7 @@ declare -A plugin_colors=(
     ["cpu"]="light_green text"
     ["cpu-temp"]="light_purple text"
     ["cwd"]="blue text"
+    ["docker"]="light_blue text"
     ["git"]="green text"
     ["gpu"]="red text"
     ["group"]="light_green text"
@@ -67,13 +68,12 @@ declare -A plugin_colors=(
     ["ram"]="yellow text"
     ["session"]="green text"
     ["time"]="light_blue text"
-    ["uptime"]="light_blue text"
+    ["uptime"]="light_pink text"
     ["weather"]="orange text"
     ["window-list"]="black blue"
     ["tdo"]="green text"
+    ["updates"]="light_red text"
     ["custom"]="red text"
-    ["updates"]="purple text"
-    ["docker"]="orange text"
 )
 
 reverse_colors() {
