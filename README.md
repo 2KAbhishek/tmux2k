@@ -225,7 +225,7 @@ Show network status and statistics
 
 Show network ping statistics
 
-- `tmux2k-ping-server`: Host to ping, default: `google.com`
+- `tmux2k-ping-server`: Host/port to ping, default: `google.com`
 - `tmux2k-ram-icon`: Icon for ping, default: `󱘖`
 
 #### 12. `pomodoro`
@@ -255,6 +255,7 @@ Show current time and date
 #### 16. `updates`
 
 Show available system updates. The following package managers are supported:
+
 - `pacman` [+ `yay`] (arch, manjaro, endeavourOS)
 - `apt` (debian, ubuntu, popos, elementaryOS, mint, zorin)
 - `brew` (macOS)
