@@ -5,7 +5,7 @@ export LC_ALL=en_US.UTF-8
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir/lib/utils.sh"
 
-refresh_rate=$(get_tmux_option "@tmux2k-refresh-rate" 60)
+refresh_rate=$(get_tmux_option "@tmux2k-refresh-rate" 5)
 show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
 l_sep=$(get_tmux_option "@tmux2k-left-sep" )
 r_sep=$(get_tmux_option "@tmux2k-right-sep" )

@@ -310,7 +310,7 @@ set -g @tmux2k-left-plugins "session git cpu ram"
 set -g @tmux2k-right-plugins "battery network time"
 
 # contorl refresh rate, applies to bandwidth, ping
-set -g @tmux2k-refresh-rate 1
+set -g @tmux2k-refresh-rate 5
 
 # to customize plugin colors
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"

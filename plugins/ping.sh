@@ -36,8 +36,6 @@ ping_function() {
 main() {
     ping_icon=$(get_tmux_option "@tmux2k-ping-icon" "󱘖")
     echo "$ping_icon $(ping_function)"
-    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 1)
-    sleep "$RATE"
 }
 
 main
