@@ -28,8 +28,7 @@ get_ssid() {
 
     Darwin)
         device_name=$(networksetup -listallhardwareports | grep -A 1 Wi-Fi | grep Device | awk '{print $2}')
-        # SSID=$(ioreg -l | awk -F\" '/SSID/{if ($4 != "") print $4}' | grep -v 'IOReportGroupName')
-        SSID=$(networksetup -getairportnetwork "$device_name" | awk -F ": " '{print $2}')
+        SSID=$(networksetup -listpreferredwirelessnetworks "$device_name" | sed -n '2s/^\t//p')
         if [ -n "$SSID" ]; then
             printf '%s' "$wifi_icon $SSID"
         else
