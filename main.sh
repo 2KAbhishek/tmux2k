@@ -241,7 +241,7 @@ set_theme() {
     message_bg=$(get_tmux_option "@tmux2k-message-bg" "$blue")
     message_fg=$(get_tmux_option "@tmux2k-message-fg" "$black")
     pane_active_border=$(get_tmux_option "@tmux2k-pane-active-border" "$blue")
-    pane_active_border_bg=$(get_tmux_option "@tmux2k-pane-active-border" "$bg_main")
+    pane_active_border_bg=$(get_tmux_option "@tmux2k-pane-active-border-bg" "$bg_main")
     pane_border=$(get_tmux_option "@tmux2k-pane-border" "$gray")
     pane_border_bg=$(get_tmux_option "@tmux2k-pane-border_bg" "$bg_main")
     prefix_highlight=$(get_tmux_option "@tmux2k-prefix-highlight" "$blue")
