@@ -241,7 +241,9 @@ set_theme() {
     message_bg=$(get_tmux_option "@tmux2k-message-bg" "$blue")
     message_fg=$(get_tmux_option "@tmux2k-message-fg" "$black")
     pane_active_border=$(get_tmux_option "@tmux2k-pane-active-border" "$blue")
+    pane_active_border_bg=$(get_tmux_option "@tmux2k-pane-active-border" "$bg_main")
     pane_border=$(get_tmux_option "@tmux2k-pane-border" "$gray")
+    pane_border_bg=$(get_tmux_option "@tmux2k-pane-border_bg" "$bg_main")
     prefix_highlight=$(get_tmux_option "@tmux2k-prefix-highlight" "$blue")
 }
 
@@ -254,8 +256,8 @@ set_options() {
 
     tmux set-option -g status-style "bg=${bg_main},fg=${text}"
     tmux set-option -g message-style "bg=${message_bg},fg=${message_fg}"
-    tmux set-option -g pane-active-border-style "bg=${bg_main},fg=${pane_active_border},bold"
-    tmux set-option -g pane-border-style "fg=${pane_border}"
+    tmux set-option -g pane-active-border-style "bg=${pane_active_border_bg},fg=${pane_active_border}"
+    tmux set-option -g pane-border-style "bg=${pane_border_bg},fg=${pane_border}"
 
     tmux set -g status-justify "$window_list_alignment"
     tmux set-window-option -g window-status-activity-style "bold"
