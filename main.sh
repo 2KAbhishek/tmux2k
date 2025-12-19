@@ -343,6 +343,11 @@ window_list() {
         tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}] ${window_list_format}${spacer}${current_flags} "
         tmux set-window-option -g window-status-format "#[fg=${white},bg=${bg_main}] ${window_list_format}${spacer}${flags} "
     fi
+
+    if [ "$window_list_format" != "#I:#W" ]; then
+        tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}]${spacer}${window_list_format}${spacer}"
+        tmux set-window-option -g window-status-format "#[fg=${white},bg=${wfg}]${spacer}${window_list_format}${spacer}"
+    fi
 }
 
 main() {
