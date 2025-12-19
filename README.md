@@ -121,7 +121,9 @@ UI Colors
 - `message_bg`: Message background color. Default: `blue`
 - `message_fg`: Message text color. Default: `black`
 - `pane_active_border`: Active pane border color. Default: `blue`
-- `pane_border`: Inactive pane border color. Default: `black`
+- `pane_active_border_bg`: Active pane border color. Default: `black`
+- `pane_border`: Inactive pane border color. Default: `gray`
+- `pane_border_bg`: Inactive pane border color. Default: `black`
 - `prefix_highlight`: Highlight color for active prefix. Default: `blue`
 
 To customize theme colors:
