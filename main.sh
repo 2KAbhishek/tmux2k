@@ -61,7 +61,6 @@ declare -A plugin_colors=(
     ["docker"]="light_blue text"
     ["git"]="green text"
     ["gpu"]="red text"
-    ["group"]="light_green text"
     ["network"]="purple text"
     ["ping"]="purple text"
     ["pomodoro"]="red text"
@@ -277,6 +276,10 @@ status_bar() {
         plugin="${plugins[$plugin_index]}"
         IFS=' ' read -r -a colors <<<"$(get_plugin_colors "$plugin")"
         script="#($current_dir/plugins/$plugin.sh)"
+
+        if [[ "$plugin" =~ ^group([0-9]+)$ ]]; then
+            script="#(GROUP_NUM=${BASH_REMATCH[1]} $current_dir/plugins/group.sh)"
+        fi
 
         if [ "$side" == "left" ]; then
             if $show_powerline; then
