@@ -212,8 +212,28 @@ Show GPU usage information
 
 Group output from several other plugins to present information in more compact manner.
 
-- `tmux2k-group-plugins`: Set plugins for combining their output, default: `cpu ram uptime`
-- `tmux2k-group-delimiter`: Delimiter between plugin's output, default: ``
+```bash
+# Define multiple groups
+set -g @tmux2k-group1-plugins "cpu ram"
+set -g @tmux2k-group1-delimiter " | "
+
+set -g @tmux2k-group2-plugins "battery network"
+set -g @tmux2k-group2-delimiter " • "
+
+set -g @tmux2k-group3-plugins "time uptime"
+
+# Use them in your status bar
+set -g @tmux2k-left-plugins "session group1 git"
+set -g @tmux2k-right-plugins "group2 group3"
+```
+
+By default, group plugins inherit colors from the plugin before them. To set custom colors:
+
+```bash
+# Set colors for specific groups
+set -g @tmux2k-group1-colors "blue text"
+set -g @tmux2k-group2-colors "purple text"
+```
 
 #### 10. `network`
 
