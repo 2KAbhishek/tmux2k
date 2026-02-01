@@ -248,7 +248,7 @@ Show network status and statistics
 Show network ping statistics
 
 - `tmux2k-ping-server`: Host/port to ping, default: `google.com`
-- `tmux2k-ram-icon`: Icon for ping, default: `󱘖`
+- `tmux2k-ping-icon`: Icon for ping, default: `󱘖`
 
 #### 12. `pomodoro`
 
