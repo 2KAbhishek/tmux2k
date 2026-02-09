@@ -17,7 +17,10 @@ get_ssid() {
         if command -v iwgetid >/dev/null 2>&1; then
             SSID=$(iwgetid -r)
         else
-            SSID=$(iw wlan0 link | awk -F ':' '/SSID/{print $2}')
+            wlaninfo=$(iw wlan0 link)
+            if [ $? -eq 0 ]; then
+                SSID=$(awk -F ':' '/SSID/{print $2}' <<< "${wlaninfo}")
+            fi
         fi
         if [ -n "$SSID" ]; then
             printf '%s' "$wifi_icon $SSID"
