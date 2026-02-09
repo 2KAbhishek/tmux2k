@@ -32,36 +32,39 @@ get_output_rate() {
 }
 
 main() {
-    while true; do
-        output_download=""
-        output_upload=""
+    up_icon=$(get_tmux_option "@tmux2k-bandwidth-up-icon" "")
+    down_icon=$(get_tmux_option "@tmux2k-bandwidth-up-icon" "")
+    previous_rx_bytes=$(get_tmux_option "@tmux2k-bandwidth-rx-bytes" "0")
+    previous_tx_bytes=$(get_tmux_option "@tmux2k-bandwidth-tx-bytes" "0")
+    previous_timestamp=$(get_tmux_option "@tmux2k-bandwidth-timestamp" "0")
+    current_timestamp=$(date +%s)
+    output_download=""
+    output_upload=""
 
-        if [[ $(uname -s) == "Linux" ]]; then
-            initial_download=$(cat /sys/class/net/"$network_name"/statistics/rx_bytes)
-            initial_upload=$(cat /sys/class/net/"$network_name"/statistics/tx_bytes)
+    if [[ $(uname -s) == "Linux" ]]; then
+        current_rx_bytes=$(cat /sys/class/net/"$network_name"/statistics/rx_bytes)
+        current_tx_bytes=$(cat /sys/class/net/"$network_name"/statistics/tx_bytes)
+    else
+        current_rx_bytes=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $7}')
+        current_tx_bytes=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $10}')
+    fi
 
-            final_download=$(cat /sys/class/net/"$network_name"/statistics/rx_bytes)
-            final_upload=$(cat /sys/class/net/"$network_name"/statistics/tx_bytes)
-        else
-            initial_download=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $7}')
-            initial_upload=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $10}')
-
-            final_download=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $7}')
-            final_upload=$(netstat -I "$network_name" -b | tail -n 1 | awk '{print $10}')
-        fi
-
-        total_download_bytes=$(expr "$final_download" - "$initial_download")
-        total_upload_bytes=$(expr "$final_upload" - "$initial_upload")
-        total_download_bps=$(expr "$total_download_bytes" / "$RATE")
-        total_upload_bps=$(expr "$total_upload_bytes" / "$RATE")
-
+    # Do calculations if this isn't the first run
+    if [ "$previous_timestamp" != '0' ]; then
+        total_download_bytes=$(expr "$current_rx_bytes" - "$previous_rx_bytes")
+        total_upload_bytes=$(expr "$current_tx_bytes" - "$previous_tx_bytes")
+        seconds=$(expr "$current_timestamp" - "$previous_timestamp")
+        total_download_bps=$(expr "$total_download_bytes" / "$seconds")
+        total_upload_bps=$(expr "$total_upload_bytes" / "$seconds")
         output_download=$(get_output_rate "$total_download_bps")
         output_upload=$(get_output_rate "$total_upload_bps")
+    fi
 
-        up_icon=$(get_tmux_option "@tmux2k-bandwidth-up-icon" "")
-        down_icon=$(get_tmux_option "@tmux2k-bandwidth-up-icon" "")
+    echo "$up_icon $output_upload $down_icon $output_download"
 
-        echo "$up_icon $output_upload $down_icon $output_download"
-    done
+    # Set values for the next run
+    tmux set-option -g '@tmux2k-bandwidth-rx-bytes' $current_rx_bytes
+    tmux set-option -g '@tmux2k-bandwidth-tx-bytes' $current_tx_bytes
+    tmux set-option -g '@tmux2k-bandwidth-timestamp' $current_timestamp
 }
 main
