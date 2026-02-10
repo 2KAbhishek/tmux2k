@@ -54,6 +54,10 @@ main() {
         total_download_bytes=$(expr "$current_rx_bytes" - "$previous_rx_bytes")
         total_upload_bytes=$(expr "$current_tx_bytes" - "$previous_tx_bytes")
         seconds=$(expr "$current_timestamp" - "$previous_timestamp")
+        # Avoid division by zero if the plugin runs multiple times within the same second
+        if [ "$seconds" -eq 0 ]; then
+            seconds=1
+        fi
         total_download_bps=$(expr "$total_download_bytes" / "$seconds")
         total_upload_bps=$(expr "$total_upload_bytes" / "$seconds")
         output_download=$(get_output_rate "$total_download_bps")
