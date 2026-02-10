@@ -63,8 +63,8 @@ main() {
     echo "$up_icon $output_upload $down_icon $output_download"
 
     # Set values for the next run
-    tmux set-option -g '@tmux2k-bandwidth-rx-bytes' $current_rx_bytes
-    tmux set-option -g '@tmux2k-bandwidth-tx-bytes' $current_tx_bytes
-    tmux set-option -g '@tmux2k-bandwidth-timestamp' $current_timestamp
+    tmux set-option -g '@tmux2k-bandwidth-rx-bytes' "$current_rx_bytes"
+    tmux set-option -g '@tmux2k-bandwidth-tx-bytes' "$current_tx_bytes"
+    tmux set-option -g '@tmux2k-bandwidth-timestamp' "$current_timestamp"
 }
 main
