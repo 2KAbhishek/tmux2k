@@ -5,7 +5,7 @@ source "$current_dir/../lib/utils.sh"
 
 verify_gh_command() {
     if ! command -v gh >/dev/null 2>&1; then
-        echo "$icon gh missing"
+        echo "gh missing"
         return 1
     fi
     return 0
@@ -28,7 +28,6 @@ main() {
     icon=$(get_tmux_option "@tmux2k-github-icon" "")
 
     if ! verify_gh_command; then
-        echo "$icon gh missing"
         return
     fi
 
