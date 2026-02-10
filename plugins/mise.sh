@@ -44,7 +44,7 @@ get_language_icon() {
 }
 
 get_active_versions() {
-    local versions max_display icon tool version exclude_tools
+    local versions max_display icon tool version exclude_tools count
 
     max_display=$(get_tmux_option "@tmux2k-mise-max-tools" "3")
     exclude_tools=$(get_tmux_option "@tmux2k-mise-exclude-tools" "usage")
@@ -56,7 +56,7 @@ get_active_versions() {
             tool=$(echo "$line" | awk '{print $1}')
             version=$(echo "$line" | awk '{print $2}')
 
-            if echo "$exclude_tools" | grep -q "\b$tool\b"; then
+            if printf '%s\n' "$exclude_tools" | grep -qw -- "$tool"; then
                 continue
             fi
 
