@@ -33,7 +33,7 @@ get_output_rate() {
 
 main() {
     up_icon=$(get_tmux_option "@tmux2k-bandwidth-up-icon" "")
-    down_icon=$(get_tmux_option "@tmux2k-bandwidth-up-icon" "")
+    down_icon=$(get_tmux_option "@tmux2k-bandwidth-down-icon" "")
     previous_rx_bytes=$(get_tmux_option "@tmux2k-bandwidth-rx-bytes" "0")
     previous_tx_bytes=$(get_tmux_option "@tmux2k-bandwidth-tx-bytes" "0")
     previous_timestamp=$(get_tmux_option "@tmux2k-bandwidth-timestamp" "0")
