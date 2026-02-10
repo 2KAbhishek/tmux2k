@@ -241,6 +241,15 @@ set -g @tmux2k-group1-colors "blue text"
 set -g @tmux2k-group2-colors "purple text"
 ```
 
+#### `mise`
+
+Show active runtime versions managed by mise (dev tool version manager) with language icons
+
+- `tmux2k-mise-max-tools`: Maximum number of tools to display, default: `3`
+- `tmux2k-mise-exclude-tools`: Space-separated list of tools to exclude, default: `usage`
+
+Supports language icons for popular languages out of the box, easy to add more.
+
 #### `network`
 
 Show network status and statistics
