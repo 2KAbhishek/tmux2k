@@ -44,7 +44,8 @@ get_language_icon() {
 }
 
 get_active_versions() {
-    local versions max_display icon tool version exclude_tools count
+    local versions max_display icon tool version exclude_tools count path
+    path=$(get_pane_dir)
 
     max_display=$(get_tmux_option "@tmux2k-mise-max-tools" "3")
     exclude_tools=$(get_tmux_option "@tmux2k-mise-exclude-tools" "usage")
@@ -69,7 +70,7 @@ get_active_versions() {
             fi
             count=$((count + 1))
         fi
-    done <<< "$(mise current 2>/dev/null)"
+    done <<<"$(mise current --cd "$path" 2>/dev/null)"
 
     if [ -z "$versions" ]; then
         echo "none"
