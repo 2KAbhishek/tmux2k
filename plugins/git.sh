@@ -36,19 +36,6 @@ get_changes() {
     echo "$output"
 }
 
-get_pane_dir() {
-    nextone="false"
-    for i in $(tmux list-panes -F "#{pane_active} #{pane_current_path}"); do
-        if [ "$nextone" == "true" ]; then
-            echo "$i"
-            return
-        fi
-        if [ "$i" == "1" ]; then
-            nextone="true"
-        fi
-    done
-}
-
 check_empty_symbol() {
     symbol=$1
     if [ "$symbol" == "" ]; then
