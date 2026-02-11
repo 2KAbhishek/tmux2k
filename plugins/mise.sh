@@ -70,7 +70,7 @@ get_active_versions() {
             fi
             count=$((count + 1))
         fi
-    done <<<"$(mise current --cd "$path" 2>/dev/null)"
+    done <<<"$(mise current --cd "$path" 2>/dev/null | sort)"
 
     if [ -z "$versions" ]; then
         echo "none"
