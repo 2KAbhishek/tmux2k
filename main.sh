@@ -62,6 +62,7 @@ declare -A plugin_colors=(
     ["git"]="green text"
     ["github"]="green text"
     ["gpu"]="red text"
+    ["mise"]="light_yellow text"
     ["network"]="purple text"
     ["ping"]="purple text"
     ["pomodoro"]="red text"
