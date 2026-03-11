@@ -136,6 +136,53 @@ set -g @tmux2k-prefix-highlight '#f8c800' # change prefix color
 
 > You may have to restart `tmux` for some changes to reflect
 
+#### 🌈 Gradient Colors
+
+Gradients dynamically color plugin output values based on their magnitude — lower values use colors from the start of the gradient, higher values from the end.
+
+![](./images/cpu-gradient-example.jpg)
+
+Each color represents a percentage range determined by the gradient's length. Given a 5-color gradient (5 ranges of 20%), a value of `25%` applies color **2** of **5**.
+
+##### Named Gradients
+
+> Gradient colors can be reversed by prepending a `!` to the gradient name, e.g.: `!gruvbox`
+
+| Gradient                          | Colors                                                                             |
+| --------------------------------- | ---------------------------------------------------------------------------------- |
+| `catppuccin` \| `catppuccin-dark` | ![](./images/gradients/catppuccin.jpg) ![](./images/gradients/catppuccin-dark.jpg) |
+| `gruvbox` \| `gruvbox-dark`       | ![](./images/gradients/gruvbox.jpg) ![](./images/gradients/gruvbox-dark.jpg)       |
+| `monokai` \| `monokai-dark`       | ![](./images/gradients/monokai.jpg) ![](./images/gradients/monokai-dark.jpg)       |
+| `onedark` \| `onedark-dark`       | ![](./images/gradients/onedark.jpg) ![](./images/gradients/onedark-dark.jpg)       |
+| `heat` \| `heat-dark`             | ![](./images/gradients/heat.jpg) ![](./images/gradients/heat-dark.jpg)             |
+| `cosmic` \| `cosmic-dark`         | ![](./images/gradients/cosmic.jpg) ![](./images/gradients/cosmic-dark.jpg)         |
+
+You can also define a custom gradient as a space-separated list of hex colors:
+
+```bash
+# 3-color gradient: R=0-32% G=33-65% B=66-100%
+set -g @tmux2k-cpu-gradient '#ff0000 #00ff00 #0000ff'
+```
+
+##### Plugin Options
+
+The following plugins support gradients and expose `@tmux2k-[plugin]-gradient` and `@tmux2k-[plugin]-icon-link-to` values :
+
+| Plugin    | `icon-link-to` values |
+| --------- | --------------------- |
+| `cpu`     | `usage`, `1m,5m,15m`  |
+| `ram`     | `usage`               |
+| `gpu`     | `usage`               |
+| `battery` | `usage`               |
+
+```bash
+set -g @tmux2k-[plugin]-gradient 'heat'
+set -g @tmux2k-[plugin]-icon-link-to 'usage'
+# example for cpu plugin:
+set -g @tmux2k-cpu-gradient 'catppuccin'  # Use 'catppuccin' themed gradient
+set -g @tmux2k-cpu-icon-link-to 'usage'   # Share usage value color with icon
+```
+
 ### 🧩 Available Plugins
 
 #### `bandwidth`
@@ -194,10 +241,6 @@ Show CPU usage and load information
 
   When this option is `true`, each load average provided by `uptime` is divided by the number of logical cores on the system to give a more identifiable reading.
 
-  **`uptime` manpage**
-
-  > Load averages are not normalized for the number of CPUs in a system, so a load average of 1 means a single CPU system is loaded all the time while on a 4 CPU system it means it was idle 75% of the time.
-
 </details>
 
 - <details><summary><code>tmux2k-cpu-load-averages</code>: CPU load averages to display, default: <code>1m 5m 15m</code></summary><br>
@@ -205,84 +248,6 @@ Show CPU usage and load information
   The `uptime` command provides averages at _1_, _5_ and _15_ minute intervals. You can define which of the three intervals to display by passing them as a space-separated list.
 
   For example, passing `1m 15m` will display the _1_ and _15_ minute CPU load averages.
-
-  | Interval | Outputs                                     |
-  | -------- | ------------------------------------------- |
-  | `1m`     | Display load average taken over 1 minute.   |
-  | `5m`     | Display load average taken over 5 minutes.  |
-  | `15m`    | Display load average taken over 15 minutes. |
-
-</details>
-
-- <details><summary><code>tmux2k-cpu-gradient</code>: List of hex colors or a named gradient for dynamic color display, default: <em>empty</em></summary><br>
-
-  This gradient is applied to the CPU plugin's output values, and optionally, its icon if `tmux2k-cpu-icon-link-to` is set.
-
-  ![](./images/cpu-gradient-example.jpg)
-
-  Each color in the gradient represents a percentage range, where each range is determined by the gradient's length, and the _value color_ is determined by which range the value falls into. This means that, given a 5-color gradient (5 ranges of 20%), a value of `25%` or `0.25` would apply color **2** of **5**.
-
-  ##### Named Gradients
-
-  > <picture>
-  >   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/note.svg">
-  >   <img alt="Note" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/note.svg">
-  > </picture><br>
-  >
-  > Gradient colors can be reversed by prepending a `!` to the gradient name, e.g.: `!gruvbox`
-
-  | Gradient                          | Colors                                                                             |
-  | --------------------------------- | ---------------------------------------------------------------------------------- |
-  | `catppuccin` \| `catppuccin-dark` | ![](./images/gradients/catppuccin.jpg) ![](./images/gradients/catppuccin-dark.jpg) |
-  | `gruvbox` \| `gruvbox-dark`       | ![](./images/gradients/gruvbox.jpg) ![](./images/gradients/gruvbox-dark.jpg)       |
-  | `monokai` \| `monokai-dark`       | ![](./images/gradients/monokai.jpg) ![](./images/gradients/monokai-dark.jpg)       |
-  | `onedark` \| `onedark-dark`       | ![](./images/gradients/onedark.jpg) ![](./images/gradients/onedark-dark.jpg)       |
-  | `heat` \| `heat-dark`             | ![](./images/gradients/heat.jpg) ![](./images/gradients/heat-dark.jpg)             |
-  | `cosmic` \| `cosmic-dark`         | ![](./images/gradients/cosmic.jpg) ![](./images/gradients/cosmic-dark.jpg)         |
-
-  ##### Examples
-
-  ```bash
-  # Color output values using a themed gradient:
-  set -g @tmux2k-cpu-gradient 'catppuccin'
-
-  # Use reversed dark variant:
-  set -g @tmux2k-cpu-gradient '!catppuccin-dark'
-
-  # Define a 3-color gradient R=0-32% G=33-65% B=66-100%
-  set -g @tmux2k-cpu-gradient '#ff0000 #00ff00 #0000ff'
-  ```
-
-</details>
-
-- <details><summary><code>tmux2k-cpu-icon-link-to</code>: The property name to link the CPU icon's color to, default: <em>empty</em></summary><br>
-
-  When `tmux2k-cpu-gradient` is set, the CPU icon can be colored dynamically by linking it to one of this plugin's output values.
-
-  | Property | Description                                 |
-  | -------- | ------------------------------------------- |
-  | `usage`  | Link color to the _usage_ value.            |
-  | `1m`     | Link color to the _1 minute_ load average.  |
-  | `5m`     | Link color to the _5 minute_ load average.  |
-  | `15m`    | Link color to the _15 minute_ load average. |
-
-  ##### Examples
-
-  ```bash
-  # Link icon color to the usage property
-  set -g @tmux2k-cpu-icon-link-to 'usage'
-
-  # Link icon color to the 1 minute load average
-  set -g @tmux2k-cpu-icon-link-to '1m'
-  ```
-
-  By allowing the icon color to represent a measurement of CPU time or usage, we can meaningfully display the plugin without the value its color represents:
-
-  ```bash
-  set -g @tmux2k-cpu-display-usage 'false'
-  set -g @tmux2k-cpu-gradient 'onedark'
-  set -g @tmux2k-cpu-icon-link-to 'usage'
-  ```
 
 </details>
 
