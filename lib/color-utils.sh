@@ -19,7 +19,7 @@ declare -A COLOR_GRADIENTS=(
 
 pct2color() {
     # Usage: pct2color [option ...] VALUE COLORS
-    # 
+    #
     # Returns a hex color from COLORS or COLOR_GRADIENTS based on a
     # given percentage, fraction, or range.
     #
@@ -42,44 +42,50 @@ pct2color() {
     #  pct2color 0.25       'heat'                    => heat[3] (#54bd8e)
     #  pct2color 0.1%       '!heat'                   => heat[9] (#be3136)
 
-    local range
+    local range value colors
     while :; do
         case "$1" in
-            -r|--range) range="$2" ; shift ;;
-            *)
-                value="$1" ; shift
-                colors="$*"
-                break ;;
+        -r | --range)
+            range="$2"
+            shift
+            ;;
+        *)
+            value="$1"
+            shift
+            colors="$*"
+            break
+            ;;
         esac
         shift
     done
 
     local reverse='false'
-    if [ "${colors::1}" != '#' ] ; then
-        [ "${colors::1}" = '!' ] &&\
+    if [ "${colors::1}" != '#' ]; then
+        [ "${colors::1}" = '!' ] &&
             reverse='true'
         colors="${COLOR_GRADIENTS[${colors#*!}]}"
     fi
 
-    if [ -n "$range" ] ; then
+    if [ -n "$range" ]; then
         # value must be converted to a percentage for color indexing
-        ! value="$(awk "BEGIN {print int($value / $range * 100)}")" &&\
+        ! value="$(awk "BEGIN {print int($value / $range * 100)}")" &&
             return
     else
         # value is a point or decimal percentage
-        ! [[ "${value// /}" = *'%' ]] &&\
-            ! value="$(awk "BEGIN {print ${value} * 100}")" &&\
-                return
+        ! [[ "${value// /}" = *'%' ]] &&
+            ! value="$(awk "BEGIN {print ${value} * 100}")" &&
+            return
         value="$(printf '%.0f' "${value%%\%*}")"
     fi
 
-    [ -z "$value" ] || [ -z "$colors" ] &&\
+    [ -z "$value" ] || [ -z "$colors" ] &&
         return
 
-    if [ "$reverse" = 'true' ] ; then
+    if [ "$reverse" = 'true' ]; then
         local _colors="$colors"
-        local c; colors=
-        for c in $_colors ; do colors="$c $colors" ; done
+        local c
+        colors=
+        for c in $_colors; do colors="$c $colors"; done
     fi
     declare -a colors=($colors)
 
@@ -87,12 +93,11 @@ pct2color() {
     # We can get color index with: v * num_colors / 100
     local index="$((value * ${#colors[@]} / 100))"
     local color="${colors[$index]}"
-    
+
     # When index is out of range, color is empty.
     # In this case we always assume: v > 100
-    [ -z "$color" ] &&\
+    [ -z "$color" ] &&
         color="${colors[-1]}"
 
     printf '%s' "$color"
 }
-
