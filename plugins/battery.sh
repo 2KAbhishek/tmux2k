@@ -12,6 +12,11 @@ percentage_1=$(get_tmux_option "@tmux2k-battery-percentage-1" "")
 percentage_2=$(get_tmux_option "@tmux2k-battery-percentage-2" "")
 percentage_3=$(get_tmux_option "@tmux2k-battery-percentage-3" "")
 percentage_4=$(get_tmux_option "@tmux2k-battery-percentage-4" "")
+battery_gradient="$(get_tmux_option '@tmux2k-battery-gradient' '')"
+battery_icon_link_to="$(get_tmux_option '@tmux2k-battery-icon-link-to' '')"
+
+[ -n "$battery_gradient" ] &&
+    source "$current_dir/../lib/color-utils.sh"
 
 linux_acpi() {
     arg=$1
@@ -33,14 +38,14 @@ battery_percent() {
     case $(uname -s) in
     Linux)
         percent=$(linux_acpi percent)
-        [ -n "$percent" ] && echo " $percent"
+        [ -n "$percent" ] && echo "$percent"
         ;;
 
     Darwin) echo $(pmset -g batt | grep -Eo '[0-9]?[0-9]?[0-9]%' | sed 's/%//g') ;;
 
     FreeBSD) echo $(apm | sed '8,11d' | grep life | awk '{print $4}') ;;
 
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatability
+    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 
@@ -80,12 +85,21 @@ main() {
     bat_perc="$(battery_percent)"
     bat_label="$(battery_label)"
 
+    local color_prefix='' icon_color=''
+    if [ -n "$battery_gradient" ] && [ -n "$bat_perc" ]; then
+        local color
+        color="$(pct2color "${bat_perc}%" "$battery_gradient")"
+        color_prefix="#[fg=${color:-default}]"
+        [ "$battery_icon_link_to" = 'usage' ] &&
+            icon_color="$color_prefix"
+    fi
+
     if [ -z "$bat_stat" ]; then
-        echo "$bat_label $bat_perc%"
+        echo "${icon_color}${bat_label}${color_prefix}${bat_perc}%"
     elif [ -z "$bat_perc" ]; then
         echo "$bat_stat $bat_label"
     else
-        echo "$bat_stat $bat_label $bat_perc%"
+        echo "$bat_stat ${icon_color}${bat_label}${color_prefix}${bat_perc}%"
     fi
 }
 
