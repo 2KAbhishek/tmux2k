@@ -18,30 +18,39 @@ get_platform() {
         gpu=$(lspci -v | grep VGA | head -n 1 | awk '{print $5}')
         echo "$gpu"
         ;;
-    Darwin) ;; # TODO - Darwin/Mac compatibility
+    Darwin) echo "Apple" ;;
     CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 
 get_gpu() {
-    local gpu
+    local gpu usage
     gpu=$(get_platform)
-    if [[ "$gpu" == NVIDIA ]]; then
-        local usage
+
+    case "$gpu" in
+    NVIDIA)
         usage=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | awk '{ sum += $0 } END { printf("%s", sum / NR) }')
-        local output=''
-        if [ -n "$gpu_gradient" ]; then
-            local color
-            color="$(pct2color "${usage}%" "$gpu_gradient")"
-            output+="#[fg=${color:-default}]"
-            [ "$gpu_icon_link_to" = 'usage' ] &&
-                tmux set -g '@tmux2k-gpu-linked-color' "$color"
-        fi
-        output+="$(normalize_padding "${usage}%")"
-        printf '%s' "$output"
-    else
+        ;;
+    Apple)
+        usage=$(ioreg -l 2>/dev/null | grep "PerformanceStatistics" | grep "Device Utilization" | sed -n 's/.*"Device Utilization %"=\([0-9]*\).*/\1/p' | head -1)
+        ;;
+    esac
+
+    if [ -z "$usage" ]; then
         normalize_padding 'N/A'
+        return
     fi
+
+    local output=''
+    if [ -n "$gpu_gradient" ]; then
+        local color
+        color="$(pct2color "${usage}%" "$gpu_gradient")"
+        output+="#[fg=${color:-default}]"
+        [ "$gpu_icon_link_to" = 'usage' ] &&
+            tmux set -g '@tmux2k-gpu-linked-color' "$color"
+    fi
+    output+="$(normalize_padding "${usage}%")"
+    printf '%s' "$output"
 }
 
 main() {
