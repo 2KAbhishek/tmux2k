@@ -57,6 +57,8 @@ Run tmux and use the tpm install command: `prefix + I` (default prefix is `ctrl+
 
 You can also directly clone the repo to your `~/.tmux/plugins/` folder.
 
+---
+
 ### 🎨 Available Themes:
 
 - default ![default](./images/default.png)
@@ -182,6 +184,8 @@ set -g @tmux2k-[plugin]-icon-link-to 'usage'
 set -g @tmux2k-cpu-gradient 'catppuccin'  # Use 'catppuccin' themed gradient
 set -g @tmux2k-cpu-icon-link-to 'usage'   # Share usage value color with icon
 ```
+
+---
 
 ### 🧩 Available Plugins
 
@@ -425,7 +429,7 @@ To add a new plugin:
 
 > The plugin name and script file name must match e.g: plugin named `foo` should have a file called `scripts/foo.sh`
 
-#### Gemeral Plugin Configs
+#### General Plugin Configs
 
 ```bash
 # set the left and right plugin sections
@@ -439,6 +443,8 @@ set -g @tmux2k-refresh-rate 5
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
 set -g @tmux2k-cpu-colors "red black" # set cpu plugin bg to red, fg to black
 ```
+
+---
 
 ## 🏗️ What's Next
 
