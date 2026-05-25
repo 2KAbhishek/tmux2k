@@ -38,8 +38,12 @@ get_arch_updates() {
         repo_count="$(pacman -Qu --quiet 2>/dev/null | wc -l || echo 0)"
     fi
 
+    CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/tmux2k_yay_updates"
     if command -v yay >/dev/null 2>&1; then
-        aur_count="$(yay -Qua --quiet 2>/dev/null | wc -l || echo 0)"
+      if [ ! -f "$CACHE" ] || [ $(( $(date +%s) - $(stat -c %Y "$CACHE") )) -gt 300 ]; then
+        yay -Qua --quiet 2>/dev/null | wc -l > "$CACHE.tmp" && mv "$CACHE.tmp" "$CACHE"
+      fi
+      aur_count=$(cat "$CACHE" 2>/dev/null || echo 0)
     fi
 
     repo_count="$(trim "$repo_count")"
