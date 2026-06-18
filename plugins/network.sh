@@ -15,7 +15,9 @@ get_ssid() {
     local SSID=""
     case $(uname -s) in
     Linux)
-        if command -v iwgetid >/dev/null 2>&1; then
+        if command -v nmcli >/dev/null; then
+            SSID=$(nmcli connection show --active|awk '/wifi/{print $1}')
+        elif command -v iwgetid >/dev/null 2>&1; then
             SSID=$(iwgetid -r)
         else
             local wlaninfo
