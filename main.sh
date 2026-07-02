@@ -281,10 +281,10 @@ status_bar() {
     for plugin_index in "${!plugins[@]}"; do
         plugin="${plugins[$plugin_index]}"
         IFS=' ' read -r -a colors <<<"$(get_plugin_colors "$plugin")"
-        script="#($current_dir/plugins/$plugin.sh)"
+        script="#($current_dir/lib/run_plugin.sh $plugin)"
 
         if [[ "$plugin" =~ ^group([0-9]+)$ ]]; then
-            script="#(GROUP_NUM=${BASH_REMATCH[1]} $current_dir/plugins/group.sh)"
+            script="#(GROUP_NUM=${BASH_REMATCH[1]} $current_dir/lib/run_plugin.sh $plugin $current_dir/plugins/group.sh)"
         fi
 
         if [ "$side" == "left" ]; then
