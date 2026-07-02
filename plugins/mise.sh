@@ -39,6 +39,7 @@ get_language_icon() {
     deno) echo "" ;;
     bun) echo "" ;;
     terraform) echo "󱁢" ;;
+    packer) echo "" ;;
     usage) echo "" ;;
     *) echo "$tool" ;;
     esac
