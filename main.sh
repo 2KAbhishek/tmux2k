@@ -242,6 +242,7 @@ set_theme() {
     bg_alt=$(get_tmux_option "@tmux2k-bg-alt" "$gray")
     message_bg=$(get_tmux_option "@tmux2k-message-bg" "$blue")
     message_fg=$(get_tmux_option "@tmux2k-message-fg" "$black")
+	message_fill=$(get_tmux_option "@tmux2k-message-fill" "$blue")
     pane_active_border=$(get_tmux_option "@tmux2k-pane-active-border" "$blue")
     pane_active_border_bg=$(get_tmux_option "@tmux2k-pane-active-border-bg" "$bg_main")
     pane_border=$(get_tmux_option "@tmux2k-pane-border" "$gray")
@@ -257,7 +258,7 @@ set_options() {
     tmux set-option -g status-right ""
 
     tmux set-option -g status-style "bg=${bg_main},fg=${text}"
-    tmux set-option -g message-style "bg=${message_bg},fg=${message_fg}"
+    tmux set-option -g message-style "bg=${message_bg},fg=${message_fg},fill=${message_fill}"
     tmux set-option -g pane-active-border-style "bg=${pane_active_border_bg},fg=${pane_active_border}"
     tmux set-option -g pane-border-style "bg=${pane_border_bg},fg=${pane_border}"
 
