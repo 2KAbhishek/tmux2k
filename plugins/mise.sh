@@ -40,6 +40,8 @@ get_language_icon() {
     bun) echo "" ;;
     terraform) echo "󱁢" ;;
     packer) echo "" ;;
+    aws | awscli | aws-cli) echo "" ;;
+    kubectl) echo "󱃾" ;;
     usage) echo "" ;;
     *) echo "$tool" ;;
     esac
