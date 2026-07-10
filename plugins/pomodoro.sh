@@ -7,6 +7,7 @@ fi
 
 # Check for olimorris/tmux-pomodoro-plus scripts
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$current_dir/../lib/utils.sh"
 POMODORO_SCRIPT="$current_dir/../../tmux-pomodoro-plus/scripts/pomodoro.sh"
 POMODORO_HELPER="$current_dir/../../tmux-pomodoro-plus/scripts/helpers.sh"
 

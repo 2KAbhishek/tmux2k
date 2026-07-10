@@ -439,6 +439,12 @@ set -g @tmux2k-right-plugins "battery network time"
 # control refresh rate of status bar plugins that display dynamic information
 set -g @tmux2k-refresh-rate 5
 
+# override the refresh rate for a specific plugin (in seconds)
+# its output is cached and re-computed only after this many seconds,
+# useful for expensive plugins, e.g. ones that hit network APIs
+set -g @tmux2k-[plugin-name]-refresh-rate 300
+set -g @tmux2k-github-refresh-rate 300 # poll the GitHub API every 5 minutes only
+
 # to customize plugin colors
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
 set -g @tmux2k-cpu-colors "red black" # set cpu plugin bg to red, fg to black
