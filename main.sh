@@ -5,6 +5,12 @@ export LC_ALL=en_US.UTF-8
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir/lib/utils.sh"
 
+# Detect platform once at startup
+case "$(uname)" in
+    *Darwin*|*BSD*) platform="darwin" ;;
+    *) platform="linux" ;;
+esac
+
 refresh_rate=$(get_tmux_option "@tmux2k-refresh-rate" 5)
 show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
 l_sep=$(get_tmux_option "@tmux2k-left-sep" )
@@ -282,10 +288,19 @@ status_bar() {
     for plugin_index in "${!plugins[@]}"; do
         plugin="${plugins[$plugin_index]}"
         IFS=' ' read -r -a colors <<<"$(get_plugin_colors "$plugin")"
-        script="#($current_dir/plugins/$plugin.sh)"
+        # Check if per-plugin refresh rate is configured
+        plugin_refresh_rate=$(get_tmux_option "@tmux2k-${plugin}-refresh-rate" "")
 
-        if [[ "$plugin" =~ ^group([0-9]+)$ ]]; then
-            script="#(GROUP_NUM=${BASH_REMATCH[1]} $current_dir/plugins/group.sh)"
+        if [[ "$plugin_refresh_rate" =~ ^[0-9]+$ ]]; then
+            script="#($current_dir/plugins/$plugin.sh --cache $plugin $plugin_refresh_rate $platform)"
+            if [[ "$plugin" =~ ^group([0-9]+)$ ]]; then
+                script="#(GROUP_NUM=${BASH_REMATCH[1]} $current_dir/plugins/group.sh --cache $plugin $plugin_refresh_rate $platform)"
+            fi
+        else
+            script="#($current_dir/plugins/$plugin.sh)"
+            if [[ "$plugin" =~ ^group([0-9]+)$ ]]; then
+                script="#(GROUP_NUM=${BASH_REMATCH[1]} $current_dir/plugins/group.sh)"
+            fi
         fi
 
         if [ "$side" == "left" ]; then
