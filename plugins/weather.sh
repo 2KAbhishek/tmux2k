@@ -44,12 +44,15 @@ fetch_weather_information() {
     k) scale='&M' ;;
     *) scale='&m' ;;
     esac
-    curl -sL "wttr.in/$1?format=%C+%t$scale"
+    curl -sL "wttr.in/${1// /+}?format=%C+%t$scale"
 }
 
 forecast_unicode() {
     local condition=$1
-    weather_icon="${weather_icons[$condition]}"
+    weather_icon=""
+    if [[ -n $condition ]]; then
+        weather_icon="${weather_icons[$condition]}"
+    fi
     if [[ -n $weather_icon ]]; then
         echo "$weather_icon "
     else
