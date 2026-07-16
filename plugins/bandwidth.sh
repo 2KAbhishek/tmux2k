@@ -34,9 +34,9 @@ get_output_rate() {
 main() {
     up_icon=$(get_tmux_option "@tmux2k-bandwidth-up-icon" "")
     down_icon=$(get_tmux_option "@tmux2k-bandwidth-down-icon" "")
-    previous_rx_bytes=$(get_tmux_option "@tmux2k-bandwidth-rx-bytes" "0")
-    previous_tx_bytes=$(get_tmux_option "@tmux2k-bandwidth-tx-bytes" "0")
-    previous_timestamp=$(get_tmux_option "@tmux2k-bandwidth-timestamp" "0")
+    previous_rx_bytes=$(get_state bandwidth-rx-bytes "0")
+    previous_tx_bytes=$(get_state bandwidth-tx-bytes "0")
+    previous_timestamp=$(get_state bandwidth-timestamp "0")
     current_timestamp=$(date +%s)
     output_download=""
     output_upload=""
@@ -70,8 +70,8 @@ main() {
     echo "$up_icon $output_upload $down_icon $output_download"
 
     # Set values for the next run
-    tmux set-option -g '@tmux2k-bandwidth-rx-bytes' "$current_rx_bytes"
-    tmux set-option -g '@tmux2k-bandwidth-tx-bytes' "$current_tx_bytes"
-    tmux set-option -g '@tmux2k-bandwidth-timestamp' "$current_timestamp"
+    set_state bandwidth-rx-bytes "$current_rx_bytes"
+    set_state bandwidth-tx-bytes "$current_tx_bytes"
+    set_state bandwidth-timestamp "$current_timestamp"
 }
 main
