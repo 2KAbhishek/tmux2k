@@ -47,7 +47,7 @@ get_gpu() {
         color="$(pct2color "${usage}%" "$gpu_gradient")"
         output+="#[fg=${color:-default}]"
         [ "$gpu_icon_link_to" = 'usage' ] &&
-            tmux set -g '@tmux2k-gpu-linked-color' "$color"
+            set_state gpu-linked-color "$color"
     fi
     output+="$(normalize_padding "${usage}%")"
     printf '%s' "$output"
@@ -59,10 +59,10 @@ main() {
     gpu_usage=$(get_gpu)
 
     if [ -z "$gpu_icon_link_to" ] || [ -z "$gpu_gradient" ]; then
-        tmux set -g '@tmux2k-gpu-linked-color' ''
+        set_state gpu-linked-color ''
     else
         local gpu_linked_color
-        gpu_linked_color="$(get_tmux_option '@tmux2k-gpu-linked-color' '')"
+        gpu_linked_color="$(get_state gpu-linked-color '')"
         [ -n "$gpu_linked_color" ] &&
             output+="#[fg=${gpu_linked_color}]"
     fi

@@ -62,6 +62,39 @@ get_tmux_option() {
     fi
 }
 
+# Persistent per-plugin state, stored in files rather than tmux options.
+# A plugin runs inside a status #() job; using `tmux set-option` there forces a
+# full window redraw, which re-runs the #() and re-triggers the set — a redraw
+# loop that makes the status bar flicker. Files avoid that (and multiply so with
+# several clients, since a global option redraws them all).
+#
+# Prefer $XDG_RUNTIME_DIR (tmpfs, transient, wiped on reboot/logout) for this
+# short-lived state; fall back to the cache dir where it is unset (macOS,
+# non-systemd, ...). set_state mkdir -p's on every write and get_state defaults
+# on a missing file, so a wiped runtime dir just resets state — like a cold start.
+if [ -n "$XDG_RUNTIME_DIR" ] && [ -d "$XDG_RUNTIME_DIR" ]; then
+    state_dir="$XDG_RUNTIME_DIR/tmux2k/state"
+else
+    state_dir="${XDG_CACHE_HOME:-$HOME/.cache}/tmux2k/state"
+fi
+
+get_state() {
+    # $1 = key, $2 = default value
+    if [ -f "$state_dir/$1" ]; then
+        cat "$state_dir/$1"
+    else
+        printf '%s' "$2"
+    fi
+}
+
+set_state() {
+    # $1 = key, $2 = value. Atomic write (temp + rename) so concurrent readers
+    # (e.g. multiple tmux clients running the same #() job) never see a torn file.
+    [ -d "$state_dir" ] || mkdir -p "$state_dir"
+    local tmp="$state_dir/.$1.$$"
+    printf '%s' "$2" > "$tmp" && mv -f "$tmp" "$state_dir/$1"
+}
+
 normalize_padding() {
     percent_len=${#1}
     max_len=${2:-4}

@@ -49,7 +49,7 @@ get_percent() {
         color="$(pct2color "${percent}%" "$ram_gradient")"
         output+="#[fg=${color:-default}]"
         [ "$ram_icon_link_to" = 'usage' ] &&
-            tmux set -g '@tmux2k-ram-linked-color' "$color"
+            set_state ram-linked-color "$color"
     fi
     output+="$(normalize_padding "${percent}%")"
     printf '%s' "$output"
@@ -61,10 +61,10 @@ main() {
     ram_percent=$(get_percent)
 
     if [ -z "$ram_icon_link_to" ] || [ -z "$ram_gradient" ]; then
-        tmux set -g '@tmux2k-ram-linked-color' ''
+        set_state ram-linked-color ''
     else
         local ram_linked_color
-        ram_linked_color="$(get_tmux_option '@tmux2k-ram-linked-color' '')"
+        ram_linked_color="$(get_state ram-linked-color '')"
         [ -n "$ram_linked_color" ] &&
             output+="#[fg=${ram_linked_color}]"
     fi

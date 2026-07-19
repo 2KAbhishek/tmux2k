@@ -44,7 +44,7 @@ get_cpu_usage() {
     if [ "$cpu_usage_average" -gt '1' ] ; then
         local -a cpu_usage_values=("$percent")
         local -a saved_values
-        IFS=' ' read -r -a saved_values <<< "$(get_tmux_option '@tmux2k-cpu-usage-values')"
+        IFS=' ' read -r -a saved_values <<< "$(get_state cpu-usage-values)"
         cpu_usage_values+=("${saved_values[@]}")
 
         # We want to get average of n=cpu_usage_average values
@@ -57,7 +57,7 @@ get_cpu_usage() {
             printf \"%.3g\", (${cpu_usage_string// /+}) / $cpu_usage_average
         }")"
 
-        tmux set -g '@tmux2k-cpu-usage-values' "$cpu_usage_string"
+        set_state cpu-usage-values "$cpu_usage_string"
     fi
 
     local output=''
@@ -66,7 +66,7 @@ get_cpu_usage() {
         color="$(pct2color "${percent}%" "$cpu_gradient")"
         output+="#[fg=${color:-default}]"
         [ "$cpu_icon_link_to" = 'usage' ] &&\
-            tmux set -g '@tmux2k-cpu-linked-color' "$color"
+            set_state cpu-linked-color "$color"
     fi
 
     if [ "$cpu_usage_decimal" = 'true' ] ; then
@@ -133,7 +133,7 @@ get_cpu_load() {
             if [ -n "$cpu_gradient" ] ; then
                 color="$(pct2color "$avg" "$cpu_gradient")"
                 [ "$cpu_icon_link_to" = "$interval" ] &&\
-                    tmux set -g '@tmux2k-cpu-linked-color' "$color"
+                    set_state cpu-linked-color "$color"
                 color="#[fg=${color:-default}]"
             fi
 
@@ -170,9 +170,9 @@ main() {
     local cpu_linked_color
     if [ -z "$cpu_icon_link_to" ] || [ -z "$cpu_gradient" ] ; then
         # Removes tmux restart requirement on reset
-        tmux set -g '@tmux2k-cpu-linked-color' ''
+        set_state cpu-linked-color ''
     else
-        cpu_linked_color="$(get_tmux_option '@tmux2k-cpu-linked-color' '')"
+        cpu_linked_color="$(get_state cpu-linked-color '')"
         [ -n "$cpu_linked_color" ] &&\
             output+="#[fg=${cpu_linked_color}]"
     fi
