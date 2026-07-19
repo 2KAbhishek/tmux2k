@@ -80,11 +80,7 @@ fi
 
 get_state() {
     # $1 = key, $2 = default value
-    if [ -f "$state_dir/$1" ]; then
-        cat "$state_dir/$1"
-    else
-        printf '%s' "$2"
-    fi
+    cat "$state_dir/$1" 2>/dev/null || printf '%s' "$2"
 }
 
 set_state() {
