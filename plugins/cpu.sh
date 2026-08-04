@@ -23,8 +23,19 @@ get_cpu_usage() {
     local percent=''
     case "$(uname -s)" in
     Linux)
-        percent="$(LC_NUMERIC=en_US.UTF-8 top -bn2 -d 0.01 | grep "Cpu(s)" | tail -1 |\
-                  sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}')"
+        local cpu_values
+        cpu_values="$(awk '/^cpu / { print $2+$3+$4+$5+$6+$7+$8, $5+$6 }' /proc/stat)"
+        percent="$(awk -v cur="$cpu_values" -v prev="$(get_state cpu-stat-prev)" '
+            BEGIN {
+                split(cur, c); split(prev, p)
+                total = c[1] - p[1]
+                idle = c[2] - p[2]
+                if (total > 0)
+                    printf "%.1f", 100 - idle / total * 100
+                else
+                    printf "%.1f", 100 - c[2] / c[1] * 100
+            }')"
+        set_state cpu-stat-prev "$cpu_values"
         ;;
 
     Darwin)
