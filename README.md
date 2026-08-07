@@ -473,6 +473,58 @@ set -g @tmux2k-cpu-colors "red black" # set cpu plugin bg to red, fg to black
 
 ---
 
+### 🪟 Interactive Status Bar Popups
+
+tmux2k supports interactive status bar popups — simply click any plugin segment on the status bar to launch a popup terminal tool!
+
+#### Popup Configuration Options
+
+```bash
+# Enable/disable interactive status bar popups (default: true)
+set -g @tmux2k-enable-popups true
+
+# Popup window dimensions (default: 85%)
+set -g @tmux2k-popup-width "85%"
+set -g @tmux2k-popup-height "85%"
+
+# Override popup command for a specific plugin
+set -g @tmux2k-[plugin-name]-popup-cmd "my-custom-tool"
+set -g @tmux2k-window-list-popup-cmd "tea -p"
+
+# Override popup execution type: 'popup' (tmux display-popup) or 'direct' (background execution for tools managing their own popup e.g. tea)
+set -g @tmux2k-[plugin-name]-popup-type "popup"
+set -g @tmux2k-session-popup-type "direct"
+set -g @tmux2k-window-list-popup-type "direct"
+```
+
+#### Default Plugin Popups
+
+| Plugin        | Default Command              |
+| ------------- | ---------------------------- |
+| `session`     | `tea`                        |
+| `window-list` | `tea -p`                     |
+| `git`         | `lazygit`                    |
+| `cwd`         | `ranger`                     |
+| `tdo`         | `tdo -t`                     |
+| `cpu`         | `btop`                       |
+| `ram`         | `htop`                       |
+| `storage`     | `ncdu --color dark ~`        |
+| `volume`      | `pulsemixer`                 |
+| `network`     | `nmtui`                      |
+| `bandwidth`   | `bmon`                       |
+| `github`      | `gh dash`                    |
+| `docker`      | `lazydocker`                 |
+| `updates`     | `yay -Syu`                   |
+| `time`        | `calcurse`                   |
+| `mise`        | `mise ls`                    |
+| `ping`        | `gping google.com`           |
+| `gpu`         | `nvtop`                      |
+| `cpu-temp`    | `watch -n 1 -c sensors`      |
+| `weather`     | `curl -s wttr.in; read -n 1` |
+| `uptime`      | `fastfetch; read -n 1`       |
+
+---
+
 ## 🏗️ What's Next
 
 - You tell me!
