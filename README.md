@@ -364,6 +364,25 @@ Shows pomodoro timer, needs [tmux-pomodoro-plus](https://github.com/olimorris/tm
 Show RAM usage information
 
 - `tmux2k-ram-icon`: Icon for RAM usage, default: ``
+- `tmux2k-ram-display`: Display mode format, default: `percent`, options: `percent`, `free`, `used`, `used_total`
+
+#### `storage`
+
+Show disk storage usage information
+
+- `tmux2k-storage-icon`: Icon for storage usage, default: `󰋊`
+- `tmux2k-storage-path`: Path to monitor, default: `/`
+- `tmux2k-storage-display`: Display mode format, default: `percent`, options: `percent`, `free`, `used`, `used_total`
+
+#### `volume`
+
+Show system volume level and mute status
+
+- `tmux2k-volume-icon`: Fixed icon for volume display (overrides dynamic level icons)
+- `tmux2k-volume-icon-high`: Icon for high volume (>=70%), default: ``
+- `tmux2k-volume-icon-med`: Icon for medium volume (>=30%), default: `󰖀`
+- `tmux2k-volume-icon-low`: Icon for low volume (<30%), default: ``
+- `tmux2k-volume-icon-muted`: Icon for muted volume, default: `󰖁`
 
 #### `session`
 
