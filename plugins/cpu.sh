@@ -13,27 +13,34 @@ cpu_gradient="$(get_tmux_option '@tmux2k-cpu-gradient' '')"
 cpu_icon_link_to="$(get_tmux_option '@tmux2k-cpu-icon-link-to' '')"
 cpu_usage_average="$(get_tmux_option '@tmux2k-cpu-usage-average' '0')"
 
-[ -n "$cpu_gradient" ] &&\
+[ -n "$cpu_gradient" ] &&
     source "$current_dir/../lib/color-utils.sh"
 
 get_cpu_usage() {
-    local cpu_usage_decimal
-    cpu_usage_decimal="$(get_tmux_option '@tmux2k-cpu-usage-decimal' 'true')"
+    local precision
+    precision="$(get_tmux_option '@tmux2k-cpu-precision' '')"
+    if [ -z "$precision" ]; then
+        local legacy_decimal
+        legacy_decimal="$(get_tmux_option '@tmux2k-cpu-usage-decimal' 'false')"
+        if [ "$legacy_decimal" = "true" ]; then
+            precision=1
+        else
+            precision=0
+        fi
+    fi
 
     local percent=''
     case "$(uname -s)" in
     Linux)
         local cpu_values
         cpu_values="$(awk '/^cpu / { print $2+$3+$4+$5+$6+$7+$8, $5+$6 }' /proc/stat)"
-        percent="$(awk -v cur="$cpu_values" -v prev="$(get_state cpu-stat-prev)" '
+        percent="$(awk -v cur="$cpu_values" -v prev="$(get_state cpu-stat-prev)" -v prec="$precision" '
             BEGIN {
                 split(cur, c); split(prev, p)
                 total = c[1] - p[1]
                 idle = c[2] - p[2]
-                if (total > 0)
-                    printf "%.1f", 100 - idle / total * 100
-                else
-                    printf "%.1f", 100 - c[2] / c[1] * 100
+                val = (total > 0) ? (100 - idle / total * 100) : (100 - c[2] / c[1] * 100)
+                printf "%.*f", prec, val
             }')"
         set_state cpu-stat-prev "$cpu_values"
         ;;
@@ -42,20 +49,19 @@ get_cpu_usage() {
         local cpucores cpuusage cpuvalue
         cpuvalue="$(ps -A -o %cpu | awk -F. '{s+=$1} END {print s}')"
         cpucores="$(getconf _NPROCESSORS_ONLN)"
-        cpuusage="$((cpuvalue / cpucores))"
-        percent="$cpuusage"
+        percent="$(awk -v val="$cpuvalue" -v cores="$cpucores" -v prec="$precision" 'BEGIN { printf "%.*f", prec, val / cores }')"
         ;;
 
     CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 
-    [ -z "$percent" ] &&\
+    [ -z "$percent" ] &&
         return
 
-    if [ "$cpu_usage_average" -gt '1' ] ; then
+    if [ "$cpu_usage_average" -gt '1' ]; then
         local -a cpu_usage_values=("$percent")
         local -a saved_values
-        IFS=' ' read -r -a saved_values <<< "$(get_state cpu-usage-values)"
+        IFS=' ' read -r -a saved_values <<<"$(get_state cpu-usage-values)"
         cpu_usage_values+=("${saved_values[@]}")
 
         # We want to get average of n=cpu_usage_average values
@@ -64,27 +70,23 @@ get_cpu_usage() {
         fi
 
         local cpu_usage_string="${cpu_usage_values[*]}"
-        percent="$(awk "BEGIN {
-            printf \"%.3g\", (${cpu_usage_string// /+}) / $cpu_usage_average
+        percent="$(awk -v prec="$precision" "BEGIN {
+            printf \"%.*f\", prec, (${cpu_usage_string// /+}) / $cpu_usage_average
         }")"
 
         set_state cpu-usage-values "$cpu_usage_string"
     fi
 
     local output=''
-    if [ -n "$cpu_gradient" ] ; then
+    if [ -n "$cpu_gradient" ]; then
         local color
         color="$(pct2color "${percent}%" "$cpu_gradient")"
         output+="#[fg=${color:-default}]"
-        [ "$cpu_icon_link_to" = 'usage' ] &&\
+        [ "$cpu_icon_link_to" = 'usage' ] &&
             set_state cpu-linked-color "$color"
     fi
 
-    if [ "$cpu_usage_decimal" = 'true' ] ; then
-        output+="$(normalize_padding "${percent}%" 6)"
-    else
-        output+="$(normalize_padding "${percent%.*}%" 4)"
-    fi
+    output+="${percent}%"
 
     printf '%s' "$output"
 }
@@ -92,22 +94,22 @@ get_cpu_usage() {
 normalize_load() {
     local value="$1"
     case "$(uname -s)" in
-        Linux | Darwin)
-            local cpucores
-            cpucores="$(getconf _NPROCESSORS_ONLN)"
-            awk "BEGIN {print substr($value / $cpucores, 1, 4)}"
-            ;;
-        CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
+    Linux | Darwin)
+        local cpucores
+        cpucores="$(getconf _NPROCESSORS_ONLN)"
+        awk "BEGIN {print substr($value / $cpucores, 1, 4)}"
+        ;;
+    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 
 float_to_percent() {
     local value="$1"
     case "$(uname -s)" in
-        Linux | Darwin)
-            awk "BEGIN {print int($value * 100)\"%\"}"
-            ;;
-        CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
+    Linux | Darwin)
+        awk "BEGIN {print int($value * 100)\"%\"}"
+        ;;
+    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 
@@ -117,7 +119,7 @@ get_cpu_load() {
     cpu_load_percent="$(get_tmux_option '@tmux2k-cpu-load-percent' 'true')"
 
     local -a cpu_load_averages
-    IFS=' ' read -r -a cpu_load_averages <<< "$(get_tmux_option '@tmux2k-cpu-load-averages' '1m 5m 15m')"
+    IFS=' ' read -r -a cpu_load_averages <<<"$(get_tmux_option '@tmux2k-cpu-load-averages' '1m 5m 15m')"
 
     declare -a cpu_load_output=()
     case $(uname -s) in
@@ -125,25 +127,25 @@ get_cpu_load() {
         declare -a loadavg=()
         local raw_loadavg
         raw_loadavg=$(uptime | awk -F'[a-z]:' '{ print $2}' | sed 's/,//g')
-        IFS=' ' read -r -a loadavg <<< "$raw_loadavg"
+        IFS=' ' read -r -a loadavg <<<"$raw_loadavg"
 
         local i avg interval color
         declare -a intervals=('1m' '5m' '15m')
         for ((i = 0; i < "${#intervals[@]}"; i++)); do
             interval="${intervals[$i]}"
-            ! [[ " ${cpu_load_averages[*]} " == *" $interval "* ]] &&\
+            ! [[ " ${cpu_load_averages[*]} " == *" $interval "* ]] &&
                 continue
 
             avg="${loadavg[$i]}"
-            [ "$cpu_load_normalize" = 'true' ] &&\
+            [ "$cpu_load_normalize" = 'true' ] &&
                 avg="$(normalize_load "$avg")"
 
-            [ "$cpu_load_percent" = 'true' ] &&\
+            [ "$cpu_load_percent" = 'true' ] &&
                 avg="$(float_to_percent "$avg")"
 
-            if [ -n "$cpu_gradient" ] ; then
+            if [ -n "$cpu_gradient" ]; then
                 color="$(pct2color "$avg" "$cpu_gradient")"
-                [ "$cpu_icon_link_to" = "$interval" ] &&\
+                [ "$cpu_icon_link_to" = "$interval" ] &&
                     set_state cpu-linked-color "$color"
                 color="#[fg=${color:-default}]"
             fi
@@ -164,35 +166,34 @@ main() {
     # 2) Display colorized icon only (discard mode output)
 
     local cpu_usage
-    if [ "$cpu_display_usage" = 'true' ] ; then
+    if [ "$cpu_display_usage" = 'true' ]; then
         cpu_usage="$(get_cpu_usage)"
-    elif [ "$cpu_icon_link_to" = 'usage' ] ; then
+    elif [ "$cpu_icon_link_to" = 'usage' ]; then
         get_cpu_usage &>/dev/null
     fi
 
     local cpu_load
-    if [ "$cpu_display_load" = 'true' ] ; then
+    if [ "$cpu_display_load" = 'true' ]; then
         cpu_load="$(get_cpu_load)"
-    elif [[ "$cpu_icon_link_to" = *'m' ]] ; then
+    elif [[ "$cpu_icon_link_to" = *'m' ]]; then
         get_cpu_load &>/dev/null
     fi
 
     local output=''
     local cpu_linked_color
-    if [ -z "$cpu_icon_link_to" ] || [ -z "$cpu_gradient" ] ; then
+    if [ -z "$cpu_icon_link_to" ] || [ -z "$cpu_gradient" ]; then
         # Removes tmux restart requirement on reset
         set_state cpu-linked-color ''
     else
         cpu_linked_color="$(get_state cpu-linked-color '')"
-        [ -n "$cpu_linked_color" ] &&\
+        [ -n "$cpu_linked_color" ] &&
             output+="#[fg=${cpu_linked_color}]"
     fi
 
-    for s in "$cpu_icon" "$cpu_usage" "$cpu_load" ; do
+    for s in "$cpu_icon" "$cpu_usage" "$cpu_load"; do
         [ -n "$s" ] && output+="$s "
     done
     printf '%s' "${output% *}"
 }
 
 main
-

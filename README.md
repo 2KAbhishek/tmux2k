@@ -215,6 +215,7 @@ Show CPU usage and load information
 
 - `tmux2k-cpu-icon`: Icon for CPU usage, default: ``
 - `tmux2k-cpu-display-usage`: Display CPU usage percentage, default: `true`
+- `tmux2k-cpu-precision`: Decimal precision for usage percentage (e.g. `0` for `3%`, `1` for `3.1%`, `2` for `3.11%`), default: `0`
 - <details><summary><code>tmux2k-cpu-usage-average</code>: Number of usage values to average, default: <code>0</code></summary><br>
 
   Display CPU usage as an average of _n_ values over _s_ seconds, where _n_ is the value given to this option and _s_ the value of `tmux2k-refresh-rate` multiplied by _n_.
@@ -365,6 +366,7 @@ Show RAM usage information
 
 - `tmux2k-ram-icon`: Icon for RAM usage, default: ``
 - `tmux2k-ram-display`: Display mode format, default: `percent`, options: `percent`, `free`, `used`, `used_total`
+- `tmux2k-ram-precision`: Decimal precision for usage percentage (e.g. `0` for `15%`, `1` for `15.2%`), default: `0`
 
 #### `storage`
 

@@ -16,6 +16,7 @@ get_ram_info() {
     local percent='' used_gb='' total_gb='' free_gb=''
     local display
     display=$(get_tmux_option "@tmux2k-ram-display" "percent")
+    precision=$(get_tmux_option "@tmux2k-ram-precision" "0")
 
     case $(uname -s) in
     Linux)
@@ -24,7 +25,9 @@ get_ram_info() {
         used_mb=$(LC_ALL=C free -m | awk '/^Mem/ {print $3}')
         free_mb=$(LC_ALL=C free -m | awk '/^Mem/ {print $4}')
 
-        [ -n "$total_mb" ] && [ "$total_mb" -gt 0 ] && percent=$(((used_mb * 100) / total_mb))
+        if [ -n "$total_mb" ] && [ "$total_mb" -gt 0 ]; then
+            percent=$(awk -v u="$used_mb" -v t="$total_mb" -v p="$precision" 'BEGIN {printf "%.*f", p, (u * 100) / t}')
+        fi
 
         used_gb=$(awk -v m="$used_mb" 'BEGIN {printf "%.1fG", m/1024}')
         total_gb=$(awk -v m="$total_mb" 'BEGIN {printf "%.1fG", m/1024}')
