@@ -501,27 +501,29 @@ set -g @tmux2k-window-list-popup-type "direct"
 
 | Plugin        | Default Command              |
 | ------------- | ---------------------------- |
-| `session`     | `tea`                        |
-| `window-list` | `tea -p`                     |
-| `git`         | `lazygit`                    |
-| `cwd`         | `ranger`                     |
-| `tdo`         | `tdo -t`                     |
-| `cpu`         | `btop`                       |
-| `ram`         | `htop`                       |
-| `storage`     | `ncdu --color dark ~`        |
-| `volume`      | `pulsemixer`                 |
-| `network`     | `nmtui`                      |
 | `bandwidth`   | `bmon`                       |
-| `github`      | `gh dash`                    |
-| `docker`      | `lazydocker`                 |
-| `updates`     | `yay -Syu`                   |
-| `time`        | `calcurse`                   |
-| `mise`        | `mise ls`                    |
-| `ping`        | `gping google.com`           |
-| `gpu`         | `nvtop`                      |
+| `battery`     | `btop`                       |
+| `cpu`         | `btop`                       |
 | `cpu-temp`    | `watch -n 1 -c sensors`      |
-| `weather`     | `curl -s wttr.in; read -n 1` |
+| `cwd`         | `ranger`                     |
+| `docker`      | `lazydocker`                 |
+| `git`         | `lazygit`                    |
+| `github`      | `gh dash`                    |
+| `gpu`         | `nvtop`                      |
+| `mise`        | `mise ls`                    |
+| `network`     | `nmtui`                      |
+| `ping`        | `gping google.com`           |
+| `pomodoro`    | `""`                         |
+| `ram`         | `htop`                       |
+| `session`     | `tea`                        |
+| `storage`     | `ncdu --color dark ~`        |
+| `tdo`         | `tdo -t`                     |
+| `time`        | `calcurse`                   |
+| `updates`     | `yay -Syu`                   |
 | `uptime`      | `fastfetch; read -n 1`       |
+| `volume`      | `pulsemixer`                 |
+| `weather`     | `curl -s wttr.in; read -n 1` |
+| `window-list` | `tea -p`                     |
 
 ---
 

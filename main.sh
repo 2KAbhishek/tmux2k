@@ -7,8 +7,8 @@ source "$current_dir/lib/utils.sh"
 
 # Detect platform once at startup
 case "$(uname)" in
-    *Darwin*|*BSD*) platform="darwin" ;;
-    *) platform="linux" ;;
+*Darwin* | *BSD*) platform="darwin" ;;
+*) platform="linux" ;;
 esac
 
 refresh_rate=$(get_tmux_option "@tmux2k-refresh-rate" 5)
@@ -87,7 +87,7 @@ declare -A plugin_colors=(
 
 reverse_colors() {
     local colors=()
-    IFS=' ' read -r -a colors <<< "$1"
+    IFS=' ' read -r -a colors <<<"$1"
     echo "${colors[1]} ${colors[0]}"
 }
 
@@ -250,7 +250,7 @@ set_theme() {
     bg_alt=$(get_tmux_option "@tmux2k-bg-alt" "$gray")
     message_bg=$(get_tmux_option "@tmux2k-message-bg" "$blue")
     message_fg=$(get_tmux_option "@tmux2k-message-fg" "$black")
-	message_fill=$(get_tmux_option "@tmux2k-message-fill" "$blue")
+    message_fill=$(get_tmux_option "@tmux2k-message-fill" "$blue")
     pane_active_border=$(get_tmux_option "@tmux2k-pane-active-border" "$blue")
     pane_active_border_bg=$(get_tmux_option "@tmux2k-pane-active-border-bg" "$bg_main")
     pane_border=$(get_tmux_option "@tmux2k-pane-border" "$gray")
@@ -278,9 +278,9 @@ set_options() {
     enable_popups=$(get_tmux_option "@tmux2k-enable-popups" "true")
     if [ "$enable_popups" = "true" ]; then
         tmux set-option -g mouse on
-        tmux bind-key -n MouseDown1Status run-shell -b "$current_dir/lib/popup_handler.sh center '#{mouse_x}' '#{client_width}'"
-        tmux bind-key -n MouseDown1StatusLeft run-shell -b "$current_dir/lib/popup_handler.sh left '#{mouse_x}' '#{client_width}'"
-        tmux bind-key -n MouseDown1StatusRight run-shell -b "$current_dir/lib/popup_handler.sh right '#{mouse_x}' '#{client_width}'"
+        tmux bind-key -n MouseDown1Status run-shell -b "$current_dir/lib/popup_handler.sh center '#{mouse_x}' '#{client_width}' '#{mouse_status_range}'"
+        tmux bind-key -n MouseDown1StatusLeft run-shell -b "$current_dir/lib/popup_handler.sh left '#{mouse_x}' '#{client_width}' '#{mouse_status_range}'"
+        tmux bind-key -n MouseDown1StatusRight run-shell -b "$current_dir/lib/popup_handler.sh right '#{mouse_x}' '#{client_width}' '#{mouse_status_range}'"
     fi
 }
 
