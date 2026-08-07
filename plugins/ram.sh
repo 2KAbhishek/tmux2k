@@ -12,21 +12,41 @@ ram_gradient="$(get_tmux_option '@tmux2k-ram-gradient' '')"
 
 ram_icon_link_to="$(get_tmux_option '@tmux2k-ram-icon-link-to' '')"
 
-get_percent() {
-    local percent=''
+get_ram_info() {
+    local percent='' used_gb='' total_gb='' free_gb=''
+    local display
+    display=$(get_tmux_option "@tmux2k-ram-display" "percent")
+
     case $(uname -s) in
     Linux)
-        local total_mem used_mem
-        total_mem=$(LC_ALL=C free -m | awk '/^Mem/ {print $2}')
-        used_mem=$(LC_ALL=C free -m | awk '/^Mem/ {print $3}')
-        percent=$(((used_mem * 100) / total_mem))
+        local total_mb used_mb free_mb
+        total_mb=$(LC_ALL=C free -m | awk '/^Mem/ {print $2}')
+        used_mb=$(LC_ALL=C free -m | awk '/^Mem/ {print $3}')
+        free_mb=$(LC_ALL=C free -m | awk '/^Mem/ {print $4}')
+
+        [ -n "$total_mb" ] && [ "$total_mb" -gt 0 ] && percent=$(((used_mb * 100) / total_mb))
+
+        used_gb=$(awk -v m="$used_mb" 'BEGIN {printf "%.1fG", m/1024}')
+        total_gb=$(awk -v m="$total_mb" 'BEGIN {printf "%.1fG", m/1024}')
+        free_gb=$(awk -v m="$free_mb" 'BEGIN {printf "%.1fG", m/1024}')
         ;;
+
     Darwin)
-        local used_mem total_mem
-        used_mem=$(vm_stat | grep ' active\|wired ' | sed 's/[^0-9]//g' | paste -sd ' ' - | awk -v pagesize=$(pagesize) '{printf "%d\n", ($1+$2) * pagesize / 1048576}')
-        total_mem=$(system_profiler SPHardwareDataType | grep "Memory:" | awk '{print $2}')
-        percent=$(((used_mem) / total_mem / 10))
+        local used_mb total_mb free_mb pagesize_val
+        pagesize_val=$(pagesize 2>/dev/null || sysctl -n hw.pagesize 2>/dev/null || echo 4096)
+        used_mb=$(vm_stat | awk -v ps="$pagesize_val" '/Pages active|Pages wired/ {sum += $NF} END {print int(sum * ps / 1048576)}')
+        total_mb=$(sysctl -n hw.memsize 2>/dev/null | awk '{print int($1 / 1048576)}')
+
+        [ -z "$total_mb" ] && total_mb=1
+
+        free_mb=$((total_mb - used_mb))
+        percent=$(((used_mb * 100) / total_mb))
+
+        used_gb=$(awk -v m="$used_mb" 'BEGIN {printf "%.1fG", m/1024}')
+        total_gb=$(awk -v m="$total_mb" 'BEGIN {printf "%.1fG", m/1024}')
+        free_gb=$(awk -v m="$free_mb" 'BEGIN {printf "%.1fG", m/1024}')
         ;;
+
     FreeBSD)
         local hw_pagesize mem_inactive mem_unused mem_cache free_mem total_mem used_mem
         hw_pagesize="$(sysctl -n hw.pagesize)"
@@ -37,11 +57,30 @@ get_percent() {
         total_mem=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         used_mem=$((total_mem - free_mem))
         percent=$(((used_mem * 100) / total_mem))
+
+        used_gb=$(awk -v m="$used_mem" 'BEGIN {printf "%.1fG", m/1024}')
+        total_gb=$(awk -v m="$total_mem" 'BEGIN {printf "%.1fG", m/1024}')
+        free_gb=$(awk -v m="$free_mem" 'BEGIN {printf "%.1fG", m/1024}')
         ;;
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 
     [ -z "$percent" ] && return
+
+    local text_val=''
+    case "$display" in
+    free)
+        text_val="${free_gb}"
+        ;;
+    used)
+        text_val="${used_gb}"
+        ;;
+    used_total)
+        text_val="${used_gb}/${total_gb}"
+        ;;
+    percent | *)
+        text_val="${percent}%"
+        ;;
+    esac
 
     local output=''
     if [ -n "$ram_gradient" ]; then
@@ -51,14 +90,14 @@ get_percent() {
         [ "$ram_icon_link_to" = 'usage' ] &&
             set_state ram-linked-color "$color"
     fi
-    output+="$(normalize_padding "${percent}%")"
+    output+="${text_val}"
     printf '%s' "$output"
 }
 
 main() {
-    local ram_icon ram_percent output=''
+    local ram_icon ram_info output=''
     ram_icon=$(get_tmux_option "@tmux2k-ram-icon" "")
-    ram_percent=$(get_percent)
+    ram_info=$(get_ram_info)
 
     if [ -z "$ram_icon_link_to" ] || [ -z "$ram_gradient" ]; then
         set_state ram-linked-color ''
@@ -69,7 +108,7 @@ main() {
             output+="#[fg=${ram_linked_color}]"
     fi
 
-    output+="$ram_icon $ram_percent"
+    output+="$ram_icon $ram_info"
     printf '%s' "$output"
 }
 
