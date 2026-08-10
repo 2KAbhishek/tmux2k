@@ -332,6 +332,14 @@ set -g @tmux2k-group1-colors "blue text"
 set -g @tmux2k-group2-colors "purple text"
 ```
 
+#### `keyboard-layout`
+
+Show the active keyboard layout. Currently only supported on KDE Plasma/KWin with
+Wayland; other platforms/compositors show `n/a` until support is added.
+
+- `tmux2k-keyboard-layout-icon`: Icon for keyboard layout, default: `⌨`
+- `tmux2k-keyboard-layout-format`: Display mode format, default: `short`, options: `short`, `long`
+
 #### `mise`
 
 Show active runtime versions managed by mise (dev tool version manager) with language icons
@@ -510,6 +518,7 @@ set -g @tmux2k-window-list-popup-type "direct"
 | `git`         | `lazygit`                    |
 | `github`      | `gh dash`                    |
 | `gpu`         | `nvtop`                      |
+| `keyboard-layout` | `kcmshell6 kcm_keyboard` (KDE/KWin Wayland only) |
 | `mise`        | `mise ls`                    |
 | `network`     | `nmtui`                      |
 | `ping`        | `gping google.com`           |

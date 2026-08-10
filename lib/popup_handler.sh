@@ -19,6 +19,7 @@ declare -A default_popups=(
     ["git"]="lazygit"
     ["github"]="gh dash"
     ["gpu"]="nvtop"
+    ["keyboard-layout"]="command -v busctl >/dev/null 2>&1 && busctl --user --quiet call org.kde.keyboard /Layouts org.kde.KeyboardLayouts getLayout >/dev/null 2>&1 && kcmshell6 kcm_keyboard"
     ["mise"]="mise ls"
     ["network"]="nmtui"
     ["ping"]="gping google.com"
