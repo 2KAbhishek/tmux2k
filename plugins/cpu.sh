@@ -31,8 +31,8 @@ get_cpu_usage() {
     fi
 
     local percent=''
-    case "$(uname -s)" in
-    Linux)
+    case "$HOST_OS" in
+    linux)
         local cpu_values
         cpu_values="$(awk '/^cpu / { print $2+$3+$4+$5+$6+$7+$8, $5+$6 }' /proc/stat)"
         percent="$(awk -v cur="$cpu_values" -v prev="$(get_state cpu-stat-prev)" -v prec="$precision" '
@@ -46,7 +46,7 @@ get_cpu_usage() {
         set_state cpu-stat-prev "$cpu_values"
         ;;
 
-    Darwin)
+    darwin)
         local cpucores cpuusage cpuvalue
         cpuvalue="$(ps -A -o %cpu | awk -F. '{s+=$1} END {print s}')"
         cpucores="$(getconf _NPROCESSORS_ONLN)"
@@ -92,8 +92,8 @@ get_cpu_usage() {
 
 normalize_load() {
     local value="$1"
-    case "$(uname -s)" in
-    Linux | Darwin)
+    case "$HOST_OS" in
+    Linux | darwin)
         local cpucores
         cpucores="$(getconf _NPROCESSORS_ONLN)"
         awk "BEGIN {print substr($value / $cpucores, 1, 4)}"
@@ -103,8 +103,8 @@ normalize_load() {
 
 float_to_percent() {
     local value="$1"
-    case "$(uname -s)" in
-    Linux | Darwin)
+    case "$HOST_OS" in
+    Linux | darwin)
         awk "BEGIN {print int($value * 100)\"%\"}"
         ;;
     esac
@@ -119,8 +119,8 @@ get_cpu_load() {
     IFS=' ' read -r -a cpu_load_averages <<<"$(get_tmux_option '@tmux2k-cpu-load-averages' '1m 5m 15m')"
 
     declare -a cpu_load_output=()
-    case $(uname -s) in
-    Linux | Darwin)
+    case "$HOST_OS" in
+    Linux | darwin)
         declare -a loadavg=()
         local raw_loadavg
         raw_loadavg=$(uptime | awk -F'[a-z]:' '{ print $2}' | sed 's/,//g')
@@ -156,10 +156,6 @@ get_cpu_load() {
 }
 
 main() {
-    # Two cases for each mode are defined:
-    # 1) Display icon and  mode value(s)
-    # 2) Display colorized icon only (discard mode output)
-
     local cpu_usage
     if [ "$cpu_display_usage" = 'true' ]; then
         cpu_usage="$(get_cpu_usage)"

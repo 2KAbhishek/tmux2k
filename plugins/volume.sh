@@ -9,8 +9,8 @@ source "$current_dir/../lib/utils.sh"
 get_volume_info() {
     local vol='' muted=''
 
-    case $(uname -s) in
-    Linux)
+    case "$HOST_OS" in
+    linux)
         if command -v pactl >/dev/null 2>&1; then
             muted=$(pactl get-sink-mute @DEFAULT_SINK@ 2>/dev/null | awk '{print $2}')
             vol=$(pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null | awk -F'/' '{print $2}' | tr -d ' %' | head -n1)
@@ -25,7 +25,7 @@ get_volume_info() {
         fi
         ;;
 
-    Darwin)
+    darwin)
         if command -v osascript >/dev/null 2>&1; then
             vol=$(osascript -e 'output volume of (get volume settings)' 2>/dev/null)
             local is_muted

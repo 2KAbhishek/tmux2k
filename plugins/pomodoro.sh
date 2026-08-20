@@ -18,7 +18,11 @@ if [ -f "$POMODORO_SCRIPT" ]; then
 fi
 
 main() {
-    pomodoro_status="$(pomodoro_status)"
+    if declare -f pomodoro_status >/dev/null 2>&1; then
+        pomodoro_status="$(pomodoro_status)"
+    else
+        pomodoro_status=""
+    fi
 }
 
 main

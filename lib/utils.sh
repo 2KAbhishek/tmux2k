@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# Global OS detection (0 subshell forks via OSTYPE with uname fallback)
+case "${OSTYPE:-$(uname -s)}" in
+darwin* | Darwin* | *darwin*) HOST_OS="darwin" ;;
+linux* | Linux* | *linux*) HOST_OS="linux" ;;
+freebsd* | FreeBSD* | *freebsd*) HOST_OS="freebsd" ;;
+*) HOST_OS="linux" ;;
+esac
+
 # Non-blocking caching wrapper
 if [ "$1" = "--cache" ]; then
     plugin_name="$2"
@@ -34,7 +42,7 @@ if [ "$1" = "--cache" ]; then
 
         if [ $((now - mtime)) -ge "$refresh_rate" ] && [ "$lock_active" = false ]; then
             # Expired and not currently updating: update in background
-            ( "$0" > "$lock_file" && mv "$lock_file" "$cache_file" ) &
+            ("$0" >"$lock_file" && mv "$lock_file" "$cache_file") &
         fi
         cat "$cache_file"
         exit 0
@@ -43,12 +51,11 @@ if [ "$1" = "--cache" ]; then
         if [ ! -d "$cache_dir" ]; then
             mkdir -p "$cache_dir"
         fi
-        "$0" > "$lock_file" && mv "$lock_file" "$cache_file"
+        "$0" >"$lock_file" && mv "$lock_file" "$cache_file"
         cat "$cache_file"
         exit 0
     fi
 fi
-
 
 get_tmux_option() {
     local option="$1"
@@ -84,16 +91,16 @@ set_state() {
     # (e.g. multiple tmux clients running the same #() job) never see a torn file.
     [ -d "$state_dir" ] || mkdir -p "$state_dir"
     local tmp="$state_dir/.$1.$$"
-    printf '%s' "$2" > "$tmp" && mv -f "$tmp" "$state_dir/$1"
+    printf '%s' "$2" >"$tmp" && mv -f "$tmp" "$state_dir/$1"
 }
 
 normalize_padding() {
     percent_len=${#1}
     max_len=${2:-4}
-    diff_len=$(( max_len - percent_len ))
+    diff_len=$((max_len - percent_len))
     # if the diff_len is even, left will have 1 more space than right
-    left_spaces=$(( (diff_len + 1) / 2 ))
-    right_spaces=$(( diff_len / 2 ))
+    left_spaces=$(((diff_len + 1) / 2))
+    right_spaces=$((diff_len / 2))
     printf "%${left_spaces}s%s%${right_spaces}s\n" "" "$1" ""
 }
 
@@ -102,12 +109,11 @@ get_pane_dir() {
 }
 
 get_desktop_environment() {
-    local os="${OSTYPE:-$(uname -s)}"
-    case "$os" in
-    darwin* | Darwin* | *darwin*)
+    case "$HOST_OS" in
+    darwin)
         echo "darwin"
         ;;
-    linux* | Linux* | *linux*)
+    linux)
         local de="${XDG_CURRENT_DESKTOP:-$DESKTOP_SESSION}"
         local de_lower="${de,,}"
         if [ -n "$SWAYSOCK" ] || [[ "$de_lower" == *"sway"* ]]; then

@@ -14,16 +14,16 @@ offline_icon=$(get_tmux_option "@tmux2k-network-offline-icon" "󰌙")
 
 get_ssid() {
     local SSID=""
-    case $(uname -s) in
-    Linux)
+    case "$HOST_OS" in
+    linux)
         if command -v nmcli >/dev/null; then
-            SSID=$(nmcli connection show --active|awk '/wifi/{print $1}')
+            SSID=$(nmcli connection show --active | awk '/wifi/{print $1}')
         elif command -v iwgetid >/dev/null 2>&1; then
             SSID=$(iwgetid -r)
         else
             local wlaninfo
             if wlaninfo=$(iw wlan0 link 2>/dev/null); then
-                SSID=$(awk -F ':' '/SSID/{print $2}' <<< "${wlaninfo}")
+                SSID=$(awk -F ':' '/SSID/{print $2}' <<<"${wlaninfo}")
             fi
         fi
         if [ -n "$SSID" ]; then
@@ -33,7 +33,7 @@ get_ssid() {
         fi
         ;;
 
-    Darwin)
+    darwin)
         local device_name SSID
         device_name=$(networksetup -listallhardwareports 2>/dev/null | grep -A 1 Wi-Fi | grep Device | awk '{print $2}')
         if [ -n "$device_name" ]; then

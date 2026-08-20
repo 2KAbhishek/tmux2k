@@ -19,8 +19,8 @@ get_ram_info() {
     display=$(get_tmux_option "@tmux2k-ram-display" "percent")
     precision=$(get_tmux_option "@tmux2k-ram-precision" "0")
 
-    case $(uname -s) in
-    Linux)
+    case "$HOST_OS" in
+    linux)
         local total_mb used_mb free_mb
         total_mb=$(LC_ALL=C free -m | awk '/^Mem/ {print $2}')
         used_mb=$(LC_ALL=C free -m | awk '/^Mem/ {print $3}')
@@ -35,7 +35,7 @@ get_ram_info() {
         free_gb=$(awk -v m="$free_mb" 'BEGIN {printf "%.1fG", m/1024}')
         ;;
 
-    Darwin)
+    darwin)
         local used_mb total_mb free_mb pagesize_val
         pagesize_val=$(pagesize 2>/dev/null || sysctl -n hw.pagesize 2>/dev/null || echo 4096)
         used_mb=$(vm_stat | awk -v ps="$pagesize_val" '/Pages active|Pages wired/ {sum += $NF} END {print int(sum * ps / 1048576)}')
@@ -51,7 +51,7 @@ get_ram_info() {
         free_gb=$(awk -v m="$free_mb" 'BEGIN {printf "%.1fG", m/1024}')
         ;;
 
-    FreeBSD)
+    freebsd)
         local hw_pagesize mem_inactive mem_unused mem_cache free_mem total_mem used_mem
         hw_pagesize="$(sysctl -n hw.pagesize)"
         mem_inactive="$(($(sysctl -n vm.stats.vm.v_inactive_count) * hw_pagesize))"

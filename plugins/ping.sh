@@ -7,8 +7,8 @@ current_dir="${BASH_SOURCE[0]%/*}"
 source "$current_dir/../lib/utils.sh"
 
 ping_function() {
-    case $(uname -s) in
-    Linux | Darwin)
+    case "$HOST_OS" in
+    Linux | darwin)
         pingserver=$(get_tmux_option "@tmux2k-ping-server" "google.com")
 
         if [[ "$pingserver" == *:* ]]; then

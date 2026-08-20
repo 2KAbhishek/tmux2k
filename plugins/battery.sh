@@ -59,14 +59,14 @@ battery_label() {
 
 main() {
     local info status perc icon_str=''
-    case $(uname -s) in
-        Linux) info=$(battery_info_linux) ;;
-        Darwin) info=$(battery_info_darwin) ;;
-        FreeBSD)
-            perc=$(apm | sed '8,11d' | grep life | awk '{print $4}' | tr -d '%')
-            status=$(apm | sed '8,11d' | grep Status | awk '{printf $3}')
-            info="${status}|${perc}"
-            ;;
+    case "$HOST_OS" in
+    linux) info=$(battery_info_linux) ;;
+    darwin) info=$(battery_info_darwin) ;;
+    freebsd)
+        perc=$(apm | sed '8,11d' | grep life | awk '{print $4}' | tr -d '%')
+        status=$(apm | sed '8,11d' | grep Status | awk '{printf $3}')
+        info="${status}|${perc}"
+        ;;
     esac
 
     IFS='|' read -r status perc <<<"$info"
@@ -78,7 +78,7 @@ main() {
 
     local is_charging=false
     case "$status" in
-        charging|Charging|AC|'AC Power') is_charging=true ;;
+    charging | Charging | AC | 'AC Power') is_charging=true ;;
     esac
 
     if [ "$is_charging" = true ]; then

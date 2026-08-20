@@ -14,12 +14,12 @@ gpu_gradient="$(get_tmux_option '@tmux2k-gpu-gradient' '')"
 gpu_icon_link_to="$(get_tmux_option '@tmux2k-gpu-icon-link-to' '')"
 
 get_platform() {
-    case $(uname -s) in
-    Linux)
+    case "$HOST_OS" in
+    linux)
         gpu=$(lspci -v | grep VGA | head -n 1 | awk '{print $5}')
         echo "$gpu"
         ;;
-    Darwin) echo "Apple" ;;
+    darwin) echo "Apple" ;;
     esac
 }
 
