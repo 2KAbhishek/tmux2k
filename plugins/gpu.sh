@@ -19,7 +19,6 @@ get_platform() {
         echo "$gpu"
         ;;
     Darwin) echo "Apple" ;;
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 

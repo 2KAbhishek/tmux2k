@@ -51,8 +51,6 @@ get_cpu_usage() {
         cpucores="$(getconf _NPROCESSORS_ONLN)"
         percent="$(awk -v val="$cpuvalue" -v cores="$cpucores" -v prec="$precision" 'BEGIN { printf "%.*f", prec, val / cores }')"
         ;;
-
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 
     [ -z "$percent" ] &&
@@ -99,7 +97,6 @@ normalize_load() {
         cpucores="$(getconf _NPROCESSORS_ONLN)"
         awk "BEGIN {print substr($value / $cpucores, 1, 4)}"
         ;;
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 
@@ -109,7 +106,6 @@ float_to_percent() {
     Linux | Darwin)
         awk "BEGIN {print int($value * 100)\"%\"}"
         ;;
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 
@@ -153,8 +149,6 @@ get_cpu_load() {
             cpu_load_output+=("${color}$(normalize_padding "$avg" 4)")
         done
         ;;
-
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 
     printf '%s' "${cpu_load_output[*]}"

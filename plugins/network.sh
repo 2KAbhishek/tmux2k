@@ -44,8 +44,6 @@ get_ssid() {
             echo "$ethernet_icon Eth"
         fi
         ;;
-
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 

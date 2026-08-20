@@ -28,8 +28,6 @@ ping_function() {
             echo "$pingtime ms"
         fi
         ;;
-
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 

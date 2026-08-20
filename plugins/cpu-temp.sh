@@ -16,8 +16,6 @@ get_cpu_temp() {
 		temperature=$(ioreg -r -n "AppleSmartBattery" | grep -i "Temperature" | awk '{print $3/100}')
 		normalize_padding "$temperature"
 		;;
-
-	CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
 	esac
 }
 
