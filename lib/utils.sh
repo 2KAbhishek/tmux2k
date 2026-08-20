@@ -12,13 +12,12 @@ esac
 if [ "$1" = "--cache" ]; then
     plugin_name="$2"
     refresh_rate="$3"
-    platform="$4"
     cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/tmux2k"
     cache_file="$cache_dir/$plugin_name"
     lock_file="$cache_file.tmp"
 
     if [ -f "$cache_file" ]; then
-        if [ "$platform" = "darwin" ]; then
+        if [ "$HOST_OS" = "darwin" ]; then
             mtime=$(stat -f %m "$cache_file" 2>/dev/null || echo 0)
         else
             mtime=$(stat -c %Y "$cache_file" 2>/dev/null || echo 0)
@@ -28,7 +27,7 @@ if [ "$1" = "--cache" ]; then
 
         lock_active=false
         if [ -f "$lock_file" ]; then
-            if [ "$platform" = "darwin" ]; then
+            if [ "$HOST_OS" = "darwin" ]; then
                 ltime=$(stat -f %m "$lock_file" 2>/dev/null || echo 0)
             else
                 ltime=$(stat -c %Y "$lock_file" 2>/dev/null || echo 0)
