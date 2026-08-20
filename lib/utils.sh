@@ -56,12 +56,27 @@ if [ "$1" = "--cache" ]; then
     fi
 fi
 
+declare -g -A TMUX2K_OPTIONS
+if [ "${#TMUX2K_OPTIONS[@]}" -eq 0 ]; then
+    while IFS=' ' read -r opt val; do
+        TMUX2K_OPTIONS["$opt"]="$val"
+    done < <(tmux show-options -g 2>/dev/null | grep "^@tmux2k-")
+fi
+
 get_tmux_option() {
     local option="$1"
     local default_value="$2"
-    local option_value
-    option_value=$(tmux show-option -gqv "$option")
-    printf '%s\n' "${option_value:-$default_value}"
+    local val="${TMUX2K_OPTIONS[$option]}"
+
+    if [ -z "$val" ]; then
+        val=$(tmux show-option -gqv "$option" 2>/dev/null)
+    else
+        val="${val#\"}"
+        val="${val%\"}"
+        val="${val#\'}"
+        val="${val%\'}"
+    fi
+    printf '%s\n' "${val:-$default_value}"
 }
 
 # Persistent per-plugin state, stored in files rather than tmux options.
