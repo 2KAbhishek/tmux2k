@@ -334,10 +334,9 @@ set -g @tmux2k-group2-colors "purple text"
 
 #### `keyboard-layout`
 
-Show the active keyboard layout. Currently only supported on KDE Plasma/KWin with
-Wayland; other platforms/compositors show `n/a` until support is added.
+Show the active keyboard layout. Supports KDE Plasma (Wayland), X11 (via `setxkbmap`/`xkb-switch`), Hyprland, Sway, GNOME, macOS (`HIToolbox`/`im-select`), and `localectl` system fallback.
 
-- `tmux2k-keyboard-layout-icon`: Icon for keyboard layout, default: `⌨`
+- `tmux2k-keyboard-layout-icon`: Icon for keyboard layout, default: ``
 - `tmux2k-keyboard-layout-format`: Display mode format, default: `short`, options: `short`, `long`
 
 #### `mise`
@@ -518,7 +517,7 @@ set -g @tmux2k-window-list-popup-type "direct"
 | `git`         | `lazygit`                    |
 | `github`      | `gh dash`                    |
 | `gpu`         | `nvtop`                      |
-| `keyboard-layout` | `kcmshell6 kcm_keyboard` (KDE/KWin Wayland only) |
+| `keyboard-layout` | Auto-detects DE settings (`gnome-control-center`, `kcmshell6`, `xfce4-keyboard-settings`, `cinnamon-settings`, `mate-keyboard-properties`, macOS System Settings) |
 | `mise`        | `mise ls`                    |
 | `network`     | `nmtui`                      |
 | `ping`        | `gping google.com`           |
