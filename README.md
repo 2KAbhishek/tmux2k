@@ -504,34 +504,16 @@ set -g @tmux2k-session-popup-type "direct"
 set -g @tmux2k-window-list-popup-type "direct"
 ```
 
-#### Default Plugin Popups
+#### Smart Popup Auto-Detection
 
-| Plugin        | Default Command              |
-| ------------- | ---------------------------- |
-| `bandwidth`   | `bmon`                       |
-| `battery`     | `btop`                       |
-| `cpu`         | `btop`                       |
-| `cpu-temp`    | `watch -n 1 -c sensors`      |
-| `cwd`         | `ranger`                     |
-| `docker`      | `lazydocker`                 |
-| `git`         | `lazygit`                    |
-| `github`      | `gh dash`                    |
-| `gpu`         | `nvtop`                      |
-| `keyboard-layout` | Auto-detects DE settings (`gnome-control-center`, `kcmshell6`, `xfce4-keyboard-settings`, `cinnamon-settings`, `mate-keyboard-properties`, macOS System Settings) |
-| `mise`        | `mise ls`                    |
-| `network`     | `nmtui`                      |
-| `ping`        | `gping google.com`           |
-| `pomodoro`    | `""`                         |
-| `ram`         | `htop`                       |
-| `session`     | `tea`                        |
-| `storage`     | `ncdu --color dark ~`        |
-| `tdo`         | `tdo -t`                     |
-| `time`        | `calcurse`                   |
-| `updates`     | `yay -Syu`                   |
-| `uptime`      | `fastfetch; read -n 1`       |
-| `volume`      | `pulsemixer`                 |
-| `weather`     | `curl -s wttr.in; read -n 1` |
-| `window-list` | `tea -p`                     |
+Clicking any status bar segment automatically detects and opens the best available TUI or system tool installed on your system (e.g., `btop`/`htop` for resource plugins, `ranger`/`yazi` for file browsing, `lazygit`/`gitui` for git, `yay`/`pacman`/`apt` for updates, and desktop settings panels for keyboard layout).
+
+You can override any plugin's popup command or execution mode at any time using:
+
+```tmux
+set -g @tmux2k-[plugin-name]-popup-cmd "your-custom-command"
+set -g @tmux2k-[plugin-name]-popup-type "popup" # 'popup' or 'direct'
+```
 
 ---
 

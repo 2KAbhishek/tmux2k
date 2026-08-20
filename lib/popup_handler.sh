@@ -2,56 +2,119 @@
 
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 
-side="$1"     # "left", "right", or "center"
-mouse_x="$2"  # #{mouse_x}
-client_w="$3" # #{client_width}
-
-current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+current_dir="${BASH_SOURCE[0]%/*}"
+[ "$current_dir" = "${BASH_SOURCE[0]}" ] && current_dir="."
 source "$current_dir/utils.sh"
 
-open_keyboard_settings() {
+bandwidth_popup() {
+    exec_first_available "bmon" "nload" "iftop" "btop"
+}
+
+battery_popup() {
+    exec_first_available "btop" "htop" "top"
+}
+
+cpu_popup() {
+    exec_first_available "btop" "htop" "glances" "top"
+}
+
+cpu_temp_popup() {
+    exec_first_available "watch -n 1 -c sensors" "s-tui"
+}
+
+cwd_popup() {
+    exec_first_available "ranger" "yazi" "nnn" "lf" "mc"
+}
+
+docker_popup() {
+    exec_first_available "lazydocker" "oxker" "docker ps; read -n 1"
+}
+
+git_popup() {
+    exec_first_available "lazygit" "gitui" "tig" "git status; read -n 1"
+}
+
+github_popup() {
+    exec_first_available "gh dash" "gh pr list"
+}
+
+gpu_popup() {
+    exec_first_available "nvtop" "radeontop" "nvidia-smi; read -n 1"
+}
+
+keyboard_layout_popup() {
     case "$(get_desktop_environment)" in
-    sway | hyprland)
-        command -v wcm >/dev/null 2>&1 && wcm ||
-            command -v gnome-control-center >/dev/null 2>&1 && gnome-control-center keyboard ||
-            command -v kcmshell6 >/dev/null 2>&1 && kcmshell6 kcm_keyboard
-        ;;
-    gnome) command -v gnome-control-center >/dev/null 2>&1 && gnome-control-center keyboard ;;
-    kde) command -v kcmshell6 >/dev/null 2>&1 && kcmshell6 kcm_keyboard || kcmshell5 kcm_keyboard ;;
-    xfce) command -v xfce4-keyboard-settings >/dev/null 2>&1 && xfce4-keyboard-settings ;;
-    cinnamon) command -v cinnamon-settings >/dev/null 2>&1 && cinnamon-settings keyboard ;;
-    mate) command -v mate-keyboard-properties >/dev/null 2>&1 && mate-keyboard-properties ;;
-    x11)
-        command -v xfce4-keyboard-settings >/dev/null 2>&1 && xfce4-keyboard-settings ||
-            command -v gnome-control-center >/dev/null 2>&1 && gnome-control-center keyboard ||
-            command -v kcmshell6 >/dev/null 2>&1 && kcmshell6 kcm_keyboard
-        ;;
+    sway | hyprland) exec_first_available "wcm" "gnome-control-center keyboard" "kcmshell6 kcm_keyboard" ;;
+    gnome) exec_first_available "gnome-control-center keyboard" ;;
+    kde) exec_first_available "kcmshell6 kcm_keyboard" "kcmshell5 kcm_keyboard" ;;
+    xfce) exec_first_available "xfce4-keyboard-settings" ;;
+    cinnamon) exec_first_available "cinnamon-settings keyboard" ;;
+    mate) exec_first_available "mate-keyboard-properties" ;;
+    x11) exec_first_available "xfce4-keyboard-settings" "gnome-control-center keyboard" "kcmshell6 kcm_keyboard" ;;
     darwin) open 'x-apple.systempreferences:com.apple.preference.keyboard' ;;
     esac
 }
 
+network_popup() {
+    exec_first_available "nmtui" "impala"
+}
+
+ping_popup() {
+    exec_first_available "gping google.com" "ping google.com"
+}
+
+ram_popup() {
+    exec_first_available "htop" "btop" "top"
+}
+
+storage_popup() {
+    exec_first_available "ncdu --color dark ~" "gdu ~" "df -h ~; read -n 1"
+}
+
+updates_popup() {
+    exec_first_available "yay -Syu" "paru -Syu" "sudo pacman -Syu" "sudo apt update && sudo apt upgrade" "sudo dnf upgrade" "brew update && brew upgrade"
+}
+
+uptime_popup() {
+    exec_first_available "fastfetch; read -n 1" "neofetch; read -n 1" "hyfetch; read -n 1" "uptime; read -n 1"
+}
+
+volume_popup() {
+    exec_first_available "pulsemixer" "alsamixer" "ncpamixer"
+}
+
+if [ "$1" = "--exec" ]; then
+    shift
+    eval "$@"
+    exit $?
+fi
+
+side="$1"     # "left", "right", or "center"
+mouse_x="$2"  # #{mouse_x}
+client_w="$3" # #{client_width}
+
 declare -A default_popups=(
-    ["bandwidth"]="bmon"
-    ["battery"]="btop"
-    ["cpu"]="btop"
-    ["cpu-temp"]="watch -n 1 -c sensors"
-    ["cwd"]="ranger"
-    ["docker"]="lazydocker"
-    ["git"]="lazygit"
-    ["github"]="gh dash"
-    ["gpu"]="nvtop"
-    ["keyboard-layout"]="open_keyboard_settings"
+    ["bandwidth"]="bandwidth_popup"
+    ["battery"]="battery_popup"
+    ["cpu"]="cpu_popup"
+    ["cpu-temp"]="cpu_temp_popup"
+    ["cwd"]="cwd_popup"
+    ["docker"]="docker_popup"
+    ["git"]="git_popup"
+    ["github"]="github_popup"
+    ["gpu"]="gpu_popup"
+    ["keyboard-layout"]="keyboard_layout_popup"
     ["mise"]="mise ls"
-    ["network"]="nmtui"
-    ["ping"]="gping google.com"
-    ["ram"]="htop"
+    ["network"]="network_popup"
+    ["ping"]="ping_popup"
+    ["ram"]="ram_popup"
     ["session"]="tea"
-    ["storage"]="ncdu --color dark ~"
+    ["storage"]="storage_popup"
     ["tdo"]="tdo -t"
     ["time"]="calcurse"
-    ["updates"]="yay -Syu"
-    ["uptime"]="fastfetch; read -n 1"
-    ["volume"]="pulsemixer"
+    ["updates"]="updates_popup"
+    ["uptime"]="uptime_popup"
+    ["volume"]="volume_popup"
     ["weather"]="curl -s wttr.in; read -n 1"
     ["window-list"]="tea -p"
 )
@@ -135,6 +198,6 @@ if [ -n "$cmd" ]; then
     else
         width=$(get_tmux_option "@tmux2k-popup-width" "85%")
         height=$(get_tmux_option "@tmux2k-popup-height" "85%")
-        tmux display-popup -E -d "#{pane_current_path}" -w "$width" -h "$height" "$cmd"
+        tmux display-popup -E -d "#{pane_current_path}" -w "$width" -h "$height" "$current_dir/popup_handler.sh --exec \"$cmd\""
     fi
 fi

@@ -133,3 +133,15 @@ get_desktop_environment() {
         ;;
     esac
 }
+
+exec_first_available() {
+    local cmd
+    for cmd in "$@"; do
+        local bin="${cmd%% *}"
+        if command -v "$bin" >/dev/null 2>&1; then
+            eval "$cmd"
+            return $?
+        fi
+    done
+    return 1
+}
