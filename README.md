@@ -338,6 +338,7 @@ Show the active keyboard layout. Supports KDE Plasma (Wayland), X11 (via `setxkb
 
 - `tmux2k-keyboard-layout-icon`: Icon for keyboard layout, default: ``
 - `tmux2k-keyboard-layout-format`: Display mode format, default: `short`, options: `short`, `long`
+- `tmux2k-keyboard-layout-case`: Text capitalization mode, default: `upper`, options: `upper`, `lower`, `none`
 
 #### `mise`
 

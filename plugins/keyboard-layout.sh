@@ -6,6 +6,7 @@ source "$current_dir/../lib/utils.sh"
 
 keyboard_layout_icon=$(get_tmux_option "@tmux2k-keyboard-layout-icon" "")
 keyboard_layout_format=$(get_tmux_option "@tmux2k-keyboard-layout-format" "short")
+keyboard_layout_case=$(get_tmux_option "@tmux2k-keyboard-layout-case" "upper")
 
 get_kde_layout() {
     command -v busctl >/dev/null 2>&1 || return 1
@@ -195,14 +196,18 @@ main() {
     [ -z "$layout" ] && layout=$(get_hyprland_layout)
     [ -z "$layout" ] && layout=$(get_gnome_layout)
     [ -z "$layout" ] && layout=$(get_system_layout)
-    [ -z "$layout" ] && layout="n/a"
+    [ -z "$layout" ] && layout="N/A"
 
-    if [ "$keyboard_layout_format" = "short" ] && [ "$layout" != "n/a" ]; then
+    if [ "$keyboard_layout_format" = "short" ] && [ "$layout" != "N/A" ]; then
         layout="${layout%%+*}"
         layout="${layout%%,*}"
         layout="${layout%% *}"
-        layout="${layout^^}"
     fi
+
+    case "$keyboard_layout_case" in
+    upper | uppercase) layout="${layout^^}" ;;
+    lower | lowercase) layout="${layout,,}" ;;
+    esac
 
     if [ -n "$keyboard_layout_icon" ]; then
         echo "$keyboard_layout_icon $layout"
