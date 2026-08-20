@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
-current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+current_dir="${BASH_SOURCE[0]%/*}"
+[ "$current_dir" = "${BASH_SOURCE[0]}" ] && current_dir="."
 
 "$current_dir"/main.sh

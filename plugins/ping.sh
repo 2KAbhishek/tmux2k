@@ -2,7 +2,8 @@
 
 export LC_ALL=en_US.UTF-8
 
-current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+current_dir="${BASH_SOURCE[0]%/*}"
+[ "$current_dir" = "${BASH_SOURCE[0]}" ] && current_dir="."
 source "$current_dir/../lib/utils.sh"
 
 ping_function() {
