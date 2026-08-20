@@ -9,6 +9,27 @@ client_w="$3" # #{client_width}
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir/utils.sh"
 
+open_keyboard_settings() {
+    case "$(get_desktop_environment)" in
+    sway | hyprland)
+        command -v wcm >/dev/null 2>&1 && wcm ||
+            command -v gnome-control-center >/dev/null 2>&1 && gnome-control-center keyboard ||
+            command -v kcmshell6 >/dev/null 2>&1 && kcmshell6 kcm_keyboard
+        ;;
+    gnome) command -v gnome-control-center >/dev/null 2>&1 && gnome-control-center keyboard ;;
+    kde) command -v kcmshell6 >/dev/null 2>&1 && kcmshell6 kcm_keyboard || kcmshell5 kcm_keyboard ;;
+    xfce) command -v xfce4-keyboard-settings >/dev/null 2>&1 && xfce4-keyboard-settings ;;
+    cinnamon) command -v cinnamon-settings >/dev/null 2>&1 && cinnamon-settings keyboard ;;
+    mate) command -v mate-keyboard-properties >/dev/null 2>&1 && mate-keyboard-properties ;;
+    x11)
+        command -v xfce4-keyboard-settings >/dev/null 2>&1 && xfce4-keyboard-settings ||
+            command -v gnome-control-center >/dev/null 2>&1 && gnome-control-center keyboard ||
+            command -v kcmshell6 >/dev/null 2>&1 && kcmshell6 kcm_keyboard
+        ;;
+    darwin) open 'x-apple.systempreferences:com.apple.preference.keyboard' ;;
+    esac
+}
+
 declare -A default_popups=(
     ["bandwidth"]="bmon"
     ["battery"]="btop"
@@ -19,7 +40,7 @@ declare -A default_popups=(
     ["git"]="lazygit"
     ["github"]="gh dash"
     ["gpu"]="nvtop"
-    ["keyboard-layout"]="command -v busctl >/dev/null 2>&1 && busctl --user --quiet call org.kde.keyboard /Layouts org.kde.KeyboardLayouts getLayout >/dev/null 2>&1 && kcmshell6 kcm_keyboard"
+    ["keyboard-layout"]="open_keyboard_settings"
     ["mise"]="mise ls"
     ["network"]="nmtui"
     ["ping"]="gping google.com"
@@ -37,6 +58,7 @@ declare -A default_popups=(
 
 # Popup mode: "popup" (tmux display-popup) or "direct" (execute in background)
 declare -A default_popup_types=(
+    ["keyboard-layout"]="direct"
     ["session"]="direct"
     ["window-list"]="direct"
 )
