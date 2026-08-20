@@ -141,9 +141,13 @@ if [ -z "$plugin" ]; then
         lplugins_str=$(get_tmux_option "@tmux2k-left-plugins" "session git cwd")
         IFS=' ' read -r -a lplugins <<<"$lplugins_str"
 
+        cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/tmux2k"
         curr_x=0
         for pl in "${lplugins[@]}"; do
-            if [ -f "$current_dir/../plugins/${pl}.sh" ]; then
+            if [ -f "$cache_dir/$pl" ]; then
+                output=$(<"$cache_dir/$pl")
+                len=$((${#output} + 2))
+            elif [ -f "$current_dir/../plugins/${pl}.sh" ]; then
                 output=$("$current_dir/../plugins/${pl}.sh" 2>/dev/null)
                 len=$((${#output} + 2))
             else
@@ -162,10 +166,14 @@ if [ -z "$plugin" ]; then
         rplugins_str=$(get_tmux_option "@tmux2k-right-plugins" "tdo cpu ram storage volume battery network time")
         IFS=' ' read -r -a rplugins <<<"$rplugins_str"
 
+        cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/tmux2k"
         curr_x=$client_w
         for ((i = ${#rplugins[@]} - 1; i >= 0; i--)); do
             pl="${rplugins[$i]}"
-            if [ -f "$current_dir/../plugins/${pl}.sh" ]; then
+            if [ -f "$cache_dir/$pl" ]; then
+                output=$(<"$cache_dir/$pl")
+                len=$((${#output} + 2))
+            elif [ -f "$current_dir/../plugins/${pl}.sh" ]; then
                 output=$("$current_dir/../plugins/${pl}.sh" 2>/dev/null)
                 len=$((${#output} + 2))
             else
