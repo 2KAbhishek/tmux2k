@@ -100,3 +100,36 @@ normalize_padding() {
 get_pane_dir() {
     tmux display-message -p -F "#{pane_current_path}" 2>/dev/null
 }
+
+get_desktop_environment() {
+    local os="${OSTYPE:-$(uname -s)}"
+    case "$os" in
+    darwin* | Darwin* | *darwin*)
+        echo "darwin"
+        ;;
+    linux* | Linux* | *linux*)
+        local de="${XDG_CURRENT_DESKTOP:-$DESKTOP_SESSION}"
+        local de_lower="${de,,}"
+        if [ -n "$SWAYSOCK" ] || [[ "$de_lower" == *"sway"* ]]; then
+            echo "sway"
+        elif [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ] || [[ "$de_lower" == *"hyprland"* ]]; then
+            echo "hyprland"
+        else
+            case "$de_lower" in
+            *kde* | *plasma*) echo "kde" ;;
+            *gnome* | *ubuntu* | *pop*) echo "gnome" ;;
+            *xfce*) echo "xfce" ;;
+            *cinnamon*) echo "cinnamon" ;;
+            *mate*) echo "mate" ;;
+            *)
+                if [ -n "$DISPLAY" ]; then
+                    echo "x11"
+                else
+                    echo "linux"
+                fi
+                ;;
+            esac
+        fi
+        ;;
+    esac
+}
