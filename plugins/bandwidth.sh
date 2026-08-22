@@ -6,7 +6,8 @@ source "$current_dir/../lib/utils.sh"
 
 case "$HOST_OS" in
 darwin)
-    network_name=$(get_tmux_option "@tmux2k-bandwidth-network-name" "en0")
+    device_name=$(networksetup -listallhardwareports 2>/dev/null | grep -A 1 Wi-Fi | grep Device | awk '{print $2}')
+    network_name=$(get_tmux_option "@tmux2k-bandwidth-network-name" "$device_name")
     ;;
 linux)
     default_network_device="wlo1"
