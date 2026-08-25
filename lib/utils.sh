@@ -27,14 +27,26 @@ get_tmux_option() {
     local val="${TMUX2K_OPTIONS[$option]}"
 
     if [ -z "$val" ]; then
-        val=$(tmux show-option -gqv "$option" 2>/dev/null)
-    else
+        val="$(tmux show-option -gqv "$option" 2>/dev/null)"
+    fi
+
+    if [ -n "$val" ]; then
         val="${val#\"}"
         val="${val%\"}"
         val="${val#\'}"
         val="${val%\'}"
+        if [[ "$val" =~ ^\$[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
+            local var_name="${val#\$}"
+            val="${!var_name}"
+        elif [[ "$val" == *"\$HOME"* ]]; then
+            val="${val//\$HOME/$HOME}"
+        elif [[ "$val" == "~"* ]]; then
+            val="${val/#\~/$HOME}"
+        fi
+        printf '%s\n' "$val"
+    else
+        printf '%s\n' "$default_value"
     fi
-    printf '%s\n' "${val:-$default_value}"
 }
 
 normalize_padding() {
