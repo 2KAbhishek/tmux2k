@@ -110,9 +110,30 @@ get_message() {
     fi
 }
 
+git_dynamic_colors=$(get_tmux_option '@tmux2k-git-dynamic-colors' '')
+
+[ -n "$git_dynamic_colors" ] &&
+    source "$current_dir/../lib/color-utils.sh"
+
 main() {
     path=$(get_pane_dir)
-    get_message
+    local msg
+    msg=$(get_message)
+
+    local color_prefix=""
+    if [ -n "$git_dynamic_colors" ] && [ "$msg" != "$no_repo_icon" ]; then
+        local branch match_target
+        branch="$(get_branch)"
+        match_target="$branch"
+        [ "$(check_for_changes)" == "true" ] && match_target="${branch}:dirty"
+
+        local color=""
+        match_dynamic_color "$match_target" "$git_dynamic_colors" color
+        [ -z "$color" ] && match_dynamic_color "$branch" "$git_dynamic_colors" color
+        [ -n "$color" ] && color_prefix="#[fg=${color}]"
+    fi
+
+    echo "${color_prefix}${msg}"
 }
 
 main
