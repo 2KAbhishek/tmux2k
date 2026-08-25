@@ -101,3 +101,106 @@ pct2color() {
 
     printf '%s' "$color"
 }
+
+readonly -a DYNAMIC_COLOR_PALETTE=(
+    '#1688f0' # blue
+    '#3dd50a' # green
+    '#ffd21a' # yellow
+    '#FFA500' # orange
+    '#bf58ff' # purple
+    '#FF69B4' # pink
+    '#11dddd' # cyan
+    '#ff4a6a' # light_red
+    '#20b2aa' # teal
+    '#a6da95' # pastel_green
+    '#8aadf4' # cornflower_blue
+    '#eed49f' # warm_yellow
+    '#f5a97f' # soft_orange
+    '#b6a0fe' # lavender
+    '#f5bde6' # rose
+    '#91d7e3' # sky_blue
+    '#a6e22e' # lime
+    '#ff1493' # deep_pink
+    '#00ced1' # turquoise
+    '#ff7f50' # coral
+)
+
+match_dynamic_color() {
+    # Usage: match_dynamic_color VALUE RULES [OUT_VAR] [CUSTOM_PALETTE]
+    #
+    # Matches VALUE against RULES and assigns or returns a color (hex, named, or tmux color).
+    # If RULES is 'auto' or contains 'auto', hashes VALUE to a distinct palette color (0 subshells).
+    #
+    # Positional Args:
+    #  VALUE           String value to match (e.g. session name, branch name, path).
+    #  RULES           Space or comma separated list of pattern=color pairs (e.g. "prod*=red work=blue *=green"),
+    #                  or 'auto' for automatic color hashing.
+    #  OUT_VAR         Optional variable name to store the resolved color in (0 subshells).
+    #  CUSTOM_PALETTE  Optional space-separated list of colors to use for auto-hashing.
+    #
+    # Example:
+    #  match_dynamic_color 'work' 'work=blue personal=green' color_var
+    #  match_dynamic_color 'session1' 'auto' color_var
+
+    local _mdc_val="$1"
+    local _mdc_rules="$2"
+    local _mdc_out_var="$3"
+    local _mdc_custom_palette="$4"
+
+    [ -z "$_mdc_val" ] || [ -z "$_mdc_rules" ] && return
+
+    local -a _mdc_p_arr
+    if [ -z "$_mdc_custom_palette" ] && declare -p TMUX2K_OPTIONS >/dev/null 2>&1; then
+        _mdc_custom_palette="${TMUX2K_OPTIONS['@tmux2k-dynamic-colors-palette']}"
+    fi
+
+    if [ -n "$_mdc_custom_palette" ]; then
+        read -r -a _mdc_p_arr <<< "$_mdc_custom_palette"
+    else
+        _mdc_p_arr=("${DYNAMIC_COLOR_PALETTE[@]}")
+    fi
+
+    local _mdc_res=""
+    _hash_color() {
+        local _str="$1"
+        local _hash=2166136261 _char _i
+        for ((_i = 0; _i < ${#_str}; _i++)); do
+            printf -v _char '%d' "'${_str:$_i:1}"
+            _hash=$(( ((_hash ^ _char) * 16777619) & 0x7FFFFFFF ))
+        done
+        local _index=$(( _hash % ${#_mdc_p_arr[@]} ))
+        _mdc_res="${_mdc_p_arr[$_index]}"
+    }
+
+    if [ "$_mdc_rules" = "auto" ] || [ "$_mdc_rules" = "true" ]; then
+        _hash_color "$_mdc_val"
+    else
+        local IFS=$' \t\n,' _mdc_rule
+        for _mdc_rule in $_mdc_rules; do
+            [ -z "$_mdc_rule" ] && continue
+            local _mdc_pattern="${_mdc_rule%%=*}"
+            local _mdc_col="${_mdc_rule#*=}"
+
+            if [ "$_mdc_pattern" = "auto" ] && [ "$_mdc_col" = "auto" ]; then
+                _hash_color "$_mdc_val"
+                break
+            fi
+
+            # shellcheck disable=SC2053
+            if [[ "$_mdc_val" == $_mdc_pattern ]]; then
+                if [ "$_mdc_col" = "auto" ]; then
+                    _hash_color "$_mdc_val"
+                else
+                    _mdc_res="$_mdc_col"
+                fi
+                break
+            fi
+        done
+    fi
+
+    if [ -n "$_mdc_out_var" ]; then
+        printf -v "$_mdc_out_var" '%s' "$_mdc_res"
+    else
+        printf '%s' "$_mdc_res"
+    fi
+}
