@@ -100,12 +100,11 @@ set -g @tmux2k-show-powerline false
 set -g @tmux2k-session-icon " #S" # `#W` for window name
 ```
 
-#### 🖌️ Customize Theme Colors
+<details><summary><b>🖌️ Customize Theme Colors</b></summary><br>
 
-##### Available Colors:
+##### Available Colors
 
-Base Colors
-
+Base Colors:
 - `white`, `gray`, `black`
 - `light_blue`, `blue`, `dark_blue`
 - `light_green`, `green`, `dark_green`
@@ -115,8 +114,7 @@ Base Colors
 - `light_red`, `red`, `dark_red`
 - `light_yellow`, `yellow`, `dark_yellow`
 
-UI Colors
-
+UI Colors:
 - `text`: Text color. Default: `black`
 - `bg_main`: Background color. Default: `black`
 - `bg_alt`: Alt Background color. Default: `gray`
@@ -138,7 +136,30 @@ set -g @tmux2k-prefix-highlight '#f8c800' # change prefix color
 
 > You may have to restart `tmux` for some changes to reflect
 
-#### 🌈 Gradient Colors
+</details>
+
+<details><summary><b>🎨 Dynamic Colors & Auto-Hashing</b></summary><br>
+
+Dynamic colors allow styling plugin output conditionally using glob pattern matching or automatic color hashing.
+
+```bash
+# 1. Auto-palette hashing (deterministic unique color per session/branch)
+set -g @tmux2k-session-dynamic-colors "auto"
+
+# 2. Pattern matching (evaluated left-to-right, supports globs)
+set -g @tmux2k-session-dynamic-colors "prod*=red work*=blue dev*=#3dd50a"
+set -g @tmux2k-git-dynamic-colors "*dirty*=red main*=green feat*=pink fix*=yellow auto"
+set -g @tmux2k-cwd-dynamic-colors "/etc*=red ~/Projects*=green ~/Work*=purple"
+```
+
+##### Supported Plugins:
+- `session`: Color based on session name (`@tmux2k-session-dynamic-colors`)
+- `git`: Color based on branch name or dirty state (`@tmux2k-git-dynamic-colors`)
+- `cwd`: Color based on current working directory path (`@tmux2k-cwd-dynamic-colors`)
+
+</details>
+
+<details><summary><b>🌈 Gradient Colors</b></summary><br>
 
 Gradients dynamically color plugin output values based on their magnitude — lower values use colors from the start of the gradient, higher values from the end.
 
@@ -166,9 +187,8 @@ You can also define a custom gradient as a space-separated list of hex colors:
 set -g @tmux2k-cpu-gradient '#ff0000 #00ff00 #0000ff'
 ```
 
-##### Plugin Options
-
-The following plugins support gradients and expose `@tmux2k-[plugin]-gradient` and `@tmux2k-[plugin]-icon-link-to` values :
+##### Supported Plugins:
+The following plugins support gradients and expose `@tmux2k-[plugin]-gradient` and `@tmux2k-[plugin]-icon-link-to` values:
 
 | Plugin    | `icon-link-to` values |
 | --------- | --------------------- |
@@ -185,27 +205,7 @@ set -g @tmux2k-cpu-gradient 'catppuccin'  # Use 'catppuccin' themed gradient
 set -g @tmux2k-cpu-icon-link-to 'usage'   # Share usage value color with icon
 ```
 
-#### 🎨 Dynamic Colors
-
-Dynamic colors allow styling plugin output conditionally using glob pattern matching or automatic color hashing.
-
-##### Configuration
-
-```bash
-# 1. Auto-palette hashing (deterministic unique color per session/branch)
-set -g @tmux2k-session-dynamic-colors "auto"
-
-# 2. Pattern matching (evaluated left-to-right, supports globs)
-set -g @tmux2k-session-dynamic-colors "auto"
-set -g @tmux2k-git-dynamic-colors "*dirty*=red main*=green auto"
-set -g @tmux2k-cwd-dynamic-colors "/etc*=red ~/Projects*=yellow"
-```
-
-##### Supported Plugins:
-
-- `session`: Color based on session name (`@tmux2k-session-dynamic-colors`)
-- `git`: Color based on branch name or dirty state (`@tmux2k-git-dynamic-colors`)
-- `cwd`: Color based on current working directory path (`@tmux2k-cwd-dynamic-colors`)
+</details>
 
 ---
 
@@ -241,8 +241,6 @@ Show CPU usage and load information
 - <details><summary><code>tmux2k-cpu-usage-average</code>: Number of usage values to average, default: <code>0</code></summary><br>
 
   Display CPU usage as an average of _n_ values over _s_ seconds, where _n_ is the value given to this option and _s_ the value of `tmux2k-refresh-rate` multiplied by _n_.
-
-  ##### Example
 
   ```bash
   # Display a 10s avg w/2s refresh rate
@@ -329,7 +327,13 @@ Show GPU usage information
 
 #### `group`
 
-Group output from several other plugins to present information in more compact manner.
+Group output from several other plugins to present information in a compact manner.
+
+- `tmux2k-group[N]-plugins`: Space-separated list of plugins to combine in group `N` (e.g. `"cpu ram"`)
+- `tmux2k-group[N]-delimiter`: Delimiter string between plugins in group `N`, default: `" "`
+- `tmux2k-group[N]-colors`: Custom background and foreground colors for group `N`, default: inherited from preceding plugin
+
+<details><summary>Example configuration</summary><br>
 
 ```bash
 # Define multiple groups
@@ -344,15 +348,13 @@ set -g @tmux2k-group3-plugins "time uptime"
 # Use them in your status bar
 set -g @tmux2k-left-plugins "session group1 git"
 set -g @tmux2k-right-plugins "group2 group3"
-```
 
-By default, group plugins inherit colors from the plugin before them. To set custom colors:
-
-```bash
 # Set colors for specific groups
 set -g @tmux2k-group1-colors "blue text"
 set -g @tmux2k-group2-colors "purple text"
 ```
+
+</details>
 
 #### `keyboard-layout`
 
@@ -428,8 +430,8 @@ Shows Current Session/Window with custom icon
 
 Show current time and date
 
-- `@tmux2k-time-format`: Sets the format for displaying the time. Default: `"%a %I:%M %p"`
-- `@tmux2k-time-icon`: Sets the icon for the time display. Default: ``
+- `tmux2k-time-format`: Format for displaying time, default: `"%a %I:%M %p"`
+- `tmux2k-time-icon`: Icon for time display, default: ``
 
 #### `updates`
 
@@ -443,21 +445,20 @@ Show available system updates. The following package managers are supported:
 
 Show weather information
 
-- `@tmux2k-weather-scale`: Scale to use for temperature. Default: `c`, options: `[c, f, k]`
-- `@tmux2k-weather-display-condition`: Whether to show weather condition name. Default: `true`
-- `@tmux2k-weather-display-location`: Whether to show location name. Default: `false`
-- `@tmux2k-weather-location`: Fixed location for weather. Default: `""`
+- `tmux2k-weather-scale`: Temperature scale, default: `c`, options: `c`, `f`, `k`
+- `tmux2k-weather-display-condition`: Display weather condition text, default: `true`
+- `tmux2k-weather-display-location`: Display location name, default: `false`
+- `tmux2k-weather-location`: Fixed location for weather, default: `""`
 
 #### `window-list`
 
 tmux window list, this plugin is not supposed to be added to left / right plugin arrays, use the alignment option to position it.
 
-- `@tmux2k-window-list-alignment`: Sets the alignment of the window list. Default: `'absolute-centre'`
-  Available options: left | centre | right | absolute-centre
-- `@tmux2k-window-list-left-sep`: Sets the left separator for the window list. Default: ``
-- `@tmux2k-window-list-right-sep`: Sets the right separator for the window list. Default: ``
-- `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
-- `@tmux2k-window-list-compact`: Enables or disables compact mode for the window list. Default: `false`
+- `tmux2k-window-list-alignment`: Alignment of the window list, default: `absolute-centre`, options: `left`, `centre`, `right`, `absolute-centre`
+- `tmux2k-window-list-left-sep`: Left separator for the window list, default: ``
+- `tmux2k-window-list-right-sep`: Right separator for the window list, default: ``
+- `tmux2k-window-list-format`: Format for the window list items, default: `#I:#W`
+- `tmux2k-window-list-compact`: Compact mode without spaces, default: `false`
 
 #### `uptime`
 
@@ -469,7 +470,7 @@ Show current system uptime
 
 Show pending todo with [tdo](https://github.com/2kabhishek/tdo)
 
-- `@tmux2k-tdo-icon`: Sets the icon for the todos display. Default: ``
+- `tmux2k-tdo-icon`: Icon for todos display, default: ``
 
 #### 🪆 Add New Plugins
 
@@ -541,10 +542,6 @@ set -g @tmux2k-[plugin-name]-popup-type "popup" # 'popup' or 'direct'
 
 ---
 
-## 🏗️ What's Next
-
-- You tell me!
-
 ## 🧑‍💻 Behind The Code
 
 ### 🌈 Inspiration
@@ -556,11 +553,9 @@ I came across [dracula/tmux](https://github.com/dracula/tmux) sometime back and 
 - Learned a lot about the `tmux` and `tpm` ecosystem.
 - Did some fancy shell scripting.
 
-## What's next
+## 🏗️ What's Next
 
-### To-Do
-
-You tell me!
+- You tell me!
 
 ### 🧰 Tooling
 
