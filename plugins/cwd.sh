@@ -31,13 +31,25 @@ truncate_path() {
     fi
 }
 
+cwd_icon=$(get_tmux_option "@tmux2k-cwd-icon" "")
+cwd_dynamic_colors=$(get_tmux_option "@tmux2k-cwd-dynamic-colors" "")
+
+[ -n "$cwd_dynamic_colors" ] &&
+    source "$current_dir/../lib/color-utils.sh"
+
 main() {
     path=$(get_pane_dir)
     cwd="${path/"$HOME"/'~'}"
     truncated_cwd=$(truncate_path "$cwd")
-    cwd_icon=$(get_tmux_option "@tmux2k-cwd-icon" "")
 
-    echo "$cwd_icon $truncated_cwd"
+    local color_prefix=""
+    if [ -n "$cwd_dynamic_colors" ]; then
+        local color=""
+        match_dynamic_color "$cwd" "$cwd_dynamic_colors" color
+        [ -n "$color" ] && color_prefix="#[fg=${color}]"
+    fi
+
+    echo "${color_prefix}${cwd_icon} ${truncated_cwd}"
 }
 
 main
