@@ -185,6 +185,28 @@ set -g @tmux2k-cpu-gradient 'catppuccin'  # Use 'catppuccin' themed gradient
 set -g @tmux2k-cpu-icon-link-to 'usage'   # Share usage value color with icon
 ```
 
+#### 🎨 Dynamic Colors
+
+Dynamic colors allow styling plugin output conditionally using glob pattern matching or automatic color hashing.
+
+##### Configuration
+
+```bash
+# 1. Auto-palette hashing (deterministic unique color per session/branch)
+set -g @tmux2k-session-dynamic-colors "auto"
+
+# 2. Pattern matching (evaluated left-to-right, supports globs)
+set -g @tmux2k-session-dynamic-colors "auto"
+set -g @tmux2k-git-dynamic-colors "*dirty*=red main*=green auto"
+set -g @tmux2k-cwd-dynamic-colors "/etc*=red ~/Projects*=yellow"
+```
+
+##### Supported Plugins:
+
+- `session`: Color based on session name (`@tmux2k-session-dynamic-colors`)
+- `git`: Color based on branch name or dirty state (`@tmux2k-git-dynamic-colors`)
+- `cwd`: Color based on current working directory path (`@tmux2k-cwd-dynamic-colors`)
+
 ---
 
 ### 🧩 Available Plugins
@@ -400,6 +422,7 @@ Shows Current Session/Window with custom icon
 
 - `tmux2k-session-format`: Format for Tmux session, default: `#S`
 - `tmux2k-session-icon`: Icon for Tmux session, default: ``
+- `tmux2k-session-dynamic-colors`: Dynamic colors or auto-hashing, e.g. `auto` or `work=blue prod*=red`
 
 #### `time`
 
