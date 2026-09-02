@@ -7,11 +7,12 @@ source "$current_dir/../lib/utils.sh"
 tdo_icon=$(get_tmux_option "@tmux2k-tdo-icon" "")
 
 main() {
-    if ! command -v tdo &>/dev/null; then
-        return
+    local tdo_count
+    if tdo_count=$(tdo --pending 2>/dev/null) && [[ "$tdo_count" =~ ^[0-9]+$ ]]; then
+        echo "$tdo_icon $tdo_count"
+    else
+        echo "$tdo_icon "
     fi
-    tdo_count=$(tdo --pending)
-    echo "$tdo_icon $tdo_count"
 }
 
 main
