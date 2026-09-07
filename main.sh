@@ -98,8 +98,145 @@ get_plugin_bg() {
     return "${colors[0]}"
 }
 
+set_catppuccin_theme() {
+    local flavor="$1"
+    local rosewater flamingo palette_pink mauve palette_red maroon peach
+    local palette_yellow palette_green teal sky sapphire palette_blue lavender
+    local palette_text surface_0 base mantle crust
+
+    case "$flavor" in
+    "latte")
+        rosewater="#dc8a78"
+        flamingo="#dd7878"
+        palette_pink="#ea76cb"
+        mauve="#8839ef"
+        palette_red="#d20f39"
+        maroon="#e64553"
+        peach="#fe640b"
+        palette_yellow="#df8e1d"
+        palette_green="#40a02b"
+        teal="#179299"
+        sky="#04a5e5"
+        sapphire="#209fb5"
+        palette_blue="#1e66f5"
+        lavender="#7287fd"
+        palette_text="#4c4f69"
+        surface_0="#ccd0da"
+        base="#eff1f5"
+        mantle="#e6e9ef"
+        crust="#dce0e8"
+        ;;
+    "frappe")
+        rosewater="#f2d5cf"
+        flamingo="#eebebe"
+        palette_pink="#f4b8e4"
+        mauve="#ca9ee6"
+        palette_red="#e78284"
+        maroon="#ea999c"
+        peach="#ef9f76"
+        palette_yellow="#e5c890"
+        palette_green="#a6d189"
+        teal="#81c8be"
+        sky="#99d1db"
+        sapphire="#85c1dc"
+        palette_blue="#8caaee"
+        lavender="#babbf1"
+        palette_text="#c6d0f5"
+        surface_0="#414559"
+        base="#303446"
+        mantle="#292c3c"
+        crust="#232634"
+        ;;
+    "macchiato")
+        rosewater="#f4dbd6"
+        flamingo="#f0c6c6"
+        palette_pink="#f5bde6"
+        mauve="#c6a0f6"
+        palette_red="#ed8796"
+        maroon="#ee99a0"
+        peach="#f5a97f"
+        palette_yellow="#eed49f"
+        palette_green="#a6da95"
+        teal="#8bd5ca"
+        sky="#91d7e3"
+        sapphire="#7dc4e4"
+        palette_blue="#8aadf4"
+        lavender="#b7bdf8"
+        palette_text="#cad3f5"
+        surface_0="#363a4f"
+        base="#24273a"
+        mantle="#1e2030"
+        crust="#181926"
+        ;;
+    "mocha")
+        rosewater="#f5e0dc"
+        flamingo="#f2cdcd"
+        palette_pink="#f5c2e7"
+        mauve="#cba6f7"
+        palette_red="#f38ba8"
+        maroon="#eba0ac"
+        peach="#fab387"
+        palette_yellow="#f9e2af"
+        palette_green="#a6e3a1"
+        teal="#94e2d5"
+        sky="#89dceb"
+        sapphire="#74c7ec"
+        palette_blue="#89b4fa"
+        lavender="#b4befe"
+        palette_text="#cdd6f4"
+        surface_0="#313244"
+        base="#1e1e2e"
+        mantle="#181825"
+        crust="#11111b"
+        ;;
+    esac
+
+    black=$(get_tmux_option "@tmux2k-black" "$crust")
+    gray=$(get_tmux_option "@tmux2k-gray" "$surface_0")
+    white=$(get_tmux_option "@tmux2k-white" "$palette_text")
+    light_blue=$(get_tmux_option "@tmux2k-light-blue" "$sky")
+    blue=$(get_tmux_option "@tmux2k-blue" "$palette_blue")
+    dark_blue=$(get_tmux_option "@tmux2k-dark-blue" "$sapphire")
+    light_green=$(get_tmux_option "@tmux2k-light-green" "$teal")
+    green=$(get_tmux_option "@tmux2k-green" "$palette_green")
+    dark_green=$(get_tmux_option "@tmux2k-dark-green" "$teal")
+    light_orange=$(get_tmux_option "@tmux2k-light-orange" "$rosewater")
+    orange=$(get_tmux_option "@tmux2k-orange" "$peach")
+    dark_orange=$(get_tmux_option "@tmux2k-dark-orange" "$maroon")
+    light_pink=$(get_tmux_option "@tmux2k-light-pink" "$flamingo")
+    pink=$(get_tmux_option "@tmux2k-pink" "$palette_pink")
+    dark_pink=$(get_tmux_option "@tmux2k-dark-pink" "$maroon")
+    light_purple=$(get_tmux_option "@tmux2k-light-purple" "$lavender")
+    purple=$(get_tmux_option "@tmux2k-purple" "$mauve")
+    dark_purple=$(get_tmux_option "@tmux2k-dark-purple" "$mauve")
+    light_red=$(get_tmux_option "@tmux2k-light-red" "$maroon")
+    red=$(get_tmux_option "@tmux2k-red" "$palette_red")
+    dark_red=$(get_tmux_option "@tmux2k-dark-red" "$maroon")
+    light_yellow=$(get_tmux_option "@tmux2k-light-yellow" "$palette_yellow")
+    yellow=$(get_tmux_option "@tmux2k-yellow" "$palette_yellow")
+    dark_yellow=$(get_tmux_option "@tmux2k-dark-yellow" "$peach")
+
+    text=$(get_tmux_option "@tmux2k-text" "$black")
+    bg_main=$(get_tmux_option "@tmux2k-bg-main" "$mantle")
+    bg_alt=$(get_tmux_option "@tmux2k-bg-alt" "$gray")
+    message_bg=$(get_tmux_option "@tmux2k-message-bg" "$blue")
+    message_fg=$(get_tmux_option "@tmux2k-message-fg" "$black")
+    message_fill=$(get_tmux_option "@tmux2k-message-fill" "$blue")
+    pane_active_border=$(get_tmux_option "@tmux2k-pane-active-border" "$blue")
+    pane_active_border_bg=$(get_tmux_option "@tmux2k-pane-active-border-bg" "$base")
+    pane_border=$(get_tmux_option "@tmux2k-pane-border" "$gray")
+    pane_border_bg=$(get_tmux_option "@tmux2k-pane-border-bg" "$base")
+    prefix_highlight=$(get_tmux_option "@tmux2k-prefix-highlight" "$purple")
+}
+
 set_theme() {
+    local catppuccin_flavor=false
+
     case $theme in
+    "catppuccin-latte" | "catppuccin-frappe" | "catppuccin-macchiato" | "catppuccin-mocha")
+        set_catppuccin_theme "${theme#catppuccin-}"
+        catppuccin_flavor=true
+        ;;
     "catppuccin")
         black=$(get_tmux_option "@tmux2k-black" '#1e2030')
         gray=$(get_tmux_option "@tmux2k-gray" '#3f3f3f')
@@ -241,17 +378,19 @@ set_theme() {
         done
     fi
 
-    text=$(get_tmux_option "@tmux2k-text" "$black")
-    bg_main=$(get_tmux_option "@tmux2k-bg-main" "$black")
-    bg_alt=$(get_tmux_option "@tmux2k-bg-alt" "$gray")
-    message_bg=$(get_tmux_option "@tmux2k-message-bg" "$blue")
-    message_fg=$(get_tmux_option "@tmux2k-message-fg" "$black")
-    message_fill=$(get_tmux_option "@tmux2k-message-fill" "$blue")
-    pane_active_border=$(get_tmux_option "@tmux2k-pane-active-border" "$blue")
-    pane_active_border_bg=$(get_tmux_option "@tmux2k-pane-active-border-bg" "$bg_main")
-    pane_border=$(get_tmux_option "@tmux2k-pane-border" "$gray")
-    pane_border_bg=$(get_tmux_option "@tmux2k-pane-border_bg" "$bg_main")
-    prefix_highlight=$(get_tmux_option "@tmux2k-prefix-highlight" "$blue")
+    if ! $catppuccin_flavor; then
+        text=$(get_tmux_option "@tmux2k-text" "$black")
+        bg_main=$(get_tmux_option "@tmux2k-bg-main" "$black")
+        bg_alt=$(get_tmux_option "@tmux2k-bg-alt" "$gray")
+        message_bg=$(get_tmux_option "@tmux2k-message-bg" "$blue")
+        message_fg=$(get_tmux_option "@tmux2k-message-fg" "$black")
+        message_fill=$(get_tmux_option "@tmux2k-message-fill" "$blue")
+        pane_active_border=$(get_tmux_option "@tmux2k-pane-active-border" "$blue")
+        pane_active_border_bg=$(get_tmux_option "@tmux2k-pane-active-border-bg" "$bg_main")
+        pane_border=$(get_tmux_option "@tmux2k-pane-border" "$gray")
+        pane_border_bg=$(get_tmux_option "@tmux2k-pane-border_bg" "$bg_main")
+        prefix_highlight=$(get_tmux_option "@tmux2k-prefix-highlight" "$blue")
+    fi
 }
 
 set_options() {
@@ -395,4 +534,6 @@ main() {
     status_bar "right"
 }
 
-main
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+    main
+fi
