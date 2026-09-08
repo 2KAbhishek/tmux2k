@@ -65,6 +65,10 @@ You can also directly clone the repo to your `~/.tmux/plugins/` folder.
 - default icons ![default-icons](./images/default-icons.png)
 - catppuccin ![catppuccin](./images/catppuccin.png)
 - catppuccin icons ![catppuccin-icons](./images/catppuccin-icons.png)
+- catppuccin latte ![catppuccin-latte](./images/catppuccin-latte.png)
+- catppuccin frappe ![catppuccin-frappe](./images/catppuccin-frappe.png)
+- catppuccin macchiato ![catppuccin-macchiato](./images/catppuccin-macchiato.png)
+- catppuccin mocha ![catppuccin-mocha](./images/catppuccin-mocha.png)
 - gruvbox ![gruvbox](./images/gruvbox.png)
 - gruvbox icons ![gruvbox-icons](./images/gruvbox-icons.png)
 - monokai ![monokai](./images/monokai.png)
@@ -81,6 +85,10 @@ To use themes:
 ```bash
 # use a theme
 set -g @tmux2k-theme 'onedark'
+
+# use an official Catppuccin flavor
+set -g @tmux2k-theme 'catppuccin-latte'
+# available flavors: latte, frappe, macchiato, mocha
 
 # to show icons only
 set -g @tmux2k-icons-only true
