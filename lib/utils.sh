@@ -60,7 +60,11 @@ normalize_padding() {
 }
 
 get_pane_dir() {
-    tmux display-message -p -F "#{pane_current_path}" 2>/dev/null
+    if [ -n "$1" ]; then
+        echo "$1"
+    else
+        tmux display-message -p -F "#{pane_current_path}" 2>/dev/null
+    fi
 }
 
 get_desktop_environment() {

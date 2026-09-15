@@ -15,7 +15,7 @@ main() {
     val=""
     for script in $scripts; do
         sname="${current_dir}/${script}.sh"
-        val+="$($sname)"
+        val+="$($sname "$@")"
         val+="${delimiter:- }"
     done
     size=${#val}
@@ -24,4 +24,4 @@ main() {
     echo -n "$val"
 }
 
-main
+main "$@"

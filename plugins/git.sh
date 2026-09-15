@@ -116,7 +116,7 @@ git_dynamic_colors=$(get_tmux_option '@tmux2k-git-dynamic-colors' '')
     source "$current_dir/../lib/color-utils.sh"
 
 main() {
-    path=$(get_pane_dir)
+    path=$(get_pane_dir "$1")
     local msg
     msg=$(get_message)
 
@@ -136,4 +136,4 @@ main() {
     echo "${color_prefix}${msg}"
 }
 
-main
+main "$@"

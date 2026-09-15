@@ -4,8 +4,14 @@
 if [ "$1" = "--cache" ]; then
     plugin_name="$2"
     refresh_rate="$3"
+    context="$4"
     cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/tmux2k"
-    cache_file="$cache_dir/$plugin_name"
+    if [ -n "$context" ]; then
+        context_hash=$(printf '%s' "$context" | cksum | cut -d' ' -f1)
+        cache_file="$cache_dir/${plugin_name}_${context_hash}"
+    else
+        cache_file="$cache_dir/$plugin_name"
+    fi
     lock_file="$cache_file.tmp"
 
     if [ -f "$cache_file" ]; then
@@ -28,12 +34,12 @@ if [ "$1" = "--cache" ]; then
             [ $((now - ltime)) -lt 30 ] && lock_active=true
         fi
 
-        [ $((now - mtime)) -ge "$refresh_rate" ] && [ "$lock_active" = false ] && ("$0" >"$lock_file" && mv "$lock_file" "$cache_file") &
+        [ $((now - mtime)) -ge "$refresh_rate" ] && [ "$lock_active" = false ] && ("$0" "$context" >"$lock_file" && mv "$lock_file" "$cache_file") &
         cat "$cache_file"
         exit 0
     else
         [ -d "$cache_dir" ] || mkdir -p "$cache_dir"
-        "$0" >"$lock_file" && mv "$lock_file" "$cache_file"
+        "$0" "$context" >"$lock_file" && mv "$lock_file" "$cache_file"
         cat "$cache_file"
         exit 0
     fi

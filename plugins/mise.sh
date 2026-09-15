@@ -50,7 +50,7 @@ get_language_icon() {
 
 get_active_versions() {
     local versions max_display icon tool version exclude_tools count path
-    path=$(get_pane_dir)
+    path=$(get_pane_dir "$1")
 
     max_display=$(get_tmux_option "@tmux2k-mise-max-tools" "3")
     exclude_tools=$(get_tmux_option "@tmux2k-mise-exclude-tools" "usage")
@@ -91,8 +91,8 @@ main() {
         return
     fi
 
-    output="$(get_active_versions)"
+    output="$(get_active_versions "$1")"
     echo "$output"
 }
 
-main
+main "$@"

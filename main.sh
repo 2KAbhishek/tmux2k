@@ -402,14 +402,14 @@ status_bar() {
         plugin_refresh_rate=$(get_tmux_option "@tmux2k-${plugin}-refresh-rate" "")
 
         if [[ "$plugin_refresh_rate" =~ ^[0-9]+$ ]]; then
-            script="#($current_dir/plugins/$plugin.sh --cache $plugin $plugin_refresh_rate)"
+            script="#($current_dir/plugins/$plugin.sh --cache $plugin $plugin_refresh_rate \"#{pane_current_path}\")"
             if [[ "$plugin" =~ ^group([0-9]+)$ ]]; then
-                script="#(GROUP_NUM=${BASH_REMATCH[1]} $current_dir/plugins/group.sh --cache $plugin $plugin_refresh_rate)"
+                script="#(GROUP_NUM=${BASH_REMATCH[1]} $current_dir/plugins/group.sh --cache $plugin $plugin_refresh_rate \"#{pane_current_path}\")"
             fi
         else
-            script="#($current_dir/plugins/$plugin.sh)"
+            script="#($current_dir/plugins/$plugin.sh \"#{pane_current_path}\")"
             if [[ "$plugin" =~ ^group([0-9]+)$ ]]; then
-                script="#(GROUP_NUM=${BASH_REMATCH[1]} $current_dir/plugins/group.sh)"
+                script="#(GROUP_NUM=${BASH_REMATCH[1]} $current_dir/plugins/group.sh \"#{pane_current_path}\")"
             fi
         fi
 

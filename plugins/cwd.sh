@@ -38,7 +38,7 @@ cwd_dynamic_colors=$(get_tmux_option "@tmux2k-cwd-dynamic-colors" "")
     source "$current_dir/../lib/color-utils.sh"
 
 main() {
-    path=$(get_pane_dir)
+    path=$(get_pane_dir "$1")
     cwd="${path/"$HOME"/'~'}"
     truncated_cwd=$(truncate_path "$cwd")
 
@@ -52,4 +52,4 @@ main() {
     echo "${color_prefix}${cwd_icon} ${truncated_cwd}"
 }
 
-main
+main "$@"
