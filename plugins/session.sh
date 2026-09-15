@@ -17,8 +17,8 @@ main() {
         return
     fi
 
-    local session_name
-    session_name=$(tmux display-message -p "$session_format" 2>/dev/null)
+    local session_name="${2:-$1}"
+    [ -z "$session_name" ] && session_name=$(tmux display-message -p "$session_format" 2>/dev/null)
     [ -z "$session_name" ] && session_name="$session_format"
 
     local color_prefix=""
@@ -29,4 +29,4 @@ main() {
     echo "${color_prefix}${session_icon} ${session_format}"
 }
 
-main
+main "$@"
