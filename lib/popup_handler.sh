@@ -2,6 +2,7 @@
 
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 export LC_ALL=en_US.UTF-8
+shopt -s extglob
 
 current_dir="${BASH_SOURCE[0]%/*}"
 [ "$current_dir" = "${BASH_SOURCE[0]}" ] && current_dir="."
@@ -90,7 +91,7 @@ if [ "$1" = "--exec" ]; then
     exit $?
 fi
 
-side="$1"        # "left", "right", or "center"
+side="$1"        # "left" or "right"
 mouse_x="$2"     # #{mouse_x}
 client_w="$3"    # #{client_width}
 mouse_range="$4" # #{mouse_status_range}
@@ -118,33 +119,24 @@ declare -A default_popups=(
     ["uptime"]="uptime_popup"
     ["volume"]="volume_popup"
     ["weather"]="curl -s wttr.in; read -n 1"
-    ["window-list"]="tea -p"
 )
 
 # Popup mode: "popup" (tmux display-popup) or "direct" (execute in background)
 declare -A default_popup_types=(
     ["keyboard-layout"]="direct"
     ["session"]="direct"
-    ["window-list"]="direct"
 )
 
 plugin=""
 
 # Check native tmux status range for instant 0ms plugin detection
-if [ -n "$mouse_range" ] && [ "$mouse_range" != "left" ] && [ "$mouse_range" != "right" ] && [ "$mouse_range" != "none" ]; then
-    if [ "$mouse_range" = "window" ]; then
-        plugin="window-list"
-    else
-        plugin="${mouse_range#user_}"
-        plugin="${plugin#user|}"
-    fi
+if [ -n "$mouse_range" ] && [ "$mouse_range" != "left" ] && [ "$mouse_range" != "right" ] && [ "$mouse_range" != "window" ] && [ "$mouse_range" != "none" ]; then
+    plugin="${mouse_range#user_}"
+    plugin="${plugin#user|}"
 fi
 
 if [ -z "$plugin" ]; then
-    if [ "$side" = "center" ] || [ "$side" = "window" ]; then
-        plugin="window-list"
-
-    elif [ "$side" = "left" ]; then
+    if [ "$side" = "left" ]; then
         lplugins_str=$(get_tmux_option "@tmux2k-left-plugins" "session git cwd")
         IFS=' ' read -r -a lplugins <<<"$lplugins_str"
         show_powerline=$(get_tmux_option "@tmux2k-show-powerline" true)
@@ -154,8 +146,11 @@ if [ -z "$plugin" ]; then
         cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/tmux2k"
         curr_x=0
         for pl in "${lplugins[@]}"; do
+            cache_files=("$cache_dir/${pl}"*)
             if [ -f "$cache_dir/$pl" ]; then
                 output=$(<"$cache_dir/$pl")
+            elif [ -f "${cache_files[0]}" ]; then
+                output=$(<"${cache_files[0]}")
             elif [[ "$pl" =~ ^group([0-9]+)$ ]]; then
                 output=$(GROUP_NUM="${BASH_REMATCH[1]}" "$current_dir/../plugins/group.sh" 2>/dev/null)
             elif [ -f "$current_dir/../plugins/${pl}.sh" ]; then
@@ -165,7 +160,7 @@ if [ -z "$plugin" ]; then
             fi
 
             # Strip tmux style/color sequences (e.g. #[fg=...]) for accurate visible length
-            clean_output=$(printf '%s' "$output" | sed -E 's/#\[[^]]*\]//g')
+            clean_output="${output//\#\[*([^\]])\]/}"
             if [ -n "$clean_output" ]; then
                 len=$((${#clean_output} + padding))
             else
@@ -191,8 +186,11 @@ if [ -z "$plugin" ]; then
         curr_x=$client_w
         for ((i = ${#rplugins[@]} - 1; i >= 0; i--)); do
             pl="${rplugins[$i]}"
+            cache_files=("$cache_dir/${pl}"*)
             if [ -f "$cache_dir/$pl" ]; then
                 output=$(<"$cache_dir/$pl")
+            elif [ -f "${cache_files[0]}" ]; then
+                output=$(<"${cache_files[0]}")
             elif [[ "$pl" =~ ^group([0-9]+)$ ]]; then
                 output=$(GROUP_NUM="${BASH_REMATCH[1]}" "$current_dir/../plugins/group.sh" 2>/dev/null)
             elif [ -f "$current_dir/../plugins/${pl}.sh" ]; then
@@ -202,7 +200,7 @@ if [ -z "$plugin" ]; then
             fi
 
             # Strip tmux style/color sequences (e.g. #[fg=...]) for accurate visible length
-            clean_output=$(printf '%s' "$output" | sed -E 's/#\[[^]]*\]//g')
+            clean_output="${output//\#\[*([^\]])\]/}"
             if [ -n "$clean_output" ]; then
                 len=$((${#clean_output} + padding))
             else

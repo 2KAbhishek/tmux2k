@@ -529,12 +529,11 @@ set -g @tmux2k-popup-height "85%"
 
 # Override popup command for a specific plugin
 set -g @tmux2k-[plugin-name]-popup-cmd "my-custom-tool"
-set -g @tmux2k-window-list-popup-cmd "tea -p"
+set -g @tmux2k-git-popup-cmd "lazygit"
 
 # Override popup execution type: 'popup' (tmux display-popup) or 'direct' (background execution for tools managing their own popup e.g. tea)
 set -g @tmux2k-[plugin-name]-popup-type "popup"
 set -g @tmux2k-session-popup-type "direct"
-set -g @tmux2k-window-list-popup-type "direct"
 ```
 
 #### Smart Popup Auto-Detection
