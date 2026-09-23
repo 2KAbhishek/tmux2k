@@ -93,7 +93,7 @@ get_cpu_usage() {
 normalize_load() {
     local value="$1"
     case "$HOST_OS" in
-    Linux | darwin)
+    linux | darwin)
         local cpucores
         cpucores="$(getconf _NPROCESSORS_ONLN)"
         awk "BEGIN {print substr($value / $cpucores, 1, 4)}"
@@ -104,7 +104,7 @@ normalize_load() {
 float_to_percent() {
     local value="$1"
     case "$HOST_OS" in
-    Linux | darwin)
+    linux | darwin)
         awk "BEGIN {print int($value * 100)\"%\"}"
         ;;
     esac
@@ -120,7 +120,7 @@ get_cpu_load() {
 
     declare -a cpu_load_output=()
     case "$HOST_OS" in
-    Linux | darwin)
+    linux | darwin)
         declare -a loadavg=()
         local raw_loadavg
         raw_loadavg=$(uptime | awk -F'[a-z]:' '{ print $2}' | sed 's/,//g')
