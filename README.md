@@ -113,6 +113,7 @@ set -g @tmux2k-session-icon " #S" # `#W` for window name
 ##### Available Colors
 
 Base Colors:
+
 - `white`, `gray`, `black`
 - `light_blue`, `blue`, `dark_blue`
 - `light_green`, `green`, `dark_green`
@@ -123,6 +124,7 @@ Base Colors:
 - `light_yellow`, `yellow`, `dark_yellow`
 
 UI Colors:
+
 - `text`: Text color. Default: `black`
 - `bg_main`: Background color. Default: `black`
 - `bg_alt`: Alt Background color. Default: `gray`
@@ -133,6 +135,8 @@ UI Colors:
 - `pane_border`: Inactive pane border color. Default: `gray`
 - `pane_border_bg`: Inactive pane border color. Default: `black`
 - `prefix_highlight`: Highlight color for active prefix. Default: `blue`
+- `popup_bg`: Popup background color. Default: `black`
+- `popup_border`: Popup border color. Default: `blue`
 
 To customize theme colors:
 
@@ -161,6 +165,7 @@ set -g @tmux2k-cwd-dynamic-colors "/etc*=red ~/Projects*=green ~/Work*=purple"
 ```
 
 ##### Supported Plugins:
+
 - `session`: Color based on session name (`@tmux2k-session-dynamic-colors`)
 - `git`: Color based on branch name or dirty state (`@tmux2k-git-dynamic-colors`)
 - `cwd`: Color based on current working directory path (`@tmux2k-cwd-dynamic-colors`)
@@ -196,6 +201,7 @@ set -g @tmux2k-cpu-gradient '#ff0000 #00ff00 #0000ff'
 ```
 
 ##### Supported Plugins:
+
 The following plugins support gradients and expose `@tmux2k-[plugin]-gradient` and `@tmux2k-[plugin]-icon-link-to` values:
 
 | Plugin    | `icon-link-to` values |
@@ -526,6 +532,16 @@ set -g @tmux2k-enable-popups true
 # Popup window dimensions (default: 85%)
 set -g @tmux2k-popup-width "85%"
 set -g @tmux2k-popup-height "85%"
+
+# Enable/disable managing tmux popup styling & borders across all popups (default: true)
+set -g @tmux2k-set-popup-colors true
+
+# Override popup background and border color (accepts variable names e.g. black, gray, blue, or hex)
+set -g @tmux2k-popup-bg "black"
+set -g @tmux2k-popup-border "blue"
+
+# Popup border lines style: 'rounded', 'single', 'double', 'heavy', 'simple', 'none' (default: rounded)
+set -g @tmux2k-popup-border-lines "rounded"
 
 # Override popup command for a specific plugin
 set -g @tmux2k-[plugin-name]-popup-cmd "my-custom-tool"

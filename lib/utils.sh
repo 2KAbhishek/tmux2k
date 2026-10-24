@@ -38,6 +38,8 @@ get_tmux_option() {
         if [[ "$val" =~ ^\$[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
             local var_name="${val#\$}"
             val="${!var_name}"
+        elif [[ "$val" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]] && [ -n "${!val+x}" ]; then
+            val="${!val}"
         elif [[ "$val" == *"\$HOME"* ]]; then
             val="${val//\$HOME/$HOME}"
         elif [[ "$val" == "~"* ]]; then
@@ -45,6 +47,12 @@ get_tmux_option() {
         fi
         printf '%s\n' "$val"
     else
+        if [[ "$default_value" =~ ^\$[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
+            local var_name="${default_value#\$}"
+            default_value="${!var_name}"
+        elif [[ "$default_value" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]] && [ -n "${!default_value+x}" ]; then
+            default_value="${!default_value}"
+        fi
         printf '%s\n' "$default_value"
     fi
 }

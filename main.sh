@@ -357,6 +357,11 @@ set_theme() {
     pane_border=$(get_tmux_option "@tmux2k-pane-border" "$gray")
     pane_border_bg=$(get_tmux_option "@tmux2k-pane-border_bg" "$bg_main")
     prefix_highlight=$(get_tmux_option "@tmux2k-prefix-highlight" "$blue")
+    popup_bg=$(get_tmux_option "@tmux2k-popup-bg" "$black")
+    popup_border=$(get_tmux_option "@tmux2k-popup-border" "$blue")
+    if [ "$theme" = "duo" ] && [ "$popup_border" = "$blue" ]; then
+        popup_border="$duo_fg"
+    fi
 }
 
 set_options() {
@@ -375,6 +380,20 @@ set_options() {
     tmux set-window-option -g window-status-activity-style "bold"
     tmux set-window-option -g window-status-bell-style "bold"
     tmux set-window-option -g window-status-current-style "bold"
+
+    set_popup_colors=$(get_tmux_option "@tmux2k-set-popup-colors" true)
+    if [ "$set_popup_colors" = "true" ]; then
+        popup_style=$(get_tmux_option "@tmux2k-popup-style" "bg=${popup_bg}")
+        popup_border_style=$(get_tmux_option "@tmux2k-popup-border-style" "bg=${popup_bg},fg=${popup_border}")
+        popup_border_lines=$(get_tmux_option "@tmux2k-popup-border-lines" "rounded")
+
+        tmux set-option -s popup-style "$popup_style" 2>/dev/null || true
+        tmux set-option -g popup-style "$popup_style" 2>/dev/null || true
+        tmux set-option -s popup-border-style "$popup_border_style" 2>/dev/null || true
+        tmux set-option -g popup-border-style "$popup_border_style" 2>/dev/null || true
+        tmux set-option -s popup-border-lines "$popup_border_lines" 2>/dev/null || true
+        tmux set-option -g popup-border-lines "$popup_border_lines" 2>/dev/null || true
+    fi
 
     enable_popups=$(get_tmux_option "@tmux2k-enable-popups" "true")
     if [ "$enable_popups" = "true" ]; then
